@@ -203,4 +203,35 @@ class AdminController extends Controller
     }
 
 
+    protected function createFilename(UploadedFile $file, $driver)
+    {
+        return $driver . "_" . Carbon::now()->timestamp . "_" . $file->getClientOriginalName();
+    }
+
+    public function createParentFilePath($file_extension, $driver)
+    {
+        if ($file_extension === "mp4"){
+            $parentFilePath = "/upload/videos/";
+
+            if (!Storage::disk($driver)->exists($parentFilePath)) {
+                Storage::disk($driver)->makeDirectory($parentFilePath, 0755);
+                Storage::disk($driver)->setVisibility("/upload", 'public');
+                Storage::disk($driver)->setVisibility("/upload/videos", 'public');
+            }
+        }else{
+            $parentFilePath = "/upload/files/{$file_extension}/";
+
+            if (!Storage::disk($driver)->exists($parentFilePath)) {
+                Storage::disk($driver)->makeDirectory($parentFilePath, 0755);
+                Storage::disk($driver)->setVisibility("/upload", 'public');
+                Storage::disk($driver)->setVisibility("/upload/files", 'public');
+                Storage::disk($driver)->setVisibility("/upload/files/{$file_extension}", 'public');
+            }
+        }
+
+
+        return $parentFilePath;
+    }
+
+
 }
