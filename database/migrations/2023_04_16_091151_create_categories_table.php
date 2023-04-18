@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
-            $table->string('type')->default('course');
+            $table->string('type');
             $table->string('title');
             $table->string('slug');
             $table->boolean('published')->default(true);
