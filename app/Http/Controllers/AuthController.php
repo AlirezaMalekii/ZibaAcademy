@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Api\v1;
+namespace App\Http\Controllers;
 
 use App\Events\ForgetPassword;
+use App\Http\Controllers\AdminController;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,9 +16,9 @@ class AuthController extends AdminController
     {
         $fields = $request->validate([
             'name' => 'required|string|max:255',
+            'lastname' => 'required|string|max:255',
             'email' => 'required|string|Email|max:255|unique:users',
             'phone' => 'required|digits:11|unique:users',
-            'national_code' => 'required|digits:10|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
 

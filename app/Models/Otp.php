@@ -34,4 +34,9 @@ class Otp extends Model
         } while(!$check_code->isEmpty());
         return $code;
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'user_id');
+    }
 }
