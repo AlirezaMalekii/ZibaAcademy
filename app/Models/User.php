@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable,Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +22,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'lastname',
+        'phone',
+        'admin_token',
+        'created_by',
+        'level'
     ];
 
     /**
@@ -31,6 +37,7 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'admin_token'
     ];
 
     /**
@@ -46,6 +53,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(__CLASS__, 'created_by');
     }
+    public function parent_user(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(__CLASS__, 'created_by');
+    }
 
 
     public function files()
@@ -56,5 +67,19 @@ class User extends Authenticatable
     public function otps()
     {
         return $this->hasMany(Otp::class,'user_id');
+    }
+    public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Category::class,'creator_id');
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => ['name','lastname'],
+                'onUpdate'=>true
+            ]
+        ];
     }
 }

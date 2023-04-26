@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Events\UserLoginOtp;
+use App\Listeners\SendSmsWithOtp;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ForgetPassword::class => [
             ForgetPasswordSendConfirmCode::class,
         ],
+        UserLoginOtp::class => [
+            SendSmsWithOtp::class,
+        ]
     ];
 
     /**

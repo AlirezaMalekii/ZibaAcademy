@@ -24,14 +24,32 @@ use Kavenegar\KavenegarApi;
 use ProtoneMedia\LaravelFFMpeg\Exporters\EncodingException;
 use ProtoneMedia\LaravelFFMpeg\FFMpeg\CopyFormat;
 use ProtoneMedia\LaravelFFMpeg\Support\FFMpeg;
+use App\Models\User as UserModel;
 
 class AdminController extends Controller
 {
 //    protected $kavenegar_api_key = "3346556D364B7265575A675A7756554A6D306246686357724264686739493341";
-    protected $kavenegar_api_key = "4E6B4E466855477469583479354A6F356335315451706E734130575A627164766C63544F52476F567775673D";
+//    protected $kavenegar_api_key = "4E6B4E466855477469583479354A6F356335315451706E734130575A627164766C63544F52476F567775673D";
+    protected $kavenegar_api_key = "516D78726A465034314335615567546F4A7A6532466A7336556864424630756654497A4357394A683173553D";
     protected $bbb_node_token = '^VJHRXU$RLUbpRUh^R+N?Y-zcP8MzEDcwt!tqu_Y%@MRxu!JAjxLn&ttt';
     protected $video_encryption_server_token = 'Pk7gUE5@vCfemqly1Os8cVFQ3uNPmZf9c&W6uGmoqn1AiF@gle';
 
+  /*  protected function check_admin(UserModel $user){
+        if ($user->level==='admin'){
+            do{
+                $token=Str::random(70);
+            }while(UserModel::where('admin_token',$token)->first());
+            $user->update(['admin_token'=>$token]);
+        }
+    }*/
+    public static function code($model, $type, $length = 4)
+    {
+        do {
+            $code = Str::random($length);
+            $check_code = $model::where($type, $code)->get();
+        } while (!$check_code->isEmpty());
+        return $code;
+    }
 
     public function resize($realPath, $sizes, $imagePath, $fileName, $quality = 60, $format = null)
     {
@@ -60,14 +78,7 @@ class AdminController extends Controller
         return $out;
     }
 
-    public static function code($model, $type, $length = 4)
-    {
-        do {
-            $code = Str::random($length);
-            $check_code = $model::where($type, $code)->get();
-        } while (!$check_code->isEmpty());
-        return $code;
-    }
+
 
 
     function convert2english($string)

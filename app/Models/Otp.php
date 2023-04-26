@@ -9,7 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class Otp extends Model
 {
     use HasFactory;
-
+    protected $fillable=[
+        'user_id',
+        'phone',
+        'code',
+        'expire',
+        'used'
+    ];
 
 //    usage ==> Otp::createCode($user)->code;
     public function scopeCreateCode($query,$user)

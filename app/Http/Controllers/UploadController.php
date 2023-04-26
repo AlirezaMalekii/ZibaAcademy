@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
@@ -35,10 +36,11 @@ class UploadController extends AdminController
         return $url;
     }
 
+//    public function uploadImage($file)
     public function uploadImage($file)
     {
         $fileName = $file->getClientOriginalName();
-        $fileNamePhp = $file->getFilename();
+        $fileNamePhp = $file->getFilename().time();
         $year = Carbon::now()->year;
 //        $document_file = $file->storeAs( env('FTP_PREFIX_DIRECTION') . '/' . env('FTP_PREFIX_FOLDER') . "/images/{$year}/{$fileName}/", $fileName ,  'ftp');
 //        $document_file_url = "http://". env('FTP_DOMAIN') . '/' . explode('www/' , $document_file)[1];
@@ -164,6 +166,9 @@ class UploadController extends AdminController
         return response()->json([
             "done" => $handler->getPercentageDone()
         ]);
+    }
+    public function create_gallery(Request $request){
+
     }
 
 

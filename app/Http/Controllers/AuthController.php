@@ -3,12 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Events\ForgetPassword;
+use App\Events\UserLoginOtp;
 use App\Http\Controllers\AdminController;
+use App\Listeners\SendSmsWithOtp;
+use App\Models\Otp;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rules;
 
 class AuthController extends AdminController
 {
@@ -19,55 +24,52 @@ class AuthController extends AdminController
             'lastname' => 'required|string|max:255',
             'email' => 'required|string|Email|max:255|unique:users',
             'phone' => 'required|digits:11|unique:users',
-            'password' => 'required|string|min:6|confirmed',
+            'password' => ['required', 'confirmed','string','min:8',Rules\Password::defaults()],
         ]);
-
-        $user = User::create([
-            'name' => $fields['name'],
-            'email' => $fields['email'],
-            'phone' => $fields['phone'],
-            'national_code' => $fields['national_code'],
-            'password' => bcrypt($fields['password']),
-        ]);
-
-
+        $data_user=array_merge($fields,['password' => bcrypt($fields['password'])]);
+        $user = User::create($data_user);
+        auth()->loginUsingId($user->id);
+        return redirect()->intended(RouteServiceProvider::HOME);
 
 //        $token = $user->createToken('AuthUserRegisterToken')->plainTextToken;
-        $response = [
+      /*  $response = [
             'message' => "ثبت نام شما با موفقیت انجام شد.لطفا وارد حساب کابری خود شوید.",
             'user_id' => $user->id,
             'user_name' => $user->name,
 //            'token' => $token
-        ];
-        return response($response, 201);
+        ];*/
+//        return response($response, 201);
     }
 
-    public function login(Request $request)
+    public function login_with_password(Request $request)
     {
+
         $fields = $request->validate([
-//            'email' => 'required|string|Email|max:255',
             'phone' => 'required|digits:11',
             'password' => 'required|string|min:6',
         ]);
-
 //        Check User phone
         $user = User::where('phone', $fields['phone'])->first();
-        $user_role = "user";
+//        $user_role = "user";
 //        Check User Password
-        if (!$user || !Hash::check($fields['password'], $user->password)) {
-            return response([
-                'message' => 'نام کاربری یا پسورد اشتباه است ',
-                'status' => 'failed'
-            ], 401);
+        if (!$user || !Hash::check($fields['password'],$user->password) || !$user->active) {
+            return back()->withErrors(['error'=>'نام کاربری یا پسورد اشتباه است']);
         }
-        if (!$user->active) {
-            $user->update([
-                'active' => true
-            ]);
+        if ($user->level==='admin'){
+            $token=self::code(User::class,'admin_token',70);
+            $user->update(['admin_token'=>$token]);
         }
+        auth()->loginUsingId($user->id);
+        return redirect()->intended(RouteServiceProvider::HOME);
+
+//        if (!$user->active) {
+//            $user->update([
+//                'active' => true
+//            ]);
+//        }
 
 
-        if ($user->hasRole("super_admin")) {
+        /*if ($user->hasRole("super_admin")) {
             $token = $user->createToken('AuthSuperAdminLoginToken', ["level-super_admin"])->plainTextToken;
             $user_role = "super_admin";
         } else if ($user->hasAnyRole()) {
@@ -82,7 +84,7 @@ class AuthController extends AdminController
         } else {
             $token = $user->createToken('AuthUserLoginToken', ["level-user"])->plainTextToken;
             $user_role = "user";
-        }
+        }*/
 
 //        $quiz_controller = new QuizController();
 //        $get_user_by_phone_response = $quiz_controller->get_user_by_phone($user->phone);
@@ -105,7 +107,7 @@ class AuthController extends AdminController
 //            ]);
 //        }
 
-        return response([
+/*        return response([
             'user_id' => $user->id,
             'user_name' => $user->name,
             'token' => $token,
@@ -114,7 +116,61 @@ class AuthController extends AdminController
         ], 201)
             ->withCookie(cookie('token', $token, 10080)->withHttpOnly(true)->withSecure(true))
             ->withCookie(cookie('user_name', $user->name, 10080)->withHttpOnly(true)->withSecure(true))
-            ->withCookie(cookie('role', $user_role, 10080)->withHttpOnly(true)->withSecure(true));
+            ->withCookie(cookie('role', $user_role, 10080)->withHttpOnly(true)->withSecure(true));*/
+    }
+
+    public function create_otp(Request $request){
+        $fields = $request->validate([
+            'phone' => 'required|digits:11',
+        ]);
+        if ($user=User::wherePhone($request->only('phone'))->first()){
+            if ($user->active){
+                event(new UserLoginOtp($user));
+                $phone=$request->input('phone');
+                return redirect('login-with-otp')->with(compact('phone'));
+            }
+        }else{
+            return redirect('login-with-otp')->withErrors(['findError'=>'یافت نشد']);
+        }
+
+
+    }
+
+    public function login_with_otp(Request $request){
+        $fields = $request->validate([
+            'phone' => 'required|digits:11',
+            'code' => 'required|digits:9'
+        ]);
+        $authenticationCode = Otp::whereCode($request->input('code'))->first();
+
+        if (!$authenticationCode) {
+            return back()->withErrors(['error'=>'این کد فعال سازی وجود ندارد']);
+        }
+
+        if ($authenticationCode->expire < Carbon::now()) {
+            return back()->withErrors(['error'=>'این کد فعال منقضی شده است.']);
+
+        }
+
+        if ($authenticationCode->used) {
+            return back()->withErrors(['error'=>'این کد استفاده شده است.']);
+        }
+
+        $authenticationCode->update([
+            'used' => true
+        ]);
+
+
+
+        if ($authenticationCode->user->level==='admin'){
+            $token=self::code(User::class,'admin_token',70);
+            $authenticationCode->user->update(['admin_token'=>$token]);
+        }
+        auth()->loginUsingId($authenticationCode->user->id);
+        return redirect()->intended(RouteServiceProvider::HOME);
+
+
+
     }
 
     public function authentication(Request $request)
