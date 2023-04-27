@@ -16,10 +16,18 @@ return new class extends Migration
         Schema::create('cities', function (Blueprint $table) {
             $table->id();
             $table->foreignId('province_id')->constrained('provinces')->onDelete('cascade');
-            $table->string('title');
-            $table->softDeletes();
-            $table->timestamps();
+            $table->string('name');
+            $table->string('name_en')->nullable();
+            $table->decimal('latitude' , 10 ,8)->nullable();
+            $table->decimal('longitude' , 10 ,8)->nullable();
         });
+
+//        DB::table('users')->insert(
+//            array(
+//                'email' => 'name@domain.example',
+//                'verified' => true
+//            )
+//        );
     }
 
     /**
