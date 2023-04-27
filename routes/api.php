@@ -24,9 +24,14 @@ Route::group(['prefix' => 'v1' , 'namespace' => '\App\Http\Controllers\Api\v1'],
         Route::group(['prefix' => 'super-admin', 'as'=>'super.admin.' , 'namespace' => '\App\Http\Controllers\Api\v1\SuperAdmin'], function () {
                     Route::apiResource('categories', 'CategoryController');
                     Route::apiResource('users', 'UserController');
+                    Route::apiResource('blogs', 'BlogController');
             Route::get('/categories/all/blogs','CategoryController@all_category_blog')->name('all-category-blog');
             Route::get('/categories/all/workshops','CategoryController@all_category_workshop')->name('all-category-workshop');
             Route::post('/upload-image','FileController@store');
+            Route::post('/confirm-comment/{id}','CommentController@confirm');
+            Route::post('/cancellation-of-approval/{id}','CommentController@cancellation_approval');
+            Route::get('/comments','CommentController@index');
+            Route::get('/unverified-comments','CommentController@unverified_comments');
 //            Route::get('user-info/{id}', [UserController::class, 'user_info'])->name('get.user');
 //            Route::get('courses/index' , [CourseController::class , 'index'])->name('get.courses');
 //            Route::apiResource('organizations', 'OrganizationController');

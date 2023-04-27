@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api\v1\SuperAdmin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class WorkshopController extends Controller
+class BlogController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,37 +14,36 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'city_id' => 'required|numeric',
-            'description' => 'required|string',
-            'body' => 'required|string',
-            'event_time' => ''
-        ]);
         //creator_id
-        //city_id
         //title
         //description
         //body
-        //event_time
+        $request->validate([
+            'cover_image'=>'array|required',
+            'blog_images'=>'array|required',
+            'title' => 'required|string|max:255',
+            'category_id' => 'numeric',
+            'description' => 'required|string',
+            'body' => 'required|string',
+        ]);
 
     }
 
     /**
      * Display the specified resource.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -55,8 +54,8 @@ class WorkshopController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -67,7 +66,7 @@ class WorkshopController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param int $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

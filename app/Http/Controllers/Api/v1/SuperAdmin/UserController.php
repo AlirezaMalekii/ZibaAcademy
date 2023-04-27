@@ -52,7 +52,7 @@ class UserController extends AdminController
         return response([
             'message' => "کاربر جدید با موفقیت ثبت شد",
             'status' => 'success'
-        ]);
+        ],200);
     }
 
     /**
