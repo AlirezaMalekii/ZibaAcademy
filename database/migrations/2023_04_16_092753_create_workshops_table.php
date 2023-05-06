@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('title');
             $table->string('description')->nullable();
             $table->text('body')->nullable();
+            $table->string('slug')->nullable();
             $table->timestamp('event_time');
             $table->integer('capacity')->default(0);
             $table->softDeletes();

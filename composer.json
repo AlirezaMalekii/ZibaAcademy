@@ -7,7 +7,6 @@
     "require": {
         "php": "^8.0.2",
         "cviebrock/eloquent-sluggable": "^9.0",
-        "fruitcake/laravel-cors": "^3.0",
         "guzzlehttp/guzzle": "^7.2",
         "intervention/image": "^2.7",
         "kavenegar/php": "^1.2",

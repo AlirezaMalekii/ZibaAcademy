@@ -8,12 +8,12 @@ use function jdate;
 class UserResource extends JsonResource
 {
 
-//    protected $detail;
+    protected $detail;
 
-    public function __construct(mixed $resource, $detail = true)
+    public function __construct(mixed $resource, $detail = false)
     {
         parent::__construct($resource);
-//        $this->detail = $detail;
+        $this->detail = $detail;
 
     }
 
@@ -25,12 +25,19 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name."". $this->lastname,
-            'phone' => $this->phone,
-        ];
-
+        if ($this->detail) {
+            return [
+                'id' => $this->id,
+                'name' => $this->name . "" . $this->lastname,
+                'phone' => $this->phone,
+                'email'=>$this->email,
+            ];
+        }else
+            return [
+                'id' => $this->id,
+                'name' => $this->name . "" . $this->lastname,
+                'phone' => $this->phone,
+            ];
     }
 
 }

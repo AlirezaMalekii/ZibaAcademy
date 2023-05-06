@@ -20,15 +20,22 @@ class CategoryController extends Controller
      *
      * @return CategoryCollection
      */
-    public function index($type = null)
+    public function index(Request $request)
     {
-
-        $categoryPiginate = Category::paginate(2);
+        if ($request->type=='blogs'){
+            $categoryPiginate = Category::whereType('blog')->paginate(20);
+            return new CategoryCollection($categoryPiginate);
+        }
+        if ($request->type=='workshops'){
+            $categoryPiginate = Category::whereType('workshop')->paginate(20);
+            return new CategoryCollection($categoryPiginate);
+        }
+        $categoryPiginate = Category::paginate(20);
 
         return new CategoryCollection($categoryPiginate);
     }
 
-    public function all_category_blog()
+    /*public function all_category_blog()
     {
         $categoryPiginate = Category::whereType('blog')->paginate(2);
         return new CategoryCollection($categoryPiginate);
@@ -39,7 +46,7 @@ class CategoryController extends Controller
         $categoryPiginate = Category::whereType('workshop')->paginate(2);
         return new CategoryCollection($categoryPiginate);
 
-    }
+    }*/
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +59,7 @@ class CategoryController extends Controller
         $fields = $request->validate([
             'type' => 'required|string|max:150',
             'title' => 'required|string|max:150',
-            'parent_id' => Rule::excludeIf(!isset($request->parent_id)),
+            'parent_id' => [Rule::excludeIf(!isset($request->parent_id)),'numeric','exists:App\Models\Category,id'],
         ]);
 
         try {
@@ -65,7 +72,7 @@ class CategoryController extends Controller
             auth()->user()->categories()->create($fields);
             return response([
                 'message' => 'اطلاعات با موفقیت ثبت شد. ',
-                'status' => 'ok'
+                'status' => 'success'
             ], 200);
         } catch (ApiException $e) {
             return response([
@@ -88,7 +95,7 @@ class CategoryController extends Controller
         if (!$category) {
             return response([
                 'message' => "یافت نشد",
-                'status' => 'success'
+                'status' => 'failed'
             ], 400);
         }
         return new CategoryResource($category);
@@ -112,7 +119,7 @@ class CategoryController extends Controller
         }
         $fields = $request->validate([
             'title' => 'required|string|max:150',
-            'parent_id' => Rule::excludeIf(!isset($request->parent_id)),
+            'parent_id' => [Rule::excludeIf(!isset($request->parent_id)),'exists:App\Models\Category,id'],
         ]);
         try {
             if ($repeatCategory = Category::where('type', $category->type)->where('title', $request->title)->first()) {
@@ -127,7 +134,8 @@ class CategoryController extends Controller
                 'message' => 'اطلاعات با موفقیت ثبت شد. ',
                 'status' => 'success'
             ], 200);
-        } catch (ApiException $e) {
+//        } catch (ApiException $e) {
+        } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'failed'
@@ -143,6 +151,7 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
+
         $category = Category::whereId($id)->first();
         if (!$category) {
             return response([

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api\v1\SuperAdmin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\V1\User\UserInfoResource;
+use App\Http\Resources\V1\User\UserResource;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
@@ -17,11 +19,12 @@ class UserController extends AdminController
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index()
     {
-        //
+        $users = User::latest()->paginate(25);
+        return UserResource::collection($users,true);
     }
 
     /**
@@ -63,7 +66,14 @@ class UserController extends AdminController
      */
     public function show($id)
     {
-        //
+        $user = User::whereId($id)->first();
+        if (!$user) {
+            return response([
+                'message' => "کاربر یافت نشد",
+                'status' => 'failed'
+            ], 400);
+        }
+        return new UserInfoResource($user);
     }
 
     /**
@@ -79,7 +89,7 @@ class UserController extends AdminController
         if (!$user) {
             return response([
                 'message' => "کاربر یافت نشد",
-                'status' => 'success'
+                'status' => 'failed'
             ], 400);
         }
         $fields = $request->validate([
@@ -101,7 +111,7 @@ class UserController extends AdminController
                 'message' => 'اطلاعات با موفقیت ثبت شد. ',
                 'status' => 'success'
             ], 200);
-        }catch (ApiException $e){
+        }catch (\Exception $e){
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'failed'
@@ -118,6 +128,17 @@ class UserController extends AdminController
      */
     public function destroy($id)
     {
-        //
+        $user = User::whereId($id)->first();
+        if (!$user) {
+            return response([
+                'message' => "کاربر یافت نشد",
+                'status' => 'failed'
+            ], 400);
+        }
+        $user->delete();
+        return response([
+            'message' => 'کاربر حذف شد',
+            'status' => 'success'
+        ], 200);
     }
 }

@@ -18,7 +18,9 @@ class CategoryCollection extends ResourceCollection
             return [
                 'id'=>$item->id,
                 'title'=>$item->title,
-                'type'=>$item->type
+                'type'=>$item->type,
+//                'parent'=>$this->when($item->parent()->get() !== null,new CategoryCollection($item->parent))
+//                'parent'=>new CategoryCollection($item->parent)
             ];
         });
     }

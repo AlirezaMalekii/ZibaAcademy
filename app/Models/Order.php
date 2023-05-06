@@ -13,12 +13,12 @@ class Order extends Model
 
     public function creator()
     {
-        return $this->belongsTo(User::class , 'creator_id');
+        return $this->belongsTo(User::class, 'creator_id');
     }
 
     public function user()
     {
-        return $this->belongsTo(User::class , 'user_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function items()
@@ -34,5 +34,10 @@ class Order extends Model
     public function discount()
     {
         return $this->belongsTo(Discount::class);
+    }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class);
     }
 }
