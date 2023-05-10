@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Kavenegar\Exceptions\ApiException;
+use Illuminate\Database\Query\Builder;
 
 class CategoryController extends Controller
 {
@@ -59,7 +60,14 @@ class CategoryController extends Controller
         $fields = $request->validate([
             'type' => 'required|string|max:150',
             'title' => 'required|string|max:150',
-            'parent_id' => [Rule::excludeIf(!isset($request->parent_id)),'numeric','exists:App\Models\Category,id'],
+            'parent_id' => [
+                Rule::excludeIf(!isset($request->parent_id)),
+                'numeric',
+                Rule::exists('categories','id')->where(function (Builder $query) use ($request) {
+                    return $query->where('type', $request->type);
+                }),
+//                'exists:App\Models\Category,id'
+            ],
         ]);
 
         try {
@@ -119,7 +127,11 @@ class CategoryController extends Controller
         }
         $fields = $request->validate([
             'title' => 'required|string|max:150',
-            'parent_id' => [Rule::excludeIf(!isset($request->parent_id)),'exists:App\Models\Category,id'],
+            'parent_id' => [Rule::excludeIf(!isset($request->parent_id)),
+                Rule::exists('categories','id')->where(function (Builder $query) use ($request) {
+                    return $query->where('type', $request->type);
+                }),
+            ],
         ]);
         try {
             if ($repeatCategory = Category::where('type', $category->type)->where('title', $request->title)->first()) {
@@ -156,13 +168,13 @@ class CategoryController extends Controller
         if (!$category) {
             return response([
                 'message' => "یافت نشد",
-                'status' => 'success'
+                'status' => 'failed'
             ], 400);
         }
         $category->delete();
         return response([
             'message' => 'عملیات با موفقیت انجام شد',
-            'status' => 'ok'
+            'status' => 'success'
         ], 200);
     }
 }

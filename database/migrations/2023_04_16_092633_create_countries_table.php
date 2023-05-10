@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('countries', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('countries', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('name_en')->nullable();
-        });
+        });}
     }
 
     /**
@@ -27,6 +28,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('countries');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('countries');
+        }
     }
 };

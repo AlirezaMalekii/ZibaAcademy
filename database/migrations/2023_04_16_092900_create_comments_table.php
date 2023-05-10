@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('creator_id')->nullable()->constrained('users')->onDelete('cascade');
             $table->string('name');
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->text('comment');
             $table->morphs('commentable');
             $table->timestamps();
-        });
+        });}
     }
 
     /**
@@ -34,6 +35,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('comments');}
     }
 };

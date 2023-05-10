@@ -1,0 +1,159 @@
+.bg-navbar{
+    background: linear-gradient(45deg, rgba(31,90,77,1) 0%, rgba(11,35,30,1) 100%);
+}
+
+
+
+
+/* inside new workshop page gradients styes */
+
+.register-page{
+    position: relative;
+    overflow: hidden;
+}
+.right-gradient{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+.left-gradient{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+
+
+/* register page article styles */
+
+.register-left{
+    border: 1px solid rgb(0, 0, 0,8%);
+    background: white;
+    border-radius: 15px;
+}
+.register-left-detail h4{
+    font-family: "bold";
+    font-size: 24px;
+    color: #2D302F;
+    direction: rtl;
+}
+.register-left-detail-buy h4{
+    font-family: "bold";
+    font-size: 24px;
+    color: #2D302F;
+    direction: rtl; 
+}
+.register-left-detail-item p{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: rgb(45, 48, 47,70%);
+}
+.register-right-desc{
+    border: 1px solid rgb(0, 0, 0,8%);
+    background-color: white;
+    border-radius: 15px;
+}
+.register-right-desc-image{
+    width: 100%;
+    overflow: hidden;
+    max-height: 236px;
+}
+.register-right-desc-image img{
+    overflow: hidden;
+    width: 100%;
+}
+.register-right-desc-desc h3{
+    font-family: "black";
+    font-size: 24px;
+    color: #2D302F;
+}
+.register-right-desc-desc-item p{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: rgb(45, 48, 47,70%);
+}
+.register-table{
+    border: 1px solid rgb(0, 0, 0,8%);
+    background-color: white;
+    border-radius: 15px;
+}
+.register-table table tr{
+    border-bottom: 1px solid #F1F4F4;
+}
+.register-table table tr th{
+    font-family: "bold";
+    font-size: 20px;
+    color: #6C6E6D;
+    padding-bottom: 20px;
+}
+.register-number-wrapper{
+    border-bottom: 1px solid #F1F4F4;
+    width: 100%;
+    margin: 0 auto !important;
+}
+.register-number-wrapper h3{
+    font-family: "bold";
+    font-size: 24px;
+    color: #6C6E6D;
+}
+.register-table table tr .register-table-td{
+    font-family: "ex-bold";
+    font-size: 18px;
+    color: #2D302F;
+    padding-top: 30px;
+    padding-bottom: 25px;
+}
+.form-group input{
+    border: 1px solid #E4E5E9;
+    border-radius: 8px;
+    background: rgb(45, 48, 47,3%);
+    text-align: right;
+}
+.form-group input::placeholder{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: #6A6F83;
+}
+.register-number{
+    border: 1px solid #D4D4D4;
+    border-radius: 10px;
+}
+.register-number h5{
+    font-size: 28px;
+    color: #6C6E6D;
+    cursor: pointer;
+}
+.discount-input input{
+    padding: 13px 16px !important;
+}
+.desc-price{
+    border-radius: 10px;
+    background: rgb(241, 206, 70,5%);
+    border: 1px solid rgb(128, 110, 41,20%);
+    font-family: "ex-bold";
+    font-size: 32px;
+    direction: rtl;
+}
+.table-price{
+    direction: rtl;
+}
+@media only screen and (max-width:768px){
+    .register-table table tr th{
+        font-size: 14px;
+    }
+    .register-table table tr .register-table-td{
+        font-size: 14px;
+    }
+    .discount-input input{
+        padding: 6px 12px !important;
+    }
+    .discount-input input::placeholder{
+        font-size: 12px;
+    }
+    .register-left{
+        width: 92% !important;
+        margin: 0 auto;
+    }
+}

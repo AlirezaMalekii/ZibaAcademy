@@ -129,7 +129,7 @@ class KavehnegarController extends Controller
         $kavenegar_template->delete();
         return response([
             'message' => 'عملیات با موفقیت انجام شد',
-            'status' => 'ok'
+            'status' => 'success'
         ], 200);
     }
 }

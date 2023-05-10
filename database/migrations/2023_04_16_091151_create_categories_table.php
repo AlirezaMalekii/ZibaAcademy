@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('categories', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('categories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('parent_id')->nullable()->constrained('categories')->onUpdate('cascade')->onDelete('cascade');
@@ -23,8 +24,7 @@ return new class extends Migration
             $table->boolean('published')->default(true);
             $table->softDeletes();
             $table->timestamps();
-        });
-
+        }); }
     }
 
     /**
@@ -34,6 +34,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('categories');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('categories');
+        }
     }
 };

@@ -20,10 +20,13 @@ class DiscountCollection extends ResourceCollection
                     'id' => $item->id,
                     'code' => $item->code,
 //                'active'=>$this->active==1?'فعال':'غیر فعال'
-                    'active' => $item->active ? 'فعال' : 'غیر فعال',
+//                    'active' => $item->active ? 'فعال' : 'غیر فعال',
+                    'active' => $item->active,
                     'type' => $item->type,
-                    'percent' => isset($item->percent) ? $item->percent . '%' : '_',
-                    'amount' => isset($item->amount) ? 'تومان' . $item->amount : '_',
+//                    'percent' => isset($item->percent) ? $item->percent . '%' : '_',
+//                    'amount' => isset($item->amount) ? 'تومان' . $item->amount : '_',
+                    'percent' => $item->percent,
+                    'amount' => $item->amount,
                     'use_limit' => $item->use_limit,
                     'expire_date' => jdate($item->expire_date)->format('Y-m-d H:i:s'),
                 ];

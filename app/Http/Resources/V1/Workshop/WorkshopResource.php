@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\Workshop;
 
 use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\City\CityResource;
 use App\Http\Resources\V1\File\FileResource;
 use App\Http\Resources\V1\Gallery\galleryResource;
 use App\Http\Resources\V1\User\UserResource;
@@ -31,7 +32,8 @@ class WorkshopResource extends JsonResource
             'capacity'=>$this->capacity,
             'files'=> FileResource::collection($this->files),
             'categories'=>$this->when($this->categories,new CategoryCollection($this->categories),'تعریف نشده'),
-            'gallery'=>new galleryResource($this->gallery)
+            'gallery'=>new galleryResource($this->gallery),
+            'city'=>new CityResource($this->city_id)
         ];
     }
 }

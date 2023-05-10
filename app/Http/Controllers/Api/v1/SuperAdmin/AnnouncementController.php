@@ -144,7 +144,7 @@ class AnnouncementController extends Controller
         $announcement->delete();
         return response([
             'message' => 'عملیات با موفقیت انجام شد',
-            'status' => 'ok'
+            'status' => 'success'
         ], 200);
     }
 }

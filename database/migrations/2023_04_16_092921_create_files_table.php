@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('files', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('files', function (Blueprint $table) {
             $table->id();
             $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
             $table->morphs('fileable');
@@ -25,7 +26,7 @@ return new class extends Migration
             $table->enum('accessibility', ['free', 'paid']);
             $table->boolean('downloadable')->default(0);
             $table->timestamps();
-        });
+        });}
     }
 
     /**
@@ -35,6 +36,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('files');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('files');}
     }
 };

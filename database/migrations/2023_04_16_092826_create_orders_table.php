@@ -4,8 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
@@ -13,20 +12,21 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('orders', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('discount_id')->nullable()->constrained('discounts')->onDelete('cascade');
-            $table->string('discount_amount', 50)->default(0);
-            $table->string('total_price', 50)->default(0);
-            $table->string('type')->default('purchase');
-            $table->string('payment_gate');
-            $table->boolean('is_paid')->default(false);
-            $table->softDeletes();
-            $table->timestamps();
-        });
-
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('orders', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
+                $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+                $table->foreignId('discount_id')->nullable()->constrained('discounts')->onDelete('cascade');
+                $table->string('discount_amount', 50)->default(0);
+                $table->string('total_price', 50)->default(0);
+                $table->string('type')->default('purchase');
+                $table->string('payment_gate');
+                $table->boolean('is_paid')->default(false);
+                $table->softDeletes();
+                $table->timestamps();
+            });
+        }
     }
 
     /**
@@ -36,6 +36,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('orders');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('orders');
+        }
     }
 };

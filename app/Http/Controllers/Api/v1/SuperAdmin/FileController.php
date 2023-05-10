@@ -36,6 +36,18 @@ class FileController extends UploadController
         ], 200);
 
     }
+    public function store_video(Request $request)
+    {
+        $request->validate([
+//            'video' => 'required|mimetypes:video/avi,video/mpeg,video/quicktime|max:102400'
+            'video' => 'required|mimes:m4v,avi,flv,ogv,mkv,mp4,mov,qt|max:102400'
+//            mimetypes:video/avi,video/mpeg,video/quicktime|max:102400
+//        mimes:m4v,avi,flv,mp4,mov,qt
+        ]);
+//        return $request->file('video')->getMimeType();
+        $fileurl=$this->saveFile($request->file('video'),'public');
+        return $fileurl;
+    }
 
     /**
      * Display the specified resource.

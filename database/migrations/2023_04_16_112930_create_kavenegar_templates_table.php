@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('kavenegar_templates', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('kavenegar_templates', function (Blueprint $table) {
             $table->id();
             $table->string('title');
             $table->string('name');
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->softDeletes();
             $table->timestamps();
-        });
+        });}
     }
 
     /**
@@ -31,6 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kavenegar_templates');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('kavenegar_templates');}
     }
 };

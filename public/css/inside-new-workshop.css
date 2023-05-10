@@ -1,0 +1,133 @@
+.bg-navbar{
+    background: linear-gradient(45deg, rgba(31,90,77,1) 0%, rgba(11,35,30,1) 100%);
+}
+
+/* inside new workshop page gradients styes */
+
+.new-workshop-page{
+    position: relative;
+}
+.right-gradient{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+.left-gradient{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+
+
+
+
+
+
+
+
+/* inside new workshop section styles */
+
+.new-workshop-left-sign{
+    border-radius: 15px;
+    border: 1px solid rgb(0, 0, 0,8%);
+    background: white;
+}
+.new-workshop-left-sign h4{
+    direction: rtl;
+    font-family: "bold";
+    font-size: 24px;
+}
+.desc-price{
+    border-radius: 10px;
+    background: rgb(241, 206, 70,5%);
+    border: 1px solid rgb(128, 110, 41,20%);
+    font-family: "ex-bold";
+    font-size: 32px;
+    direction: rtl;
+}
+.new-workshop-left-sign p{
+    font-family: "bold";
+    font-size: 12px;
+    color: #2D302F;
+}
+.new-workshop-left-sign p a{
+    color: #F1CE46;
+}
+.new-workshop-left-desc{
+    border-radius: 15px;
+    border: 1px solid rgb(0, 0, 0,8%);
+    background: white;
+}
+.new-workshop-left-desc h3{
+    font-family: "bold";
+    font-size: 24px;
+    color: #2D302F;
+}
+.new-workshop-left-desc p{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: rgb(45, 48, 47,70%);
+}
+.new-workshop-right-hero{
+    border-radius: 15px;
+    border: 1px solid rgb(0, 0, 0,8%);
+    background: white;
+}
+.new-workshop-right-hero-image{
+    width: 100%;
+    max-height: 421px;
+    overflow: hidden;
+}
+.new-workshop-right-hero-image img{
+    object-fit: cover;
+    width: 100%;
+}
+.new-workshop-right-hero h1{
+    font-family: "black";
+    font-size: 40px;
+    color: #2D302F;
+}
+.new-workshop-right-desc{
+    border-radius: 15px;
+    border: 1px solid rgb(0, 0, 0,8%);
+    background: white;
+}
+.new-workshop-right-desc h3{
+    font-family: "black";
+    font-size: 32px;
+    color: #2D302F;
+}
+.new-workshop-teaser{
+    width: 100%;
+    max-height: 370px;
+    border-radius: 10px;
+    overflow: hidden;
+}
+.new-workshop-teaser video{
+    object-fit: cover;
+    width: 100%;
+}
+.new-workshop-right-desc h4{
+    font-family: "black";
+    font-size: 24px;
+    color: #2D302F;
+}
+.new-workshop-right-desc p{
+    color: rgb(8, 11, 10,60%);
+    font-family: "semi-bold";
+    font-size: 20px;
+}
+@media only screen and (max-width:768px){
+    .new-workshop-right-hero h1{
+        font-size: 24px;
+    }
+    .new-workshop-right-desc h3{
+        font-size: 24px;
+    }
+    .new-workshop-right-desc p{
+        font-size: 14px;
+    }
+}

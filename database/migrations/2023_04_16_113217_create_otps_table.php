@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('otps', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('otps', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('phone' , 11)->nullable();
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->boolean('used')->default(false);
             $table->timestamp('expire');
             $table->timestamps();
-        });
+        });}
     }
 
     /**
@@ -31,6 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('otps');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('otps');}
     }
 };

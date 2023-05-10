@@ -13,7 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('order_items', function (Blueprint $table) {
+        if (env('REFRESH_MIGRATION')) {
+            Schema::create('order_items', function (Blueprint $table) {
             $table->id();
             $table->foreignId('order_id')->nullable()->constrained('orders')->onDelete('cascade');
             $table->morphs('itemable');
@@ -21,7 +22,7 @@ return new class extends Migration
             $table->string('price', 50)->default(0);
             $table->softDeletes();
             $table->timestamps();
-        });
+        });}
     }
 
     /**
@@ -31,6 +32,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('order_items');
+        if (env('REFRESH_MIGRATION')) {
+            Schema::dropIfExists('order_items');}
     }
 };

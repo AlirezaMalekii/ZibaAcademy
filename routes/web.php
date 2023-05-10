@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Web\HomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,12 +20,13 @@ Route::get('/', function () {
 });
 
 //example
+
 //view
 Route::view('register','example.register');
 Route::view('login-with-otp','example.login-with-otp');
 Route::view('login-with-password','example.login_with_password');
 //endview
-
+//end example
 //testing
 Route::get('state_of_login',function (){
    if (auth()->check())
@@ -49,6 +51,10 @@ Route::group([],function (){
     Route::post('login-with-password',[AuthController::class,'login_with_password'])->name('lwp');
     Route::post('make-otp',[AuthController::class,'create_otp'])->name('make-otp');
 });
-
+Route::group(['namespace' => '\App\Http\Controllers\Web'], function () {
+    Route::get('/',[HomeController::class,'index']);
+//    Route::view('/','layouts.index');
+    Route::get('workshops',[HomeController::class,'index']);
+});
 
 
