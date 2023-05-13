@@ -1,6 +1,7 @@
 @extends('master')
 @section('head')
     @parent
+    <link rel="stylesheet" href="/css/index.css">
     <title>Document</title>
 @endsection
 
@@ -19,7 +20,7 @@
 
         <!--index top-right gradient-->
         <div class="right-gradient">
-            <img src="images/right-gradient.png" alt="gradient">
+            <img src="/images/right-gradient.png" alt="gradient">
         </div>
 
 
@@ -27,11 +28,11 @@
         <section class="workshop py-5">
             <div class="container">
                 <div class="index-center-title text-center d-flex align-items-center justify-content-center mb-5">
-                    <img src="images/title-vector-right.png">
+                    <img src="/images/title-vector-right.png">
                     <h2>
                         ورکشاپ ها
                     </h2>
-                    <img src="images/title-vector-left.png">
+                    <img src="/images/title-vector-left.png">
                 </div>
                 <div class="row d-flex flex-column-reverse flex-lg-row justify-content-between align-items-center">
                     <div class="workshop-desc col-12 col-lg-6 text-right align-items-end d-flex flex-column">
@@ -42,10 +43,10 @@
                         </p>
                         <a href="#" class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
                             مشاهده ورکشاپ ها
-                            <img src="images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
+                            <img src="/images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
                         </a>
                         <div class="workshop-vector">
-                            <img src="images/index-vector.png" alt="icon">
+                            <img src="/images/index-vector.png" alt="icon">
                         </div>
                     </div>
                     <div class="workshop-video mb-4 mb-lg-0 col-12 col-lg-6 p-3">
@@ -86,15 +87,15 @@
                         </p>
                         <a href="#" class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
                             ادامه مطلب
-                            <img src="images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
+                            <img src="/images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
                         </a>
                     </div>
                     <div class="index-about-image-wrapper col-12 col-lg-5 text-right">
                         <div class="index-about-image">
-                            <img src="images/index-about-image.png" alt="image">
+                            <img src="/images/index-about-image.png" alt="image">
                         </div>
                         <div class="about-vector">
-                            <img src="images/index-vector.png" alt="icon">
+                            <img src="/images/index-vector.png" alt="icon">
                         </div>
                     </div>
                 </div>
@@ -105,7 +106,7 @@
 
         <!-- index-page bottom-left gradient-->
         <div class="left-gradient">
-            <img src="images/left-gradient.png" alt="gradient">
+            <img src="/images/left-gradient.png" alt="gradient">
         </div>
     </article>
 

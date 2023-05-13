@@ -7,6 +7,7 @@ use App\Http\Resources\V1\City\CityResource;
 use App\Http\Resources\V1\File\FileResource;
 use App\Http\Resources\V1\Gallery\galleryResource;
 use App\Http\Resources\V1\User\UserResource;
+use App\Models\City;
 use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -33,7 +34,9 @@ class WorkshopResource extends JsonResource
             'files'=> FileResource::collection($this->files),
             'categories'=>$this->when($this->categories,new CategoryCollection($this->categories),'تعریف نشده'),
             'gallery'=>new galleryResource($this->gallery),
-            'city'=>new CityResource($this->city_id)
+            'city'=>new CityResource(City::find($this->city_id)),
+            'period'=>$this->period,
+            'price'=>$this->price
         ];
     }
 }

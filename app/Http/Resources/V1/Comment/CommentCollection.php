@@ -35,6 +35,7 @@ class CommentCollection extends ResourceCollection
                         'parent_id' => $item->parent_id,
                         'approved' => $item->approved,
                         'created_at' => jdate($item->created_at)->format('Y-m-d H:i:s'),
+                        'comment' => $item->comment,
                     ];
                 })
             ];

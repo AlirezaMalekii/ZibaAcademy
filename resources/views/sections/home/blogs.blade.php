@@ -1,11 +1,11 @@
 <section class="index-blog py-5 mt-5">
     <div class="index-blog-wrapper">
         <div class="index-center-title text-center d-flex align-items-center justify-content-center mb-5">
-            <img src="images/title-vector-right.png">
+            <img src="/images/title-vector-right.png">
             <h2>
                 وبلاگ
             </h2>
-            <img src="images/title-vector-left.png">
+            <img src="/images/title-vector-left.png">
         </div>
         <div class="index-blog-items">
             <!--index blog item-->
@@ -27,13 +27,13 @@
                                 <p>
                                     {{$blog->viewCount}}
                                 </p>
-                                <img src="images/Eye.png" alt="icon" width="20px" height="20px">
+                                <img src="/images/Eye.png" alt="icon" width="20px" height="20px">
                             </div>
                             <div class="index-blog-title-item">
                                 <p>
                                     {{$blog->comments_count}}
                                 </p>
-                                <img src="images/coment.png" alt="icon" width="20px" height="20px">
+                                <img src="/images/coment.png" alt="icon" width="20px" height="20px">
                             </div>
                         </div>
                     </div>
@@ -46,7 +46,7 @@
                         </p>
                         <a>
                             مشاهده
-                            <img src="images/yellow-left-arrow.png" alt="icon">
+                            <img src="/images/yellow-left-arrow.png" alt="icon">
                         </a>
                     </div>
                 </div>

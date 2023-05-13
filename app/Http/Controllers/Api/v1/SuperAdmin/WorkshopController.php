@@ -7,6 +7,7 @@ use App\Http\Resources\V1\Workshop\WorkshopCollection;
 use App\Http\Resources\V1\Workshop\WorkshopResource;
 use App\Models\File;
 use App\Models\Workshop;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Filesystem\Filesystem as FileSystem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -42,11 +43,18 @@ class WorkshopController extends Controller
             'event_time' => 'required|date',
             'capacity' => [Rule::excludeIf(!isset($request->capacity)), 'numeric', 'integer'],
             'category_id' => [Rule::excludeIf(!isset($request->category_id)), 'array'],
-            "category_id.*" => [Rule::excludeIf(!isset($request->category_id)), 'numeric', 'exists:App\Models\Category,id'],
+            "category_id.*" => [Rule::excludeIf(!isset($request->category_id)), 'numeric',
+                Rule::exists('categories','id')->where(function (Builder $query){
+                    return $query->where('type', 'workshop');
+                }),
+                ],
             'cover_image' => 'array|required',
+            'banner' => 'array|required',
             'gallery_images' => [Rule::excludeIf(!isset($request->gallery_images)), 'array'],
             'video_type' => ['required', 'max:25', 'string', Rule::in(['aparat', 'video'])],
-            'video' => 'array|required'
+            'video' => 'array|required',
+            'period'=>'required|string|max:55',
+            'price'=>'required|integer'
         ]);
         try {
             $workshop = Workshop::create([
@@ -57,6 +65,8 @@ class WorkshopController extends Controller
                 'body' => $data['body'] ?? null,
                 'event_time' => $data['event_time'],
                 'capacity' => $data['capacity'] ?? 0,
+                'period'=>$data['period'],
+                'price'=>$data['price']
             ]);
             if ($data['video_type'] == 'aparat') {
                 $workshop->files()->create([
@@ -78,6 +88,7 @@ class WorkshopController extends Controller
                     'accessibility' => 'free'
                 ]);
             }
+
             if (isset($data['category_id'])) {
                 $workshop->categories()->sync($data['category_id']);
             }
@@ -111,6 +122,18 @@ class WorkshopController extends Controller
                 'extension' => $extension_cover[1],
                 'accessibility' => 'free'
             ]);
+            $array_banner_image = explode('/', $data['banner']['thumb']);
+            $extension_inside_image = explode('.', $array_banner_image[5]);
+            $cover_image = $workshop->files()->create([
+                'creator_id' => auth()->user()->id,
+                'file' => $data['banner'],
+                'type' => 'banner',
+                'file_name' => $array_banner_image[4],
+                'extension' => $extension_inside_image[1],
+                'accessibility' => 'free'
+            ]);
+
+
             /*if(isset($data['gallery_images'])){
                 $collection_dallery=collect($data['gallery_images']);
                 dd();
@@ -170,11 +193,16 @@ class WorkshopController extends Controller
             'event_time' => 'required|date',
             'capacity' => [Rule::excludeIf(!isset($request->capacity)), 'numeric', 'integer'],
             'category_id' => [Rule::excludeIf(!isset($request->category_id)), 'array'],
-            "category_id.*" => [Rule::excludeIf(!isset($request->category_id)), 'numeric', 'exists:App\Models\Category,id'],
+            "category_id.*" => [Rule::excludeIf(!isset($request->category_id)), 'numeric', Rule::exists('categories','id')->where(function (Builder $query){
+                return $query->where('type', 'workshop');
+            }),],
             'cover_image' => 'array|required',
+            'banner' => 'array|required',
             'gallery_images' => [Rule::excludeIf(!isset($request->gallery_images)), 'array'],
             'video_type' => ['required', 'max:25', 'string', Rule::in(['aparat', 'video'])],
-            'video' => 'array|required'
+            'video' => 'array|required',
+            'period'=>'required|string|max:55',
+            'price'=>'required|integer'
         ]);
         try {
             $workshop->update([
@@ -184,6 +212,8 @@ class WorkshopController extends Controller
                 'body' => $data['body'] ?? null,
                 'event_time' => $data['event_time'],
                 'capacity' => $data['capacity'] ?? 0,
+                'period'=>$data['period'],
+                'price'=>$data['price']
             ]);
             if ($data['video_type'] == 'aparat') {
                 $video = $workshop->files()->where(function ($q) {
@@ -246,6 +276,20 @@ class WorkshopController extends Controller
                     'file' => $data['cover_image'],
                     'file_name' => $array_cover_image[4],
                     'extension' => $extension_cover[1],
+                ]);
+            }
+            $array_banner_image = explode('/', $data['banner']['thumb']);
+            $extension_banner = explode('.', $array_banner_image[5]);
+            $workshop_banner = $workshop->files()->where('type', 'banner')->first();
+            if ($workshop_banner->file_name != $array_banner_image[4]) {
+                $array_file_image = explode('/', $workshop_banner->file['thumb']);
+                $filePicture = implode('/', [$array_file_image[0], $array_file_image[1], $array_file_image[2], $array_file_image[3], $array_file_image[4]]);
+                $file_system = new FileSystem();
+                $file_system->deleteDirectory(public_path($filePicture));
+                $banner_image = $workshop->files()->update([
+                    'file' => $data['banner'],
+                    'file_name' => $array_banner_image[4],
+                    'extension' => $extension_banner[1],
                 ]);
             }
             if (isset($data['gallery_images'])) {
@@ -311,6 +355,14 @@ class WorkshopController extends Controller
             $file_system = new FileSystem();
             $file_system->deleteDirectory(public_path($filePicture));
             $file->delete();
+        }
+        $banner = $workshop->files()->get()->where('type', 'banner')->first();
+        if (isset($banner)) {
+            $array_file_image = explode('/', $banner->file['thumb']);
+            $filePicture = implode('/', [$array_file_image[0], $array_file_image[1], $array_file_image[2], $array_file_image[3], $array_file_image[4]]);
+            $file_system = new FileSystem();
+            $file_system->deleteDirectory(public_path($filePicture));
+            $banner->delete();
         }
         $video = $workshop->files()->where(function ($q) {
             $q->where('type', 'aparat')->orWhere('type', 'video');

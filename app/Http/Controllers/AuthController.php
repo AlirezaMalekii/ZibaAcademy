@@ -43,7 +43,6 @@ class AuthController extends AdminController
 
     public function login_with_password(Request $request)
     {
-
         $fields = $request->validate([
             'phone' => 'required|digits:11',
             'password' => 'required|string|min:6',
@@ -137,6 +136,7 @@ class AuthController extends AdminController
     }
 
     public function login_with_otp(Request $request){
+
         $fields = $request->validate([
             'phone' => 'required|digits:11',
             'code' => 'required|digits:9'

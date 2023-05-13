@@ -13,7 +13,7 @@ class CommentController extends Controller
     public function index()
     {
 
-        $commentPiginate = Comment::paginate(20);
+        $commentPiginate = Comment::latest()->paginate(20);
         return new CommentCollection($commentPiginate);
     }
     public function show($id)

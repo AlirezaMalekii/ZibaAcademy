@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\WorkshopController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,10 +15,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
 
 //example
 
@@ -52,9 +49,13 @@ Route::group([],function (){
     Route::post('make-otp',[AuthController::class,'create_otp'])->name('make-otp');
 });
 Route::group(['namespace' => '\App\Http\Controllers\Web'], function () {
-    Route::get('/',[HomeController::class,'index']);
-//    Route::view('/','layouts.index');
-    Route::get('workshops',[HomeController::class,'index']);
+    Route::get('/',[HomeController::class,'index'])->name('home');
+    Route::get('workshops',[WorkshopController::class,'index'])->name('workshops');
+    Route::get('workshops/{workshop:slug}',[WorkshopController::class,'show'])->name('choose-workshop');
 });
+Route::group(['namespace' => '\App\Http\Controllers\Web','middleware' => ['auth:sanctum']], function () {
+    Route::get('/workshop-register/{workshop:slug}',[WorkshopController::class,'workshop_register'])->name('workshop_register');
+});
+Route::view('login','layouts.auth.login-with-password')->name('login');
 
 

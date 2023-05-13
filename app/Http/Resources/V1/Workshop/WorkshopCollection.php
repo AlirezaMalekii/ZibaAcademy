@@ -33,7 +33,9 @@ class WorkshopCollection extends ResourceCollection
                     'description' => $item->description,
                     'created_at' => jdate($item->created_at)->format('Y-m-d H:i:s'),
                     'files' => FileResource::collection($item->files),
-                    'categories' => $this->when($item->categories, new CategoryCollection($item->categories), 'تعریف نشده')
+                    'categories' => $this->when($item->categories, new CategoryCollection($item->categories), 'تعریف نشده'),
+                    'period'=>$item->period,
+                    'price'=>$item->price
                 ];
             }else{
                 return [

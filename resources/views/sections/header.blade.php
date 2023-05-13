@@ -2,12 +2,12 @@
     <nav class="navbar navbar-expand-lg flex-row-reverse justify-content-between d-flex py-4 container">
         <div class="navbar-logo-brand d-flex">
             <a class="navbar-brand d-flex flex-row-reverse align-items-center" href="#">
-                <img src="images/header-logo.png" class="ml-2" width="40px" height="40px">
+                <img src="/images/header-logo.png" class="ml-2" width="40px" height="40px">
                 زیبا آکادمی
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
-                    <img src="images/navbar-toggle.png">
+                    <img src="/images/navbar-toggle.png">
                 </span>
             </button>
         </div>
@@ -18,7 +18,7 @@
                     <a class="nav-link" href="#">صفحه اصلی</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="#">ورگشاپ ها</a>
+                    <a class="nav-link" href="{{route('workshops')}}">ورگشاپ ها</a>
                 </li>
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="#">وبلاگ</a>
@@ -35,7 +35,7 @@
                 <img class="my-2 my-sm-0" onclick="navbarsearch()" src="images/search-icon.png" width="25px" height="25px" id="navbar-search-image">
             </form> -->
             <a href="#" class="ml-2">
-                <img src="images/search-normal.png" alt="icon" width="32px" height="32px">
+                <img src="/images/search-normal.png" alt="icon" width="32px" height="32px">
             </a>
             <button class="my-2 my-sm-0 py-2 px-4 bg-white text-center">ورود/ثبت نام</button>
         </div>

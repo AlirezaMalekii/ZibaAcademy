@@ -1,7 +1,7 @@
 <footer class="py-5">
     <div class="container">
         <div class="row justify-content-center flex-row-reverse align-items-center mb-5">
-            <img src="images/footer-logo.png" alt="logo" class="footer-title-image">
+            <img src="/images/footer-logo.png" alt="logo" class="footer-title-image">
             <h2 class="mr-3 footer-title">
                 زیبا آکادمی
             </h2>
@@ -46,13 +46,13 @@
                         </p>
                         <div class="footer-social-items d-flex">
                             <a href="#" class="d-flex justify-content-center align-items-center pl-2">
-                                <img src="images/instagram.png" alt="icon" class="mr-2">
+                                <img src="/images/instagram.png" alt="icon" class="mr-2">
                             </a>
                             <a href="#" class="d-flex justify-content-center align-items-center pl-2">
-                                <img src="images/telegram.png" alt="icon" class="mr-2">
+                                <img src="/images/telegram.png" alt="icon" class="mr-2">
                             </a>
                             <a href="#" class="d-flex justify-content-center align-items-center pl-2">
-                                <img src="images/Whatsapp.png" alt="icon" class="mr-2">
+                                <img src="/images/Whatsapp.png" alt="icon" class="mr-2">
                             </a>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
                     مجوز های دریافت شده
                 </h3>
                 <div class="footer-enamad-image">
-                    <img src="images/enamad.png" alt="image">
+                    <img src="/images/enamad.png" alt="image">
                 </div>
             </div>
         </div>

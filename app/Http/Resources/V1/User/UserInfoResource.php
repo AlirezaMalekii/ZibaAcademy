@@ -18,7 +18,8 @@ class UserInfoResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name." ".$this->lastname,
+            'name' => $this->name,
+            'lastname'=>$this->lastname,
             'email' => $this->email,
             'phone' => $this->phone,
             'gender' => $this->gender,
@@ -27,7 +28,7 @@ class UserInfoResource extends JsonResource
             'created_at' => jdate($this->created_at)->format('Y-m-d H:i:s'),
             'created_by'=>$this->created_by,
             'level'=>$this->level,
-            'active'=>$this->active?"فعال":"غیر فعال",
+            'active'=>$this->active,
             'tickets'=>new TicketResource(Ticket::find(1)),
         ];
     }
