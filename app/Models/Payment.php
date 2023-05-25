@@ -10,7 +10,7 @@ class Payment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'creator_id' , 'order_id' , 'transaction_id' ,'price' ,'payment' ,
+        'creator_id' , 'order_id' , 'transaction_id' ,'price' ,'payment' ,'code'
     ];
 
     public function creator()

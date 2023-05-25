@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <article class="workshops-page">
+    <article class="workshops-page" style="overflow: hidden">
 
         <!--workshops-page top-right gradient-->
         <div class="right-gradient">

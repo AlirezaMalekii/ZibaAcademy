@@ -3,6 +3,7 @@
 namespace App\Http\Resources\V1\Gallery;
 
 use App\Http\Resources\V1\File\FileResource;
+use App\Http\Resources\V1\Workshop\WorkshopResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class galleryResource extends JsonResource
@@ -22,7 +23,8 @@ class galleryResource extends JsonResource
 //            'file'=>$this->file,
             'title'=>$this->title,
            'file'=> FileResource::collection($this->files),
-            'created_at' => jdate($this->created_at)->format('Y-m-d H:i:s')
+            'created_at' => jdate($this->created_at)->format('Y-m-d H:i:s'),
+            'workshop_cover'=>$this->galleryable()->first()->files()->where('type','cover')->first()
         ];
     }
 }

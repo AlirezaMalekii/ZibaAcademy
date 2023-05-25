@@ -119,6 +119,22 @@ html{
     color: white;
     text-decoration: none;
 }
+.order-operation{
+    padding: 8px 12px;
+    font-family: "semi-bold";
+    font-size: 12px;
+    color: white;
+    border-radius: 5px;
+}
+.order-operation.green{
+    background: #153E36;
+}
+.order-operation.lgreen{
+    background: #3EBF64;
+}
+.order-operation.red{
+    background: #EC4D2C;
+}
 @media only screen and (max-width:768px){
     .sign-in-button{
         padding: 15px 0px;

@@ -58,7 +58,7 @@ class GalleryController extends Controller
      */
     public function index()
     {
-        $galleries=Gallery::paginate(8);
+        $galleries=Gallery::latest()->paginate(8);
         return galleryResource::collection($galleries);
     }
 

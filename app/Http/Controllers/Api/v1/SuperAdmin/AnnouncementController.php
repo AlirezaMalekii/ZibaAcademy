@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Announcement\AnnouncementResource;
 use App\Models\Announcement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 
 class AnnouncementController extends Controller
@@ -29,6 +30,16 @@ class AnnouncementController extends Controller
      */
     public function store(Request $request)
     {
+//       $request->send_at= Carbon::createFromFormat('Y-m-d H:i:s', $request->send_at, 'UTC');
+//        if (isset($request->send_at)) {
+//            $request->send_at = date("Y-m-d H:i:s", $request->send_at);
+//        }
+        if (isset($request->send_at)) {
+            $sendAt = Carbon::createFromTimestamp($request->send_at)->format('Y-m-d H:i:s');
+            $request->merge(['send_at' => $sendAt]);
+        }
+//        //1684658820
+//        return $request->send_at;
         $data = $request->validate([
             'workshop_id' => [Rule::excludeIf(!isset($request->workshop_id)), 'numeric', 'exists:App\Models\Workshop,id'],
             'users' => [Rule::excludeIf(!isset($request->users)), 'array'],
@@ -38,7 +49,9 @@ class AnnouncementController extends Controller
             'kavenegar_data' => [Rule::excludeIf(!isset($request->kavenegar_data)), 'array', 'max:3'],
             'drivers' => [Rule::excludeIf(!isset($request->drivers)), 'array'],
             'send_at' => [Rule::excludeIf(!isset($request->send_at)), 'date', 'after:now'],
+            // 'send_at' => [Rule::excludeIf(!isset($request->send_at))],
         ]);
+
         if (isset($data['users']))
             $data = array_merge($data, ['users' => json_encode($data['users'])]);
         if (isset($data['kavenegar_data']))
@@ -61,7 +74,7 @@ class AnnouncementController extends Controller
      */
     public function show($id)
     {
-        $announcement=Announcement::find($id);
+        $announcement = Announcement::find($id);
         if (!$announcement) {
             return response([
                 'message' => "یافت نشد",
@@ -81,14 +94,18 @@ class AnnouncementController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $announcement=Announcement::find($id);
+        if (isset($request->send_at)) {
+            $sendAt = Carbon::createFromTimestamp($request->send_at)->format('Y-m-d H:i:s');
+            $request->merge(['send_at' => $sendAt]);
+        }
+        $announcement = Announcement::find($id);
         if (!$announcement) {
             return response([
                 'message' => "یافت نشد",
                 'status' => 'failed'
             ], 400);
         }
-        if ($announcement->status!='pending'){
+        if ($announcement->status != 'pending') {
             return response([
                 'message' => "این پیام ارسال شده است امکان تغییر وجود ندارد",
                 'status' => 'failed'
@@ -117,7 +134,7 @@ class AnnouncementController extends Controller
                 'message' => "تغییرات به درستی ثبت شد",
                 'status' => 'success'
             ], 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'بخشی از عملیات با خطا مواجه شد.'
@@ -134,7 +151,7 @@ class AnnouncementController extends Controller
      */
     public function destroy($id)
     {
-        $announcement=Announcement::find($id);
+        $announcement = Announcement::find($id);
         if (!$announcement) {
             return response([
                 'message' => "یافت نشد",

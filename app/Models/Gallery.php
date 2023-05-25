@@ -23,4 +23,8 @@ class Gallery extends Model
     {
         return $this->morphMany(File::class, 'fileable');
     }
+//    public function workshop()
+//    {
+//        return $this->morphOne(Workshop::class, 'galleryable');
+//    }
 }

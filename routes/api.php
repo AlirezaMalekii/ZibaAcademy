@@ -42,6 +42,7 @@ Route::group(['prefix' => 'v1' , 'namespace' => '\App\Http\Controllers\Api\v1'],
             Route::post('/upload-video','FileController@store_video');
             Route::post('/confirm-comment/{id}','CommentController@confirm');
             Route::post('/cancellation-of-approval/{id}','CommentController@cancellation_approval');
+            Route::get('/order/{id}/payments','OrderController@payments');
             Route::get('/comments','CommentController@index');
             Route::get('/comments/{id}','CommentController@show');
             Route::get('/unverified-comments','CommentController@unverified_comments');

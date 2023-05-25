@@ -6,7 +6,7 @@
 @endsection
 
 @section('content')
-    <article class="new-workshop-page py-5">
+    <article class="new-workshop-page py-5" style="overflow: hidden">
 
 
         <!--workshops-page top-right gradient-->

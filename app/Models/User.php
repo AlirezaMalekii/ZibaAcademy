@@ -12,7 +12,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,Sluggable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, Sluggable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -49,11 +49,11 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
     public function creator()
     {
         return $this->belongsTo(__CLASS__, 'created_by');
     }
+
     public function parent_user(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(__CLASS__, 'created_by');
@@ -67,22 +67,29 @@ class User extends Authenticatable
 
     public function otps()
     {
-        return $this->hasMany(Otp::class,'user_id');
+        return $this->hasMany(Otp::class, 'user_id');
     }
+
+    public function tickets()
+    {
+        return $this->hasMany(Ticket::class, 'user_id');
+    }
+
     public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Category::class,'creator_id');
+        return $this->hasMany(Category::class, 'creator_id');
     }
 
     public function sluggable(): array
     {
         return [
             'slug' => [
-                'source' => ['name','lastname'],
-                'onUpdate'=>true
+                'source' => ['name', 'lastname'],
+                'onUpdate' => true
             ]
         ];
     }
+
     public function discounts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Discount::class);

@@ -18,12 +18,12 @@
                 <div class="card sign-in-bar p-2">
                     <div class="d-flex">
                         <div class="col-6 text-center sign-in-bar-item">
-                            <a href="#" class="tex-center">
+                            <a href="{{route('register')}}" class="tex-center">
                                 ثبت نام
                             </a>
                         </div>
                         <div class="col-6 text-center sign-in-bar-item active">
-                            <a href="#" class="tex-center">
+                            <a href="#" class="tex-center" style="cursor: default">
                                 ورود به حساب کاربری
                             </a>
                         </div>
@@ -38,24 +38,25 @@
                     <form method="post" action="{{route('lwp')}}" class="mt-4">
                         @csrf
                         <div class="form-group d-flex flex-column">
-                            <label>تلفن همراه</label>
-                            <input type="number" name="phone" id="telephone" class="p-2">
+                            <label for="telephone">تلفن همراه</label>
+                            <input type="text" name="phone" id="telephone" class="p-2">
                         </div>
                         <div class="form-group d-flex flex-column">
                             <label>رمزعبور</label>
                             <input type="password" name="password" id="password" class="p-2">
                         </div>
 
-                        <div class="d-flex flex-column flex-lg-row-reverse justify-content-between mt-3">
+                        <div class="d-flex flex-column flex-lg-row-reverse justify-content-between mt-3" style="align-items: center">
                             <div class="remember-me">
-                                <label>
+                                <label for="remember-me">
                                     مرا به خاطر بسپار
                                 </label>
-                                <input type="checkbox" name="remember-me" id="remember-me">
+                                <input type="checkbox" name="remember" id="remember-me">
                             </div>
                             <div class="forget-password">
-                                <a href="#">
-                                    رمز عبور خود را فراموش کرده اید؟
+                                <a href="{{route('otp')}}" style="text-align: center">
+                                    رمز عبور خود را فراموش کرده اید؟<br>
+                                    (ورود با رمز یکبار مصرف)
                                 </a>
                             </div>
                         </div>
@@ -63,7 +64,7 @@
                             ورود به حساب کاربری
                         </button>
                         <p class="lets-sign text-center mt-4">
-                            آیا حساب کاربری ندارید؟<a href="#">ثبت نام</a>
+                            آیا حساب کاربری ندارید؟<a href="{{route('register')}}">ثبت نام</a>
                         </p>
                     </form>
                 </div>

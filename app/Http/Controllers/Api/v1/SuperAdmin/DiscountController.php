@@ -9,6 +9,7 @@ use App\Models\Discount;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
 use Illuminate\Validation\Rule;
 use function PHPUnit\Framework\isEmpty;
 
@@ -33,6 +34,10 @@ class DiscountController extends Controller
      */
     public function store(Request $request)
     {
+        if (isset($request->expire_date)) {
+            $sendAt = Carbon::createFromTimestamp($request->expire_date)->format('Y-m-d H:i:s');
+            $request->merge(['expire_date' => $sendAt]);
+        }
 //        return  new DiscountResource(Discount::find(10),true);
         $data = $request->validate([
             'code' => 'required|unique:discounts|max:25|string',
@@ -129,6 +134,10 @@ class DiscountController extends Controller
                 'message' => "یافت نشد",
                 'status' => 'failed'
             ], 400);
+        }
+        if (isset($request->expire_date)) {
+            $sendAt = Carbon::createFromTimestamp($request->expire_date)->format('Y-m-d H:i:s');
+            $request->merge(['expire_date' => $sendAt]);
         }
         $data = $request->validate([
             'code' => ['required', 'max:25', 'string', Rule::unique('discounts')->ignore($discount->id)],

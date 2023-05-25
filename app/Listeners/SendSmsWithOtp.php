@@ -27,10 +27,10 @@ class SendSmsWithOtp extends AdminController
      */
     public function handle(UserLoginOtp $event)
     {
-       $this->send_sms_lookup([
-            'receptor' => $event->user->phone,
-            'template' => "fortest",
-            'token' => $event->otpCode
-        ]);
+//       $this->send_sms_lookup([
+//            'receptor' => $event->user->phone,
+//            'template' => "fortest",
+//            'token' => $event->otpCode
+//        ]);
     }
 }

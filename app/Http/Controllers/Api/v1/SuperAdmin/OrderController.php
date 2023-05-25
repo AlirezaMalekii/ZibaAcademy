@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Order\OrderCollection;
 use App\Http\Resources\V1\Order\OrederItemResource;
 use App\Http\Resources\V1\Order\OrederResource;
+use App\Http\Resources\V1\Payment\PaymentResource;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -26,5 +28,15 @@ class OrderController extends Controller
             ], 400);
         }
         return new OrederResource($order);
+    }
+    public function payments($id){
+        $order = Order::whereId($id)->first();
+        if (!$order) {
+            return response([
+                'message' => "یافت نشد",
+                'status' => 'failed'
+            ], 400);
+        }
+        return PaymentResource::collection($order->payments()->latest()->get());
     }
 }

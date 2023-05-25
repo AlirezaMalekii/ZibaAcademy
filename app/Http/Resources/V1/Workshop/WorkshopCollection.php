@@ -3,7 +3,9 @@
 namespace App\Http\Resources\V1\Workshop;
 
 use App\Http\Resources\V1\Category\CategoryCollection;
+use App\Http\Resources\V1\City\CityResource;
 use App\Http\Resources\V1\File\FileResource;
+use App\Models\City;
 use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class WorkshopCollection extends ResourceCollection
@@ -35,7 +37,11 @@ class WorkshopCollection extends ResourceCollection
                     'files' => FileResource::collection($item->files),
                     'categories' => $this->when($item->categories, new CategoryCollection($item->categories), 'تعریف نشده'),
                     'period'=>$item->period,
-                    'price'=>$item->price
+                    'price'=>$item->price,
+                    'city'=>new CityResource(City::find($item->city_id)),
+                    'event_time'=>jdate($item->event_time)->format('Y-m-d H:i:s'),
+                    'capacity'=>$item->capacity,
+                    'registration_number'=>$item->registration_number
                 ];
             }else{
                 return [

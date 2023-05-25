@@ -3,11 +3,11 @@
         <div class="workshops-header row d-flex justify-content-end mb-4">
             <h3 class="text-right">ورکشاپ های درحال برگزاری</h3>
         </div>
-        <div class="row d-flex justify-content-between align-items-center">
+        <div class="row d-flex justify-content-between align-items-center" style="flex-direction: row-reverse;">
             <!--workshop item-->
             @foreach($ongoing_workshops as $ongoing_workshop)
             <div class="col-12 col-md-6 col-lg-3">
-                <div class="card workshop-item px-2 pb-2 mb-5 mb-lg-0">
+                <div class="card workshop-item px-2 pb-2 mb-5 mb-lg-0" style="background-image: url({{$ongoing_workshop['files'][0]['file']['thumb']}})">
                     <div class="card-body workshop-item-desc bg-white">
                         <h3 class="text-right mb-3">
                             {{$ongoing_workshop['title']}}

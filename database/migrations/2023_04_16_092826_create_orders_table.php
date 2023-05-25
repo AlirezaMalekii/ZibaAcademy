@@ -21,7 +21,7 @@ return new class extends Migration {
                 $table->string('discount_amount', 50)->default(0);
                 $table->string('total_price', 50)->default(0);
                 $table->string('type')->default('purchase');
-                $table->string('payment_gate');
+                $table->string('payment_gate')->default('zarinpal');
                 $table->boolean('is_paid')->default(false);
                 $table->softDeletes();
                 $table->timestamps();

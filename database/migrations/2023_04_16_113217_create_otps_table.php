@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('phone' , 11)->nullable();
             $table->string('code');
             $table->boolean('used')->default(false);
-            $table->timestamp('expire');
+            $table->timestamp('expire')->nullable();
             $table->timestamps();
         });}
     }

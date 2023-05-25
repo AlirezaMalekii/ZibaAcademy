@@ -1,7 +1,7 @@
 <header class="bg-navbar">
     <nav class="navbar navbar-expand-lg flex-row-reverse justify-content-between d-flex py-4 container">
         <div class="navbar-logo-brand d-flex">
-            <a class="navbar-brand d-flex flex-row-reverse align-items-center" href="#">
+            <a class="navbar-brand d-flex flex-row-reverse align-items-center" href="{{route('home')}}">
                 <img src="/images/header-logo.png" class="ml-2" width="40px" height="40px">
                 زیبا آکادمی
             </a>
@@ -15,13 +15,13 @@
         <div class="collapse navbar-collapse flex-row-reverse justify-content-center" id="navbarSupportedContent">
             <ul class="navbar-nav flex-column text-right flex-lg-row-reverse">
                 <li class="nav-item mr-2 active">
-                    <a class="nav-link" href="#">صفحه اصلی</a>
+                    <a class="nav-link" href="{{route('home')}}">صفحه اصلی</a>
                 </li>
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="{{route('workshops')}}">ورگشاپ ها</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="#">وبلاگ</a>
+                    <a class="nav-link" href="{{route('blogs')}}">وبلاگ</a>
                 </li>
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="#">درباره ما</a>
@@ -37,7 +37,12 @@
             <a href="#" class="ml-2">
                 <img src="/images/search-normal.png" alt="icon" width="32px" height="32px">
             </a>
-            <button class="my-2 my-sm-0 py-2 px-4 bg-white text-center">ورود/ثبت نام</button>
+            @guest
+            <a href="{{route('login')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center" style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">ورود/ثبت نام</a>
+            @endguest
+            @auth
+                <a href="{{route('user_panel')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center" style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">پنل کاربری</a>
+            @endauth
         </div>
     </nav>
 </header>

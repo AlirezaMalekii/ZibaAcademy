@@ -106,6 +106,5 @@ class CommentController extends Controller
             'message' => "کامنت مورد نظر توسط شما جواب داده شد",
             'status' => 'success'
         ], 200);
-//        return new CommentResource($reply_comment);
     }
 }

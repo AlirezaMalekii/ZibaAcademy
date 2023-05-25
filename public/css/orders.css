@@ -1,0 +1,116 @@
+.bg-navbar{
+    background: linear-gradient(45deg, rgba(31,90,77,1) 0%, rgba(11,35,30,1) 100%);
+}
+
+body{
+    background: #f5f5f5 !important;
+}
+
+
+
+
+.order-detail-card{
+    border-radius: 20px !important;
+}
+.order-detail-title{
+    direction: rtl;
+    font-family: "bold";
+    font-size: 16px;
+}
+.order-detail-desc{
+    font-family: "bold";
+    font-size: 16px;
+    color: #6B6D6C;
+    direction: rtl;
+}
+.order-detail-cancel-items{
+    direction: rtl;
+}
+.order-detail-title.cancel{
+    border-bottom: 1px solid rgb(107, 109, 108,20%);
+}
+.order-detail-cancel-item-price h5{
+    font-family: "bold";
+    font-size: 20px;
+    color: #2D302F;
+}
+.order-detail-cancel-item-price p{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: #6B6D6C;
+}
+.order-table-card{
+    border-radius: 20px !important;
+}
+table{
+    direction: rtl;
+}
+table tr th{
+    font-family: "bold";
+    font-size: 20px;
+    color: #2D302F;
+}
+table tr td{
+    font-family: "semi-bold";
+    font-size: 14px;
+    color: #6B6D6C;
+}
+table tr:first-child{
+    border-bottom: 1px solid rgb(107, 109, 108,20%);
+}
+.order-empty-card{
+    border-radius: 10px !important;
+}
+.order-empty-card p{
+    direction: rtl;
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: #153E36;
+    margin-right: 7px;
+}
+.order-empty-button a{
+    font-family: "semi-bold";
+    font-size: 12px;
+    color: #153E36;
+    border: 1px solid #153E36;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+.order-empty-button a:hover{
+    color: white;
+    background: #153E36;
+    text-decoration: none;
+}
+.order-detail-desc{
+    border-bottom: 1px solid rgb(107, 109, 108,20%);
+}
+@media only screen and (max-width:768px){
+    .order-empty-card img{
+        width: 22px;
+        height: 22px;
+    }
+    .order-empty-card p{
+        font-size: 12px;
+        margin-right: 3px;
+    }
+    .order-empty-button a{
+        font-size: 10px;
+    }
+    table tr:first-child{
+        border-bottom: none;
+    }
+    table {
+        display: table;
+        direction: rtl;
+    }
+    table tr {
+        display: table-cell;
+    }
+    table tr td {
+        display: block;
+    }
+    table tr th{
+        display: block;
+
+    }
+}

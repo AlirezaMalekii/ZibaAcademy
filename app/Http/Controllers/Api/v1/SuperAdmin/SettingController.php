@@ -10,22 +10,24 @@ use Illuminate\Validation\Rules;
 
 class SettingController extends Controller
 {
-    public function info(){
-      return new UserResource(auth()->user(),true);
+    public function info()
+    {
+        return new UserResource(auth()->user(), true);
     }
 
-    public function update(Request $request){
-        $user=auth()->user();
+    public function update(Request $request)
+    {
+        $user = auth()->user();
         $fields = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
             'phone' => ['required', 'digits:11', Rule::unique('users')->ignore($user->id)],
             'email' => [Rule::excludeIf(!isset($request->email)), 'string', 'Email', 'max:255', Rule::unique('users')->ignore($user->id)],
-            'password' => [Rule::excludeIf(!isset($request->password)),'string','min:8','max:20',Rules\Password::defaults()],
+            'password' => [Rule::excludeIf(!isset($request->password)), 'string', 'min:8', 'max:20', Rules\Password::defaults()],
         ]);
 
-        if (key_exists('password',$fields)){
-            $fields=array_merge($fields,['password' => bcrypt($fields['password'])]);
+        if (key_exists('password', $fields)) {
+            $fields = array_merge($fields, ['password' => bcrypt($fields['password'])]);
         }
         try {
             $user->update($fields);
@@ -33,7 +35,7 @@ class SettingController extends Controller
                 'message' => 'اطلاعات با موفقیت ثبت شد. ',
                 'status' => 'success'
             ], 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'failed'

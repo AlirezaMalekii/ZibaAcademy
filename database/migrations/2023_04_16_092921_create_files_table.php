@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('file_name')->nullable();
             $table->string('extension')->nullable();
             $table->string('storage')->default('local');
-            $table->enum('accessibility', ['free', 'paid']);
+            $table->enum('accessibility', ['free', 'paid','permission']);
             $table->boolean('downloadable')->default(0);
             $table->timestamps();
         });}

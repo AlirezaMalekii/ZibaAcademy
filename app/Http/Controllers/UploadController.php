@@ -91,7 +91,7 @@ class UploadController extends AdminController
         $fileName = $this->createFilename($file, $driver);
         $parentFilePath = $this->createParentFilePath($file_extension, $driver);
         $filePath = $parentFilePath . $fileName;
-
+//        dd($file_extension,$fileName,$parentFilePath,$filePath);
 
         $isFileExists = Storage::disk($driver)->exists($filePath);
         if (!$isFileExists) {

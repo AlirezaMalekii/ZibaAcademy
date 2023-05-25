@@ -28,7 +28,7 @@ class DiscountCollection extends ResourceCollection
                     'percent' => $item->percent,
                     'amount' => $item->amount,
                     'use_limit' => $item->use_limit,
-                    'expire_date' => jdate($item->expire_date)->format('Y-m-d H:i:s'),
+                    'expire_date' => isset($item->expire_date)?jdate($item->expire_date)->format('Y-m-d H:i:s'):null,
                 ];
             }),
         ];

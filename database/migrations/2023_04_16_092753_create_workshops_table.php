@@ -22,7 +22,10 @@ return new class extends Migration
                 $table->string('description')->nullable();
                 $table->text('body')->nullable();
                 $table->string('slug')->nullable();
-                $table->timestamp('event_time');
+                $table->timestamp('event_time')->nullable();
+                $table->string('period');
+                $table->integer('price');
+                $table->integer('registration_number')->default(0);
                 $table->integer('capacity')->default(0);
                 $table->softDeletes();
                 $table->timestamps();

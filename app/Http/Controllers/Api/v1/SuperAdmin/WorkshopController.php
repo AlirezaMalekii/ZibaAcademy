@@ -10,6 +10,7 @@ use App\Models\Workshop;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Filesystem\Filesystem as FileSystem;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
 
@@ -22,7 +23,7 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $categoryPiginate = Workshop::paginate(8);
+        $categoryPiginate = Workshop::latest()->paginate(8);
 
         return new WorkshopCollection($categoryPiginate);
     }
@@ -35,6 +36,15 @@ class WorkshopController extends Controller
      */
     public function store(Request $request)
     {
+        if (!$request->event_time){
+            return response([
+                'message' => 'زمان برگزاری ثبت نشده است.',
+                'status'=>'failed'
+            ], 400);
+        }
+        $sendAt = Carbon::createFromTimestamp($request->event_time)->format('Y-m-d H:i:s');
+        $request->merge(['event_time' => $sendAt]);
+
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'city_id' => 'required|numeric',
@@ -185,6 +195,14 @@ class WorkshopController extends Controller
                 'status' => 'success'
             ], 400);
         }
+        if (!$request->event_time){
+            return response([
+                'message' => 'زمان برگزاری ثبت نشده است.',
+                'status'=>'failed'
+            ], 400);
+        }
+        $sendAt = Carbon::createFromTimestamp($request->event_time)->format('Y-m-d H:i:s');;
+        $request->merge(['event_time' => $sendAt]);
         $data = $request->validate([
             'title' => 'required|string|max:255',
             'city_id' => 'required|numeric',
@@ -205,6 +223,13 @@ class WorkshopController extends Controller
             'price'=>'required|integer'
         ]);
         try {
+            $workshopEventTime = Carbon::parse($workshop->event_time);
+            if ($workshopEventTime->isPast() && Carbon::parse($data['event_time'])->isFuture()) {
+                return response([
+                    'message' => 'این ورکشاپ پیش تر برگزار شده است و امکان برگزاری آن دوباره وجود ندارد.',
+                    'status' => 'failed'
+                ], 400);
+            }
             $workshop->update([
                 'title' => $data['title'],
                 'city_id' => $data['city_id'],
@@ -219,12 +244,14 @@ class WorkshopController extends Controller
                 $video = $workshop->files()->where(function ($q) {
                     $q->where('type', 'aparat')->orWhere('type', 'video');
                 })->first();
+
                 if ($video->type == 'video') {
                     if (Storage::exists("public".$video->file)) {
                         Storage::delete("public".$video->file);
                     }
                 }
                 $video->delete();
+
                 $workshop->files()->create([
                     'creator_id' => auth()->user()->id,
                     'file' => $data['video'],
@@ -261,6 +288,7 @@ class WorkshopController extends Controller
                     ]);
                 }
             }
+
             if (isset($data['category_id'])) {
                 $workshop->categories()->sync($data['category_id']);
             }
@@ -278,6 +306,7 @@ class WorkshopController extends Controller
                     'extension' => $extension_cover[1],
                 ]);
             }
+
             $array_banner_image = explode('/', $data['banner']['thumb']);
             $extension_banner = explode('.', $array_banner_image[5]);
             $workshop_banner = $workshop->files()->where('type', 'banner')->first();
