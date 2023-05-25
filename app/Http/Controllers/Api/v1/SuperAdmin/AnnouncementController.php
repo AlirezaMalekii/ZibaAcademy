@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\SuperAdmin;
 
+use App\Events\SendAnnouncementNotifications;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Announcement\AnnouncementResource;
 use App\Models\Announcement;
@@ -20,6 +21,20 @@ class AnnouncementController extends Controller
     {
         $announcement = Announcement::paginate(9);
         return AnnouncementResource::collection($announcement);
+    }
+
+    public function send_unAnnouncedAnnouncements()
+    {
+        $unAnnouncedAnnouncements = $this->unAnnouncedAnnouncements();
+        foreach ($unAnnouncedAnnouncements as $unAnnouncedAnnouncement){
+            SendAnnouncementNotifications::dispatch($unAnnouncedAnnouncement->id);
+        }
+        return "done";
+    }
+
+    public static function unAnnouncedAnnouncements()
+    {
+        return Announcement::where('status' , 'pending')->where('send_at' , '<=' , now())->oldest()->get();
     }
 
     /**
