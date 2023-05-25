@@ -35,29 +35,29 @@
                         <div class="form-group d-flex flex-row-reverse row">
                             <div class="form-group-input d-flex flex-column col-12 col-lg-6">
                                 <label for="name">نام</label>
-                                <input type="text" name="name" id="name" class="p-2">
+                                <input type="text" name="name" id="name" class="p-2" value="{{old('name')}}">
                             </div>
                             <div class="form-group-input d-flex flex-column col-12 col-lg-6 mt-3 mt-lg-0">
                                 <label for="big-name">نام خانوادگی</label>
-                                <input type="text" name="lastname" id="big-name" class="p-2">
+                                <input type="text" name="lastname" id="big-name" class="p-2" value="{{old('lastname')}}">
                             </div>
                         </div>
                         <div class="form-group d-flex flex-column">
                             <label for="telephone">تلفن همراه</label>
-                            <input type="text" name="phone" id="telephone" class="p-2">
+                            <input type="text" name="phone" id="telephone" class="p-2" value="{{old('phone')}}">
                         </div>
                         <div class="form-group d-flex flex-column">
                             <label for="email">ایمیل (اختیاری)</label>
-                            <input type="email" name="email" id="email" class="p-2">
+                            <input type="email" name="email" id="email" class="p-2"  value="{{old('email')}}">
                         </div>
                         <div class="form-group d-flex flex-row-reverse row">
                             <div class="form-group-input d-flex flex-column col-12 col-lg-6">
                                 <label for="password">رمزعبور</label>
-                                <input type="password" name="password" id="password" class="p-2">
+                                <input type="password" name="password" id="password" class="p-2" value="{{old('password')}}">
                             </div>
                             <div class="form-group-input d-flex flex-column col-12 col-lg-6 mt-3 mt-lg-0">
                                 <label for="repeat-password">تکرار رمزعبور</label>
-                                <input type="password" name="password_confirmation" id="repeat-password" class="p-2">
+                                <input type="password" name="password_confirmation" id="repeat-password" class="p-2" value="{{old('password_confirmation')}}">
                             </div>
                         </div>
                         <button type="submit" class="sign-in-button mt-5" style="width: 100%;border: none">

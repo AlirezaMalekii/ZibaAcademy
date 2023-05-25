@@ -265,7 +265,7 @@ return [
 
             'mode' => 'sandbox', // can be normal, sandbox, zaringate
             'merchantId' => '1ff82d2a-305f-11e6-8dbd-005056a205be',
-            'callbackUrl' => 'http://127.0.0.1:7500/payment/check',
+            'callbackUrl' => 'https://zibaeslami.ir/payment/check',
             'description' => 'payment using zarinpal',
         ],
         'zibal' => [

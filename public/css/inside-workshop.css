@@ -95,7 +95,7 @@
 .comment-item{
     direction: rtl;
 }
-.comment-item:nth-child(n+5){
+.post li:nth-child(3) ~ li{
     display: none !important;
 }
 .workshop-comments-title h3{
@@ -184,4 +184,14 @@
         width: 90% !important;
         margin: 0 auto;
     }
+}
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.list li {
+    position: relative;
+    margin-bottom: 10px;
 }

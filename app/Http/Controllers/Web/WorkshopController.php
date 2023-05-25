@@ -33,10 +33,10 @@ class WorkshopController extends AdminController
          $held_workshops=Workshop::where('event_time','<',now())->select('city_id','title','event_time','id')->with(['files'=>function($query){
              $query->where('type','cover');
          }])->get()->toArray();*/
-        $ongoing_workshops = Workshop::where('event_time', '>', now())->select('city_id', 'title', 'event_time', 'id', 'slug')->with(['files' => function ($query) {
+        $ongoing_workshops = Workshop::filter()->where('event_time', '>', now())->select('city_id', 'title', 'event_time', 'id', 'slug')->with(['files' => function ($query) {
             $query->where('type', 'cover');
         }])->get()->toArray();
-        $held_workshops = Workshop::where('event_time', '<', now())->select('city_id', 'title', 'event_time', 'id', 'slug')->with(['files' => function ($query) {
+        $held_workshops = Workshop::filter()->where('event_time', '<', now())->select('city_id', 'title', 'event_time', 'id', 'slug')->with(['files' => function ($query) {
             $query->where('type', 'cover');
         }])->get()->toArray();
         return view('layouts.workshop.workshops', compact('ongoing_workshops', 'held_workshops'));
@@ -44,6 +44,7 @@ class WorkshopController extends AdminController
 
     public function show(Workshop $workshop)
     {
+
         if ($workshop->event_time > now()) {
             $workshop_data = $workshop->only('slug', 'price', 'title', 'body');
             $image = $workshop->files()->where('type', 'banner')->select('file')->get()->toArray();
@@ -72,10 +73,11 @@ class WorkshopController extends AdminController
                 $video_url = "storage" . $video_of_workshop->file['path'];
             }
             $galleries = $workshop->gallery->files()->select('file')->get()->toArray();
-            $comments = $workshop->comments()->where('approved', true)->select('name', 'comment', 'created_at')->get()->toArray();
+            $comments = $workshop->comments()->where('approved', true)->where('parent_id',0)->select('id','name', 'comment', 'created_at')->with('comments')->get()->toArray();
 //           dd(count($comments),$comments);
 //            $date = Jalalian::forge('last sunday')->format('%B %d، %Y'); // دی 02، 1391
 //            $date = Jalalian::forge('today')->format('%A, %d %B %y'); // جمعه، 23 اسفند 97
+//            dd($comments);
             return view('layouts.workshop.inside-workshop', compact('workshop_data', 'video_url', 'stream_video', 'galleries', 'comments'));
         }
         return back()->withErrors(['error' => 'یافت نشد']);
@@ -83,7 +85,6 @@ class WorkshopController extends AdminController
 
     public function workshop_register(Workshop $workshop)
     {
-
         if ($workshop->event_time <= now()) {
             return redirect()->route('workshops')->withErrors([
                 'workshopRegisterEnd' => 'مهلت ثبت نام در این ورکشاپ تمام شده است'
@@ -137,14 +138,19 @@ class WorkshopController extends AdminController
                 if (($discount->expire_date != null) && $discount->expire_date < now()) {
                     return back()->withErrors(['error' => 'تاریخ انقضای این کد تخفیف به سر آماده است! ']);
                 }
-                $du = DiscountUser::where('discount_id', $discount->id)->where('used_at', 1)->get();
+                if (!$discount->active) {
+                    return back()->withErrors(['error' => 'این کد تخفیف فعال نمی باشد']);
+                }
+                $du = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->get();
                 if ($discount->use_limit != null) {
                     if (count($du) + $data['number'] >= $discount->use_limit) {
                         return back()->withErrors(['error' => 'متاسفیم! تعداد استفاده از این کد تخفیف بیش از درخواست شما است']);
                     }
                 }
                 if ($discount->percent == null) {
-                    $total_price = ($workshop->price - $discount->amount) * $data['number'];
+//                    $total_price = ($workshop->price - $discount->amount) * $data['number'];
+//                    $discount_amount = $workshop->price * $data['number'] - $total_price;
+                    $total_price = ($workshop->price * $data['number']) - $discount->amount ;
                     $discount_amount = $workshop->price * $data['number'] - $total_price;
                 } else {
                     $total_price = ($workshop->price * ((100 - $discount->percent) / 100)) * $data['number'];
@@ -221,6 +227,7 @@ class WorkshopController extends AdminController
 
     public function workshop_payment(Request $request, Workshop $workshop, Order $order)
     {
+//        dd(111);
         $order_item = $workshop->order_items()->where('order_id', $order->id)->first();
         if (!$order_item) {
             return redirect()->route('workshop_register', $workshop)->withErrors(['odrerError' => 'این سفارش مربوط به این ورکشاپ نمی باشد.']);
@@ -408,29 +415,32 @@ class WorkshopController extends AdminController
             }
             $all_tickets_user=$order_item->tickets()->pluck('user_id')->toArray();
             $discount_user = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->pluck('user_id')->toArray();
+            //dd($all_tickets_user,$discount_user,array_intersect($all_tickets_user, $discount_user));
             if (!empty(array_intersect($all_tickets_user, $discount_user))) {
                 return redirect()->route('workshop_register', $workshop)->withErrors(['error' => 'این کد تخفیف برای خود یا همکارانی که قصد خرید بلیط دارید استفاده شده است']);
             }
             if ($discount->type == 'private') {
                 $discount_user = DiscountUser::where('discount_id', $discount->id)->whereNull('used_at');
                 $discount_user_array = $discount_user->pluck('user_id')->toArray();
+               // dd(array_intersect($all_tickets_user, $discount_user_array),$all_tickets_user,$discount_user_array);
                 if (!(count(array_intersect($all_tickets_user, $discount_user_array)) === count($all_tickets_user))) {
                     return redirect()->route('workshop_register', $workshop)->withErrors(['error' => 'این کد تخفیف برای خود یا همکارانی که قصد خرید بلیط دارید در نظر گرفته نشده است']);
                 }
-               $update_discount_users= $discount_user->whereIn('user_id',$all_tickets_user)->get();
-                foreach ($update_discount_users as $update_discount_user){
-                    $update_discount_user->update('used_at',now());
-                }
+//               $update_discount_users= $discount_user->whereIn('user_id',$all_tickets_user)->get();
+//                foreach ($update_discount_users as $update_discount_user){
+//                    $update_discount_user->update('used_at',now());
+//                }
 
-            }else{
-                foreach ($all_tickets_user as $tickets_user){
-                    DiscountUser::create([
-                        'user_id'=>$tickets_user,
-                        'discount_id'=>$discount->id,
-                        'used_at'=>now()
-                    ]);
-                }
             }
+//            else{
+//                foreach ($all_tickets_user as $tickets_user){
+//                    DiscountUser::create([
+//                        'user_id'=>$tickets_user,
+//                        'discount_id'=>$discount->id,
+//                        'used_at'=>now()
+//                    ]);
+//                }
+//            }
         }
         $invoice = (new Invoice)->amount($order->total_price);
 //        $invoice->detail(['order_item' => $order_item->id]);

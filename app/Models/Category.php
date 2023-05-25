@@ -38,4 +38,8 @@ class Category extends Model
     {
         return $this->hasMany(Category::class ,'parent_id');
     }
+    public function blogs(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Blog::class);
+    }
 }

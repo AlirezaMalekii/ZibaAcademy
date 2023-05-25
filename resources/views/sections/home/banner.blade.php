@@ -1,7 +1,8 @@
 <article class="hero">
     <section class="hero-wrapper  d-flex justify-content-between align-items-center">
         <div class="hero-right d-flex align-items-center justify-content-center col-12 col-lg-6">
-            <div class="hero-right-image">
+            {{--            <div class="hero-right-image">--}}
+            <div class="hero-right-image" data-aos="zoom-in" data-aos-duration="1500">
                 <img src="/images/hero-image.png">
             </div>
         </div>
@@ -18,7 +19,7 @@
             <p class="text-center text-lg-right mt-4">
                 دارای مدرک طراحی از دانشگاه مدآرت<br> فرانسه،شرکت مجستیک ترکیه
             </p>
-            <a href="#" class="heavy-btn mt-3">ثبت نام در ورکشاپ</a>
+            <a href="{{route('workshops')}}" class="heavy-btn mt-3">ثبت نام در ورکشاپ</a>
         </div>
     </section>
 </article>

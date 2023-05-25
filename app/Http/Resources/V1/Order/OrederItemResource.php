@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\V1\Order;
 
+use App\Http\Resources\V1\Ticket\TicketResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrederItemResource extends JsonResource
@@ -22,6 +23,7 @@ class OrederItemResource extends JsonResource
                 "quantity"=>$this->quantity,
                 "price"=>$this->price,
                 "created_at"=>jdate($this->created_at)->format('Y-m-d H:i:s'),
+            'ticket'=>TicketResource::collection($this->tickets()->get())
         ];
     }
 }

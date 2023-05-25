@@ -35,9 +35,4 @@ class Order extends Model
     {
         return $this->belongsTo(Discount::class);
     }
-
-//    public function tickets()
-//    {
-//        return $this->hasMany(Ticket::class);
-//    }
 }

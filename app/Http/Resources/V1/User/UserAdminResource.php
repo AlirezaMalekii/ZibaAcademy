@@ -27,7 +27,8 @@ class UserAdminResource extends JsonResource
             'message' => "ادمین بودن کاربر محرز شد.",
             'user_id' => $this->id,
             'user_name' => $this->name,
-            'token' => $this->token
+            'token' => $this->token,
+            'status'=>'success'
         ];
     }
 }

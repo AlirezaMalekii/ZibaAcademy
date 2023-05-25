@@ -2,7 +2,10 @@
 @section('head')
     @parent
     <link rel="stylesheet" href="/css/index.css">
-    <title>Document</title>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <title>164697</title>
+    <meta name="enamad" content="164697"/>
 @endsection
 
 @section('content')
@@ -41,7 +44,8 @@
                             مدرس صدا و سیما،کارآفرین،دارای مدرک طراحی
                             از دانشگاه مدآرت فرانسه،شرکت مجستیک ترکیه
                         </p>
-                        <a href="#" class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
+                        <a href="{{route('workshops')}}"
+                           class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
                             مشاهده ورکشاپ ها
                             <img src="/images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
                         </a>
@@ -50,11 +54,17 @@
                         </div>
                     </div>
                     <div class="workshop-video mb-4 mb-lg-0 col-12 col-lg-6 p-3">
-                        @if($stream_video)
-                            {!! html_entity_decode($video_url) !!}
+                        @if($number_of_workshops!=0)
+                            @if($stream_video)
+                                {!! html_entity_decode($video_url) !!}
+                            @else
+                                <video controls>
+                                    <source src="{{$video_url}}" type=video/mp4>
+                                </video>
+                            @endif
                         @else
                             <video controls>
-                                <source src="{{$video_url}}" type=video/mp4>
+                                <source src="/images/workshop-video.mp4" type=video/mp4>
                             </video>
                         @endif
                     </div>
@@ -85,13 +95,15 @@
                             تکنولوژی
                             مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد
                         </p>
-                        <a href="#" class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
+                        <a href="{{route('about-us')}}"
+                           class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
                             ادامه مطلب
                             <img src="/images/arrow-left.png" alt="icon" width="24px" height="17px" class="mr-2">
                         </a>
                     </div>
                     <div class="index-about-image-wrapper col-12 col-lg-5 text-right">
-                        <div class="index-about-image">
+                        {{--                        <div class="index-about-image">--}}
+                        <div class="index-about-image" data-aos="zoom-in" data-aos-duration="1500">
                             <img src="/images/index-about-image.png" alt="image">
                         </div>
                         <div class="about-vector">
@@ -114,4 +126,30 @@
     <!-- start index-blog section -->
     @include('sections.home.blogs',compact('blogs'))
     <!-- end index-blog section -->
+@endsection
+@section('script')
+    <script type="application/javascript">
+        let value = document.querySelectorAll(".num");
+        console.log(value)
+        let inter = 5000;
+
+        value.forEach((valued) => {
+            let start = 0;
+            let end = parseInt(valued.getAttribute("data-value"));
+            console.log(end)
+            let duration = Math.floor(inter / end);
+            console.log(duration)
+            console.log(value.innerHTML)
+            let counter = setInterval(function () {
+                start +=1;
+                valued.textContent = start;
+                if (start == end){
+                    clearInterval(counter);
+                }
+            },duration)
+        })
+
+
+        AOS.init();
+    </script>
 @endsection

@@ -1,0 +1,72 @@
+.bg-navbar{
+    background: linear-gradient(45deg, rgba(31,90,77,1) 0%, rgba(11,35,30,1) 100%);
+}
+
+
+
+/* inside workshop page gradients styes */
+
+.about-us{
+    position: relative;
+    overflow: hidden;
+}
+.right-gradient{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+
+
+
+
+/* about-us section styles */
+
+.index-about-desc h3{
+    font-family: "black";
+    font-size: 34px;
+    color: #080B0A;
+}
+.index-about-desc p{
+    font-family: "semi-bold";
+    font-size: 20px;
+    color: #080B0A;
+    opacity: 60%;
+    line-height: 35px;
+}
+.index-about-image{
+    max-width: 420px;
+    overflow: hidden;
+    margin-left: auto !important;
+}
+.index-about-image img{
+    object-fit: cover;
+    width: 100%;
+}
+.index-about-desc{
+    position: relative;
+}
+.index-about-image-wrapper{
+    position: relative;
+}
+.first-about-vector{
+    position: absolute;
+    left: 0;
+    top: -40px;
+}
+.second-about-vector{
+    position: absolute;
+    right: 0;
+    bottom: -30px;
+}
+@media only screen and (max-width:768px){
+    .first-about-vector{
+        display: none;
+    }
+    .index-about-desc h3{
+        font-size: 32px;
+    }
+    .index-about-desc p{
+        font-size: 16px;
+    }
+}

@@ -2,6 +2,8 @@
 
 namespace App\Console;
 
+use App\Events\SendAnnouncementNotifications;
+use App\Http\Controllers\Api\v1\SuperAdmin\AnnouncementController;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +18,16 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
+        $schedule->command('queue:work --queue=announcements-queue')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('queue:work --queue=database-queue')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+        $schedule->command('queue:work --queue=kavenegar-queue')->everyFiveMinutes()->withoutOverlapping()->runInBackground();
+
+        $schedule->job(function () {
+            $unAnnouncedAnnouncements = AnnouncementController::unAnnouncedAnnouncements();
+            foreach ($unAnnouncedAnnouncements as $unAnnouncedAnnouncement){
+                SendAnnouncementNotifications::dispatch($unAnnouncedAnnouncement->id);
+            }
+        })->everyMinute()->withoutOverlapping();
     }
 
     /**

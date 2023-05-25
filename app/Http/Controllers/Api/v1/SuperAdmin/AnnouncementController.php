@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\v1\SuperAdmin;
 
+use App\Events\SendAnnouncementNotifications;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Announcement\AnnouncementResource;
 use App\Models\Announcement;
@@ -22,6 +23,20 @@ class AnnouncementController extends Controller
         return AnnouncementResource::collection($announcement);
     }
 
+    public function send_unAnnouncedAnnouncements()
+    {
+        $unAnnouncedAnnouncements = $this->unAnnouncedAnnouncements();
+        foreach ($unAnnouncedAnnouncements as $unAnnouncedAnnouncement){
+            SendAnnouncementNotifications::dispatch($unAnnouncedAnnouncement->id);
+        }
+        return "done";
+    }
+
+    public static function unAnnouncedAnnouncements()
+    {
+        return Announcement::where('status' , 'pending')->where('send_at' , '<=' , now())->oldest()->get();
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -38,6 +53,7 @@ class AnnouncementController extends Controller
             $sendAt = Carbon::createFromTimestamp($request->send_at)->format('Y-m-d H:i:s');
             $request->merge(['send_at' => $sendAt]);
         }
+        //dd($request->send_at)
 //        //1684658820
 //        return $request->send_at;
         $data = $request->validate([

@@ -15,7 +15,7 @@
                     <div class="row user-dashbord-items-box">
                         <div class="col-12 col-lg-6">
                             <div class="user-dashbord-topic-item card text-center">
-                                <a href="#" class="text-center ">
+                                <a href="{{route('user_panel_ticket')}}" class="text-center ">
                                     بلیط های من
                                 </a>
                             </div>

@@ -13,6 +13,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 
 class AuthController extends AdminController
@@ -37,7 +38,7 @@ class AuthController extends AdminController
         $fields = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
-            'email' => 'required|string|Email|max:255|unique:users',
+            'email' => [Rule::excludeIf(!isset($request->email)), 'required', 'string', 'Email', 'max:255', 'unique:users'],
             'phone' => 'required|digits:11|unique:users',
             'password' => ['required', 'confirmed', 'string', 'min:8', Rules\Password::defaults()],
         ]);
@@ -76,10 +77,18 @@ class AuthController extends AdminController
             'phone' => 'required|digits:11',
         ]);
         if ($user = User::wherePhone($request->only('phone'))->first()) {
+            $otp_user = $user->otps()->get();
+            if (!empty($otp_user)) {
+                $expire_date = $user->otps()->latest()->first();
+                if ($expire_date->expire > now()->addMinutes([2])) {
+                    $phone = $user->phone;
+                    return redirect()->route('otp')->with(compact('phone'))->withErrors(['error' => 'برای شما به تازگی رمز یکبار مصرف ارسال شده است']);
+                }
+            }
             if ($user->active) {
                 event(new UserLoginOtp($user));
                 $phone = $request->input('phone');
-                return redirect()->route('otp')->with(compact('phone'));
+                return redirect()->route('otp')->with(compact('phone'))->with(['success' => 'رمز برای شما ارسال شد']);
             }
         } else {
             return redirect()->route('otp')->withErrors(['findError' => 'یافت نشد']);

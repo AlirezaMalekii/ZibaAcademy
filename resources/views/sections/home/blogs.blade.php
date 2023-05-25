@@ -7,10 +7,10 @@
             </h2>
             <img src="/images/title-vector-left.png">
         </div>
-        <div class="index-blog-items">
+        <div class="index-blog-items"style="flex-direction: row-reverse">
             <!--index blog item-->
             @foreach($blogs as $blog)
-                <div class="index-blog-item">
+                <div class="index-blog-item" style="max-width: 250px">
                     <div class="index-blog-item-image">
                         <img src="{{$blog->files()->get()->first()->file['thumb']}}" alt="image">
                     </div>
@@ -42,9 +42,9 @@
                             {{$blog->title}}
                         </h3>
                         <p>
-                            {{$blog->description}}
+                            {{Illuminate\Support\Str::limit($blog->description, 100)}}
                         </p>
-                        <a>
+                        <a href="{{route('blog.show',['blog'=>$blog->slug])}}">
                             مشاهده
                             <img src="/images/yellow-left-arrow.png" alt="icon">
                         </a>

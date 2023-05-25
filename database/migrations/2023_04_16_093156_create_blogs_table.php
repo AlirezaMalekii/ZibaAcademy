@@ -18,7 +18,7 @@ return new class extends Migration
                 $table->id();
                 $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
                 $table->string('title');
-                $table->string('description');
+                $table->text('description');
                 $table->text('body')->nullable();
                 $table->string('slug')->nullable();
                 $table->integer('viewCount')->default(0);

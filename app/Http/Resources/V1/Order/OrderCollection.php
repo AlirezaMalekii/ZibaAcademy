@@ -24,6 +24,7 @@ class OrderCollection extends ResourceCollection
 //                    'user_id'=>$item->id,
                     'discount_amount'=>$item->discount_amount,
                     'total_price'=>$item->total_price,
+                    'status'=>$item->status,
                     'is_paid'=>$item->is_paid,
                     "created_at"=>jdate($item->created_at)->format('Y-m-d H:i:s'),
                 ];

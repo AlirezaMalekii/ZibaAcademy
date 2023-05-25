@@ -29,7 +29,7 @@ class UserInfoResource extends JsonResource
             'created_by'=>$this->created_by,
             'level'=>$this->level,
             'active'=>$this->active,
-            'tickets'=>new TicketResource(Ticket::find(1)),
+            'tickets'=>TicketResource::collection($this->tickets()->get()),
         ];
     }
 }

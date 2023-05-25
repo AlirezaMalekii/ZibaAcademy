@@ -20,7 +20,30 @@ class Workshop extends Model
 //    ];
 //
 //    const UPDATED_AT = 'updated_at';
+    public function scopeFilter($query)
+    {
 
+        $keyword = request('keyword');
+        if (isset($keyword) && trim($keyword) != '') {
+            $exploded = explode(' ', $keyword);
+            $banned_words = ['و', 'های'];
+            $query->where('title', 'LIKE', '%' . $keyword . '%');
+            foreach ($exploded as $unique_key) {
+
+                if (!in_array($unique_key, $banned_words) && !is_numeric($unique_key)) {
+
+//                    if (stripos($keyword, $unique_key) !== false) {
+                    $query->orWhere('title', 'LIKE', '%' . $unique_key . '%');
+//                        $query->orWhere('title', 'sounds like',  '%' . $unique_key . '%' );
+//                    }
+                }
+
+            }
+            $query->orWhere('title', '=', $keyword);
+
+        }
+        return $query;
+    }
     public function creator()
     {
         return $this->belongsTo(User::class , 'creator_id');
@@ -68,5 +91,13 @@ class Workshop extends Model
                 'onUpdate'=>true
             ]
         ];
+    }
+    public function members(){
+       $tickets= Ticket::with('order_item.order')
+            ->whereHas('order_item.order', function ($query) {
+                $query->where('is_paid', true);
+            })
+            ->get();
+       return $tickets;
     }
 }

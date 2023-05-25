@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api\v1\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Discount\DiscountCollection;
 use App\Http\Resources\V1\Discount\DiscountResource;
+use App\Http\Resources\V1\Discount\DiscountUserResource;
 use App\Models\Discount;
+use App\Models\DiscountUser;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -22,7 +24,7 @@ class DiscountController extends Controller
      */
     public function index()
     {
-        $discounts = Discount::latest()->paginate(20);
+        $discounts = Discount::filter()->latest()->paginate(20);
         return new DiscountCollection($discounts);
     }
 
@@ -254,5 +256,13 @@ class DiscountController extends Controller
             'message' => 'عملیات با موفقیت انجام شد',
             'status' => 'success'
         ], 200);
+    }
+
+    public function discount_user()
+    {
+//        dd(121);
+        $discount_users=DiscountUser::whereNotNull('used_at')->latest()->paginate(50);
+//        dd($discount_users);
+        return  DiscountUserResource::collection($discount_users);
     }
 }

@@ -13,21 +13,11 @@
             فهرست مطالب
         </h3>
         <div class="blog-page-right-items mt-3">
-            <a href="#" class="mt-2">
-                لورم ایپسوم متن ساختگی با تولید سادگی
-            </a>
-            <a href="#" class="mt-2">
-                لورم ایپسوم متن ساختگی با تولید سادگی
-            </a>
-            <a href="#" class="mt-2">
-                لورم ایپسوم متن ساختگی با تولید سادگی
-            </a>
-            <a href="#" class="mt-2">
-                لورم ایپسوم متن ساختگی با تولید سادگی
-            </a>
-            <a href="#" class="mt-2">
-                لورم ایپسوم متن ساختگی با تولید سادگی
-            </a>
+            @foreach($blog_title as $blog)
+                <a href="{{route('blog.show',$blog->slug)}}" class="mt-2">
+                    {{$blog->title}}
+                </a>
+            @endforeach
         </div>
     </div>
 </div>

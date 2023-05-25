@@ -35,4 +35,28 @@ class Blog extends Model
     {
         return $this->morphMany(Comment::class, 'commentable');
     }
+    public function scopeFilter($query)
+    {
+
+        $keyword = request('keyword');
+        if (isset($keyword) && trim($keyword) != '') {
+            $exploded = explode(' ', $keyword);
+            $banned_words = ['و', 'های'];
+            $query->where('title', 'LIKE', '%' . $keyword . '%');
+            foreach ($exploded as $unique_key) {
+
+                if (!in_array($unique_key, $banned_words) && !is_numeric($unique_key)) {
+
+//                    if (stripos($keyword, $unique_key) !== false) {
+                    $query->orWhere('title', 'LIKE', '%' . $unique_key . '%');
+//                        $query->orWhere('title', 'sounds like',  '%' . $unique_key . '%' );
+//                    }
+                }
+
+            }
+            $query->orWhere('title', '=', $keyword);
+
+        }
+        return $query;
+    }
 }

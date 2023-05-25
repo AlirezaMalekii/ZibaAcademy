@@ -23,7 +23,7 @@ class WorkshopController extends Controller
      */
     public function index()
     {
-        $categoryPiginate = Workshop::latest()->paginate(8);
+        $categoryPiginate = Workshop::filter()->latest()->paginate(8);
 
         return new WorkshopCollection($categoryPiginate);
     }

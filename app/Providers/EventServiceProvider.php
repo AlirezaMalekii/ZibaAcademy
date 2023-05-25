@@ -25,7 +25,10 @@ class EventServiceProvider extends ServiceProvider
         ],
         UserLoginOtp::class => [
             SendSmsWithOtp::class,
-        ]
+        ],
+        \App\Events\SendAnnouncementNotifications::class => [
+            \App\Listeners\PublishAnnouncement::class,
+        ],
     ];
 
     /**

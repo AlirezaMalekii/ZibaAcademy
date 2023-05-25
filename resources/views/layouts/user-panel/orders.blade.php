@@ -78,11 +78,11 @@
                                                 <a href="{{route('order-info',['order'=>$order['id']])}}" class="order-operation green mr-1">
                                                     نمایش
                                                 </a>
-                                                @if($order['status']!='paid')
+                                                @if($order['status']=='pending')
                                                     <a href="{{route('continue_order',['order'=>$order['id']])}}" class="order-operation lgreen mr-1">
                                                         پرداخت
                                                     </a>
-                                                    <a href="#" class="order-operation red mr-1">
+                                                    <a href="{{route('cancel_payment',['order'=>$order['id']])}}" class="order-operation red mr-1">
                                                         لغو
                                                     </a>
                                                 @endif

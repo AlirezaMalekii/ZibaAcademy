@@ -74,6 +74,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Ticket::class, 'user_id');
     }
+    public function create_tickets()
+    {
+        return $this->hasMany(Ticket::class, 'creator_id');
+    }
 
     public function categories(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
@@ -92,6 +96,20 @@ class User extends Authenticatable
 
     public function discounts(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Discount::class);
+        return $this->belongsToMany(Discount::class)->withPivot('used_at');
+    }
+    public function scopeFilter($query)
+    {
+
+
+        //Search
+        $keyword = request('keywords');
+        if (isset($keyword) && trim($keyword) != ''){
+            $query->where('name', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('email', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('lastname', 'LIKE', '%' . $keyword . '%')
+                ->orWhere('phone', 'LIKE', '%' . $keyword . '%');
+        }
+        return $query;
     }
 }

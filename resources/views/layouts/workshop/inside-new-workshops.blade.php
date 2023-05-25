@@ -3,6 +3,7 @@
     @parent
     <link rel="stylesheet" href="/css/inside-new-workshop.css">
     <title>Document</title>
+{{--    @vite(['resources/js/app.js'])--}}
 @endsection
 
 @section('content')
@@ -21,37 +22,37 @@
                 <div class="prog-item col-3">
                     <div class="prog-item-wrapper text-center">
                         <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                            1
+                            4
                         </h3>
                         <p class="prog-item-desc mt-2">
-                            جزییات ورکشاپ
+                            دریافت بلیط
                         </p>
                     </div>
                 </div>
                 <div class="prog-item col-3">
                     <div class="prog-item-wrapper text-center">
                         <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                            1
+                            3
                         </h3>
                         <p class="prog-item-desc mt-2">
-                            جزییات ورکشاپ
+                            رزرو و پرداخت
                         </p>
                     </div>
                 </div>
                 <div class="prog-item col-3">
                     <div class="prog-item-wrapper text-center">
                         <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                            1
+                            2
                         </h3>
                         <p class="prog-item-desc mt-2">
-                            جزییات ورکشاپ
+                            ثبت نام
                         </p>
                     </div>
                 </div>
                 <div class="prog-item col-3 active">
                     <div class="prog-item-wrapper text-center">
                         <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                            1
+
                         </h3>
                         <p class="prog-item-desc mt-2">
                             جزییات ورکشاپ
@@ -93,9 +94,9 @@
                         <h4 class="mt-5">
                             درباره ورکشاپ
                         </h4>
-                        <p class="mt-3">
-                          {{$workshop_data['body']}}
-                        </p>
+                        <div class="mt-3" style="font-family: semi-bold">
+                            {!! $workshop_data['body'] !!}
+                        </div >
                     </div>
                 </div>
             </div>

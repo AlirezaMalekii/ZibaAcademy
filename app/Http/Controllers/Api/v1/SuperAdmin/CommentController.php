@@ -75,7 +75,7 @@ class CommentController extends Controller
 
     public function unverified_comments()
     {
-        $commentPiginate = Comment::where('approved', 0)->paginate(2);
+        $commentPiginate = Comment::where('approved', 0)->paginate(20);
         return new CommentCollection($commentPiginate);
     }
 
@@ -94,10 +94,13 @@ class CommentController extends Controller
         $reply_comment = $comment->comments()->create([
             'creator_id' => auth()->user()->id,
             'name' => 'ادمین',
-            'approved' => true,
+            'approved' => 1,
             'comment' => $data['comment'],
             'commentable_type' => $comment->commentable_type,
             'commentable_id' => $comment->commentable_id
+        ]);
+        $comment->update([
+            'approved' => 1,
         ]);
         return response([
             'data' => [

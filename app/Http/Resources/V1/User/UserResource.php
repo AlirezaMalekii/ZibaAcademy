@@ -28,14 +28,16 @@ class UserResource extends JsonResource
         if ($this->detail) {
             return [
                 'id' => $this->id,
-                'name' => $this->name . "" . $this->lastname,
+                'name' => $this->name,
+                'lastname'=>$this->lastname,
                 'phone' => $this->phone,
                 'email'=>$this->email,
             ];
         }else
             return [
                 'id' => $this->id,
-                'name' => $this->name . "" . $this->lastname,
+                'name' => $this->name,
+                'lastname'=>$this->lastname,
                 'phone' => $this->phone,
             ];
     }

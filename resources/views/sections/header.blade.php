@@ -5,7 +5,8 @@
                 <img src="/images/header-logo.png" class="ml-2" width="40px" height="40px">
                 زیبا آکادمی
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon">
                     <img src="/images/navbar-toggle.png">
                 </span>
@@ -18,13 +19,13 @@
                     <a class="nav-link" href="{{route('home')}}">صفحه اصلی</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="{{route('workshops')}}">ورگشاپ ها</a>
+                    <a class="nav-link" href="{{route('workshops')}}">ورکشاپ ها</a>
                 </li>
                 <li class="nav-item mr-2">
                     <a class="nav-link" href="{{route('blogs')}}">وبلاگ</a>
                 </li>
                 <li class="nav-item mr-2">
-                    <a class="nav-link" href="#">درباره ما</a>
+                    <a class="nav-link" href="{{route('about-us')}}">درباره ما</a>
                 </li>
             </ul>
         </div>
@@ -38,10 +39,20 @@
                 <img src="/images/search-normal.png" alt="icon" width="32px" height="32px">
             </a>
             @guest
-            <a href="{{route('login')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center" style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">ورود/ثبت نام</a>
+                <a href="{{route('login')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center"
+                   style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">ورود/ثبت
+                    نام</a>
             @endguest
             @auth
-                <a href="{{route('user_panel')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center" style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">پنل کاربری</a>
+                @if(auth()->user()->level=='user')
+                    <a href="{{route('user_panel')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center"
+                       style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">پنل
+                        کاربری</a>
+                @else
+                    <a href="https://panel.zibaeslami.ir/auth/login?_token={{auth()->user()->admin_token}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center"
+                       style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">پنل
+                        ادمین</a>
+                @endif
             @endauth
         </div>
     </nav>

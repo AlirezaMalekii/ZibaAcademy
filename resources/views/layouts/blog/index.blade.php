@@ -22,7 +22,7 @@
                 </h1>
             </div>
             <div class="row flex-row-reverse">
-                @include('sections.blog.sidebar')
+                @include('sections.blog.sidebar',compact('blog_title'))
                 <div class="blog-page-left col-12 col-lg-9 mt-3 mt-lg-0" style="direction: rtl">
                     <!--blog item-->
                     @foreach($blogs as $blog)
@@ -59,9 +59,9 @@
                                 </h3>
                                 <p>
 {{--                                    {{substr_replace($blog->body,"...",10)}}--}}
-                                    {{Illuminate\Support\Str::limit($blog->body, 100)}}
+                                    {{Illuminate\Support\Str::limit($blog->description, 100)}}
                                 </p>
-                                <a style="direction: ltr">
+                                <a style="direction: ltr" href="{{route('blog.show',['blog'=>$blog->slug])}}">
                                     مشاهده
                                     <img src="/images/yellow-left-arrow.png" alt="icon">
                                 </a>

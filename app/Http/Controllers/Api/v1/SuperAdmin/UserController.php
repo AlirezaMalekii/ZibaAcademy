@@ -21,10 +21,15 @@ class UserController extends AdminController
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::latest()->paginate(25);
-        return UserResource::collection($users,true);
+        if ($request->type='all'){
+            $users = User::filter()->latest()->get();
+        }
+        else{
+            $users = User::filter()->latest()->paginate(25);
+        }
+        return UserResource::collection($users, true);
     }
 
     /**
@@ -55,7 +60,7 @@ class UserController extends AdminController
         return response([
             'message' => "کاربر جدید با موفقیت ثبت شد",
             'status' => 'success'
-        ],200);
+        ], 200);
     }
 
     /**
@@ -98,12 +103,12 @@ class UserController extends AdminController
             'phone' => ['required', 'digits:11', Rule::unique('users')->ignore($user->id)],
             'email' => [Rule::excludeIf(!isset($request->email)), 'string', 'Email', 'max:255', Rule::unique('users')->ignore($user->id)],
             'level' => [Rule::excludeIf(!isset($request->level)), 'string', 'max:30'],
-            'password' => [Rule::excludeIf(!isset($request->password)),'string','min:8','max:20',Rules\Password::defaults()],
-            'active'=>'required|boolean'
+            'password' => [Rule::excludeIf(!isset($request->password)), 'string', 'min:8', 'max:20', Rules\Password::defaults()],
+            'active' => 'required|boolean'
         ]);
 
-        if (key_exists('password',$fields)){
-            $fields=array_merge($fields,['password' => bcrypt($fields['password'])]);
+        if (key_exists('password', $fields)) {
+            $fields = array_merge($fields, ['password' => bcrypt($fields['password'])]);
         }
         try {
             $user->update($fields);
@@ -111,7 +116,7 @@ class UserController extends AdminController
                 'message' => 'اطلاعات با موفقیت ثبت شد. ',
                 'status' => 'success'
             ], 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'failed'
@@ -140,5 +145,21 @@ class UserController extends AdminController
             'message' => 'کاربر حذف شد',
             'status' => 'success'
         ], 200);
+    }
+
+    public function search(Request $request)
+    {
+        $search = $request->search;
+//        $users = User::query()
+//            ->where('name', 'LIKE', "%{$search}%")
+//            ->orWhere('lastname', 'LIKE', "%{$search}%")->orWhere('phone', 'LIKE', "%{$search}%")->orWhere('email', 'LIKE', "%{$search}%")->paginate(25);
+        $searchUser = $request->search;
+
+        $users = User::where('name', 'LIKE', '%' . $searchUser . '%')
+            ->orWhere('email', 'LIKE', '%' . $searchUser . '%')
+            ->orWhere('phone', 'LIKE', '%' . $searchUser . '%')
+            ->paginate(25);
+//        dd($users);
+        return UserResource::collection($users, true);
     }
 }

@@ -39,11 +39,11 @@
                         @csrf
                         <div class="form-group d-flex flex-column">
                             <label for="telephone">تلفن همراه</label>
-                            <input type="text" name="phone" id="telephone" class="p-2">
+                            <input type="text" name="phone" id="telephone" class="p-2" value="{{old('phone')}}">
                         </div>
                         <div class="form-group d-flex flex-column">
                             <label>رمزعبور</label>
-                            <input type="password" name="password" id="password" class="p-2">
+                            <input type="password" name="password" id="password" class="p-2" value="{{old('password')}}">
                         </div>
 
                         <div class="d-flex flex-column flex-lg-row-reverse justify-content-between mt-3" style="align-items: center">

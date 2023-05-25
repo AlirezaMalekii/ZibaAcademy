@@ -28,7 +28,8 @@ class OrederResource extends JsonResource
             'created_at' => jdate($this->created_at)->format('Y-m-d H:i:s'),
             'updated_at' => jdate($this->updated_at)->format('Y-m-d H:i:s'),
             'order_item'=>OrederItemResource::collection($this->items),
-            'tiket'=>TicketResource::collection($this->tickets)
+            //'ticket'=>TicketResource::collection($this->tickets()),
+            'status'=>$this->status
         ];
     }
 }

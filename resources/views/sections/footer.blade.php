@@ -12,19 +12,19 @@
                     بخش های سایت
                 </h3>
                 <div class="footer-pages-items d-flex flex-column">
-                    <a href="#" class="mt-2">
+                    <a href="{{route('home')}}" class="mt-2">
                         صفحه اصلی
                     </a>
-                    <a href="#" class="mt-2">
+                    <a href="{{route('workshops')}}" class="mt-2">
                         ورکشاپ ها
                     </a>
-                    <a href="#" class="mt-2">
+                    <a href="{{route('user_panel')}}" class="mt-2">
                         حساب کاربری
                     </a>
-                    <a href="#" class="mt-2">
+                    <a href="{{route('about-us')}}" class="mt-2">
                         درباره ما
                     </a>
-                    <a href="#" class="mt-2">
+                    <a href="{{route('rules')}}" class="mt-2">
                         قوانین و مقررات
                     </a>
                 </div>
@@ -69,7 +69,7 @@
         </div>
         <div class="row under-footer mt-5 justify-content-center align-items-center">
             <p class="mt-2 text-center p-4 p-lg-0">
-                تمامی حقوق این سایت متعلق به زیبا اسلامی می باشد.طراحی و پیاده سازی توسط <a href="#">شرکت نوآوران نگاه اندیش</a>
+                تمامی حقوق این سایت متعلق به زیبا اسلامی می باشد.طراحی و پیاده سازی توسط <a href="#">شرکت نوآوران آینده اندیش</a>
             </p>
         </div>
     </div>

@@ -9,6 +9,7 @@
 <!-- start navbar section -->
 @include('sections.header')
 <!-- end navbar section -->
+
 @include('sweetalert::alert')
 {{--<div style="overflow-y: hidden">--}}
 @yield('content')

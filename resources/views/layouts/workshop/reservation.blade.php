@@ -6,6 +6,7 @@
 
     <title>Document</title>
     @vite(['resources/js/app.js'])
+{{--  {{$manifest = json_decode(file_get_contents(public_path('build/manifest.json')), true);}}--}}
 @endsection
 
 @section('content')
@@ -18,25 +19,25 @@
 
         <section class="container" x-data>
             <!-- start progress-bar section -->
-            <div class="container prog-bar mb-5" x-data="">
+            <div class="container prog-bar mb-5">
                 <div class="prog-wrapper pt-4 pb-2 row d-flex justify-content-between">
                     <div class="prog-item col-3">
                         <div class="prog-item-wrapper text-center">
                             <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                                1
+                                4
                             </h3>
                             <p class="prog-item-desc mt-2">
-                                جزییات ورکشاپ
+                                دریافت بلیط
                             </p>
                         </div>
                     </div>
                     <div class="prog-item col-3 active">
                         <div class="prog-item-wrapper text-center">
                             <h3 class="p-3 prog-item-number d-flex align-items-center justify-content-center text-center">
-                                1
+                                3
                             </h3>
                             <p class="prog-item-desc mt-2">
-                                جزییات ورکشاپ
+                                رزرو و پرداخت
                             </p>
                         </div>
                     </div>
@@ -46,7 +47,7 @@
                                 <img src="/images/check.png" alt="icon">
                             </h3>
                             <p class="prog-item-desc mt-2">
-                                جزییات ورکشاپ
+                                ثبت نام
                             </p>
                         </div>
                     </div>
@@ -112,7 +113,7 @@
                             پرداخت امن به وسیله کلیه کارت های شتاب از طریق درگاه زرین پال
                         </p>
                         <p class="rule-desc mt-3">
-                            با خرید بلیط از این سایت ,<a href="#"> قوانین و مقررات سایت </a> را می پذیرم.
+                            با خرید بلیط از این سایت ,<a href="{{route('rules')}}"> قوانین و مقررات سایت </a> را می پذیرم.
                         </p>
                         <button type="button" x-on:click="$refs.form.submit()" class="ex-bold-button mt-3"
                                 style="width: 100%; border: none">
