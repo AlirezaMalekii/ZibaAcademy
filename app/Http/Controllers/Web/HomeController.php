@@ -3,25 +3,22 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\Controller;
 use App\Models\Blog;
 use App\Models\Discount;
 use App\Models\DiscountUser;
-use App\Models\Order;
+use App\Models\Payment as Pay;
 use App\Models\Ticket;
 use App\Models\Workshop;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Shetabit\Payment\Facade\Payment;
 use Shetabit\Multipay\Exceptions\InvalidPaymentException;
-use App\Models\Payment as Pay;
+use Shetabit\Payment\Facade\Payment;
 
 class HomeController extends AdminController
 {
     public function index()
     {
         $number_of_workshops = Workshop::all()->count();
-        if ($number_of_workshops !=0) {
+        if ($number_of_workshops != 0) {
             $held_workshops = Workshop::where('event_time', '<', now())->with('city')->get();
             $last_video_of_workshop = Workshop::latest('id')->first()->files()->whereIn('type', ['video', 'aparat'])->first();
 //        $last_video_of_workshop = Workshop::find(19)->files()->whereIn('type', ['video', 'aparat'])->first();
@@ -32,10 +29,10 @@ class HomeController extends AdminController
             } else {
                 $video_url = "storage" . $last_video_of_workshop->file['path'];
             }
-        }else{
-            $held_workshops=[];
-            $stream_video='video';
-            $video_url='/images/workshop-video.mp4';
+        } else {
+            $held_workshops = [];
+            $stream_video = 'video';
+            $video_url = '/images/workshop-video.mp4';
         }
         //dd($number_of_workshops);
 //        $blogs = Blog::latest()->take(4)->withCount('comments')->get();
@@ -119,20 +116,15 @@ class HomeController extends AdminController
 
     public function show_ticket($token)
     {
-        $loginUser = auth()->login();
         $ticket = Ticket::where('token', $token)->first();
         if (!$ticket) {
             return redirect()->route('home')->withErrors(['error' => 'توکن یافت نشد']);
         }
-        if (($ticket->user_id == $loginUser->id) || ($ticket->creator_id == $loginUser->id) || ($loginUser->level == 'admin')) {
-            $paid = $ticket->order_item->order->is_paid;
-            if ($paid) {
-                return view('layouts.show-ticket');
-            } else {
-                return redirect()->route('home')->withErrors(['error' => 'پس از پرداخت بلیط شما فعال می شود']);
-            }
+        $paid = $ticket->order_item->order->is_paid;
+        if ($paid) {
+            return view('layouts.show-ticket' , compact('ticket'));
         } else {
-            return redirect()->route('home')->withErrors(['error' => 'شما اجازه دسترسی ندارید']);
+            return redirect()->route('home')->withErrors(['error' => 'پس از پرداخت بلیط شما فعال می شود']);
         }
     }
 }

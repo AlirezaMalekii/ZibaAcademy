@@ -20,6 +20,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->name('show.ticket');
+
 Route::group(['namespace' => '\App\Http\Controllers\Web'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('workshops', [WorkshopController::class, 'index'])->name('workshops');
@@ -62,7 +64,7 @@ Route::middleware('auth:sanctum')->prefix('/user-panel')->namespace('App\Http\Co
     Route::get('/tickets','UserController@tickets')->name('user_panel_ticket');
     Route::post('/update','UserController@update')->name('user_panel_update');
 });
-Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->name('show.ticket');
+
 //Route::get('add',function (){
 ////    $sendAt =   Carbon::now()->addMinutes([5])->timestamp;
 ////    //Carbon::createFromTimestamp(now()->addMinutes([10]))->format('Y-m-d H:i:s');
