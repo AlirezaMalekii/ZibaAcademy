@@ -178,7 +178,7 @@
                                 </div>
                             </div>
                             <div class="user-ticket-qr">
-                                <img style="width: 150px" src="/storage/{{$ticket->files()->first()->file['path']}}" alt="qr-code">
+                                <img style="width: 150px" src="/store/{{$ticket->files()->first()->file['path']}}" alt="qr-code">
                             </div>
                         </div>
                     </div>

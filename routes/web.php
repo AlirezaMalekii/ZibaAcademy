@@ -62,11 +62,10 @@ Route::middleware('auth:sanctum')->prefix('/user-panel')->namespace('App\Http\Co
     Route::get('/tickets','UserController@tickets')->name('user_panel_ticket');
     Route::post('/update','UserController@update')->name('user_panel_update');
 });
-Route::post('/{token}', [HomeController::class, 'show_ticket'])->middleware('auth:sanctum')->name('show.ticket');
-Route::get('add',function (){
-//    $sendAt =   Carbon::now()->addMinutes([5])->timestamp;
-//    //Carbon::createFromTimestamp(now()->addMinutes([10]))->format('Y-m-d H:i:s');
-//    return $sendAt;
-    $exitCode = Artisan::call('storage:link', [] );
-    echo $exitCode; // 0 exit code for no errors.
-});
+Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->name('show.ticket');
+//Route::get('add',function (){
+////    $sendAt =   Carbon::now()->addMinutes([5])->timestamp;
+////    //Carbon::createFromTimestamp(now()->addMinutes([10]))->format('Y-m-d H:i:s');
+////    return $sendAt;
+//    $exitCode = Artisan::call('storage:link', [] );
+//});

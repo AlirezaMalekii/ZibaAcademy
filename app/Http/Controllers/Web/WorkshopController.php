@@ -470,7 +470,7 @@ class WorkshopController extends AdminController
         foreach ($tickets as $key => $ticket) {
             $filename = time() . 'qrcode.svg';
             $path = 'upload/QrCode/';
-            QrCode::size(150)->generate(env('APP_URL') . '/' . $ticket->token, Storage::disk('public')->path('upload/QrCode/') . $filename);
+            QrCode::size(150)->generate(env('APP_URL') . "/workshop-ticket/" . $ticket->token, Storage::disk('public')->path('upload/QrCode/') . $filename);
             $ticket->files()->create([
                 'creator_id' => $loginUser->id,
                 'file' => ['path' => $path . $filename],
