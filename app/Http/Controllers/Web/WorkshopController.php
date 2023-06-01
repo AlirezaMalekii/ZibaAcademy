@@ -13,6 +13,8 @@ use App\Models\OrderItem;
 use App\Models\Ticket;
 use App\Models\User;
 use App\Models\Workshop;
+use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Storage;
@@ -44,7 +46,6 @@ class WorkshopController extends AdminController
 
     public function show(Workshop $workshop)
     {
-
         if ($workshop->event_time > now()) {
             $workshop_data = $workshop->only('slug', 'price', 'title', 'body');
             $image = $workshop->files()->where('type', 'banner')->select('file')->get()->toArray();
@@ -57,8 +58,17 @@ class WorkshopController extends AdminController
             if ($stream_video) {
                 $video_url = $video_of_workshop->file['htmlCode'];
             } else {
-                $video_url = "storage" . $video_of_workshop->file['path'];
+                $video_url = $video_of_workshop->file['path'];
             }
+            SEOMeta::setTitle($workshop_data['title']);
+            SEOMeta::setDescription($workshop->description);
+            SEOMeta::addMeta('workshop:published_time', $workshop->created_at->toW3CString(), 'property');
+            SEOMeta::addKeyword([$workshop_data['title']]);
+
+            JsonLd::setTitle($workshop_data['title']);
+            JsonLd::setDescription($workshop->description);
+            JsonLd::setType('Workshop');
+            JsonLd::addImage(url($image[0]['file']['thumb']));
             return view('layouts.workshop.inside-new-workshops', compact('image', 'workshop_data', 'video_url', 'stream_video'));
         }
         if ($workshop->event_time <= now()) {
@@ -70,10 +80,22 @@ class WorkshopController extends AdminController
             if ($stream_video) {
                 $video_url = $video_of_workshop->file['htmlCode'];
             } else {
-                $video_url = "storage" . $video_of_workshop->file['path'];
+                $video_url = $video_of_workshop->file['path'];
             }
-            $galleries = $workshop->gallery->files()->select('file')->get()->toArray();
+            if ($gallery=$workshop->gallery)
+            $galleries = $gallery->files()->select('file')->get()->toArray();
+            else{
+                $galleries=[];
+            }
             $comments = $workshop->comments()->where('approved', true)->where('parent_id',0)->select('id','name', 'comment', 'created_at')->with('comments')->get()->toArray();
+            SEOMeta::setTitle($workshop_data['title']);
+            SEOMeta::setDescription($workshop->description);
+            SEOMeta::addMeta('workshop:published_time', $workshop->created_at->toW3CString(), 'property');
+            SEOMeta::addKeyword([$workshop_data['title']]);
+
+            JsonLd::setTitle($workshop_data['title']);
+            JsonLd::setDescription($workshop->description);
+            JsonLd::setType('Workshop');
 //           dd(count($comments),$comments);
 //            $date = Jalalian::forge('last sunday')->format('%B %d، %Y'); // دی 02، 1391
 //            $date = Jalalian::forge('today')->format('%A, %d %B %y'); // جمعه، 23 اسفند 97
@@ -467,6 +489,7 @@ class WorkshopController extends AdminController
         $order_item = $order->items()->first();
 //        dd($order_item);
         $tickets = $order_item->tickets()->get();
+        $workshop = $order_item->itemable;
         foreach ($tickets as $key => $ticket) {
             $filename = time() . 'qrcode.svg';
             $path = 'upload/QrCode/';
@@ -480,8 +503,13 @@ class WorkshopController extends AdminController
                 'storage' => 'public',
                 'accessibility' => 'permission',
             ]);
+            $this->send_sms_lookup([
+                'receptor' => $ticket->user->phone,
+                'template' => "ticket",
+                'token' => $workshop->title
+            ]);
         }
-        $workshop = $order_item->itemable;
+
         $register_number = $workshop->registration_number;
         $add_number = ($order_item->quantity) + $register_number;
 

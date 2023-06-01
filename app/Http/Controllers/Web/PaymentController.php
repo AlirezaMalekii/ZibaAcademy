@@ -45,10 +45,14 @@ class PaymentController extends Controller
                 return back()->withErrors(['OrderPaid' => 'این کد تخفیف برای همه موارد در خواستی در نظر گرفته نشده است.']);
             }
         }
-        $workshops = Workshop::whereHas('order_items', function ($query) use ($order_id) {
+        $workshops = Workshop::withTrashed()->whereHas('order_items', function ($query) use ($order_id) {
             $query->where('order_id', $order_id);
         })->get();
+        //dd($workshops);
         foreach ($workshops as $workshop) {
+            if ((!$workshop->exists()) || $workshop->trashed()) {
+                return back()->withErrors(['registegerError' => 'ورکشاپ مورد نظر حذف شده است']);
+            }
             $workshop_order_item = $workshop->order_items()->where('order_id', $order_id)->first();
             $workshop_quantity = $workshop_order_item->quantity;
             if ($workshop_quantity + $workshop->registration_number > $workshop->capacity) {

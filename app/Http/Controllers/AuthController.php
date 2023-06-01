@@ -35,6 +35,8 @@ class AuthController extends AdminController
 
     public function register_user(Request $request)
     {
+        if (isset($request->phone))
+            $request->phone=$this->convert2english($request->phone);
         $fields = $request->validate([
             'name' => 'required|string|max:255',
             'lastname' => 'required|string|max:255',
@@ -51,10 +53,13 @@ class AuthController extends AdminController
 
     public function login_with_password(Request $request)
     {
+        if (isset($request->phone))
+            $request->phone=$this->convert2english($request->phone);
         $fields = $request->validate([
             'phone' => 'required|digits:11',
             'password' => 'required|string|min:6',
         ]);
+       // dd($request->phone);
 //        Check User phone
         $user = User::where('phone', $fields['phone'])->first();
 //        $user_role = "user";
@@ -73,12 +78,14 @@ class AuthController extends AdminController
 
     public function create_otp(Request $request)
     {
+        if (isset($request->phone))
+        $request->phone=$this->convert2english($request->phone);
         $fields = $request->validate([
             'phone' => 'required|digits:11',
         ]);
         if ($user = User::wherePhone($request->only('phone'))->first()) {
             $otp_user = $user->otps()->get();
-            if (!empty($otp_user)) {
+            if (isset($otp_user->first()->id)) {
                 $expire_date = $user->otps()->latest()->first();
                 if ($expire_date->expire > now()->addMinutes([2])) {
                     $phone = $user->phone;
@@ -99,15 +106,16 @@ class AuthController extends AdminController
 
     public function login_with_otp(Request $request)
     {
-
+        if (isset($request->phone))
+            $request->phone=$this->convert2english($request->phone);
         $fields = $request->validate([
             'phone' => 'required|digits:11',
-            'code' => 'required|digits:9'
+            'code' => 'required|digits:6'
         ]);
         $authenticationCode = Otp::whereCode($request->input('code'))->first();
-
+        $phone=$fields['phone'];
         if (!$authenticationCode) {
-            return back()->withErrors(['error' => 'این کد فعال سازی وجود ندارد']);
+            return back()->with(compact('phone'))->withErrors(['error' => 'این کد فعال سازی وجود ندارد']);
         }
 
         if ($authenticationCode->expire < Carbon::now()) {
@@ -118,7 +126,9 @@ class AuthController extends AdminController
         if ($authenticationCode->used) {
             return back()->withErrors(['error' => 'این کد استفاده شده است.']);
         }
-
+        if ($authenticationCode->user->phone != $phone){
+            return back()->withErrors(['error' => 'شماره تلفن هم خوانی ندارد']);
+        }
         $authenticationCode->update([
             'used' => true
         ]);

@@ -31,7 +31,7 @@ class AnnouncementResource extends JsonResource
 //            'users'=>$this->when(is_null($this->users),'همه کاربران این ورکشاپ درنظر گرفته شود',new UserCollection(User::whereIn('id',json_decode($this->users))->get()))
 //            'users'=>$this->when(is_null($this->users),'همه کاربران این ورکشاپ درنظر گرفته شود',UserResource::collection(User::whereIn('id',json_decode($this->users))->get()))
 //            'users'=>isset($this->users)? UserResource::collection(User::whereIn('id',json_decode($this->users))->get()) : 'همه کاربران این ورکشاپ درنظر گرفته شود',
-            'users'=>isset($this->users)? new UserCollection(User::whereIn('id',json_decode($this->users))->get(),false)  : 'همه کاربران این ورکشاپ درنظر گرفته شود',
+            'users'=>isset($this->users)? new UserCollection(User::whereIn('id',json_decode($this->users))->get(),false)  : null,
         ];
     }
 }

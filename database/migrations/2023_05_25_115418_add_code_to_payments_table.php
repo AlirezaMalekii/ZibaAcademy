@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+        if (env('REFRESH_MIGRATION')) {
         Schema::table('payments', function (Blueprint $table) {
             $table->string('code')->nullable();
-        });
+        });}
     }
 
     /**
@@ -24,9 +25,9 @@ return new class extends Migration
      * @return void
      */
     public function down()
-    {
+    {if (env('REFRESH_MIGRATION')) {
         Schema::table('payments', function (Blueprint $table) {
             $table->dropColumn('code');
         });
-    }
+    }}
 };

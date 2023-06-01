@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Video;
 use Carbon\Carbon;
+use http\Url;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
@@ -39,7 +40,11 @@ class UploadController extends AdminController
 //    public function uploadImage($file)
     public function uploadImage($file)
     {
-        $fileName = $file->getClientOriginalName();
+        //urldecode()
+        //urlencode
+//        utf8_decode()
+        //utf8-encode
+        $fileName =$file->getClientOriginalName();
         $fileNamePhp = $file->getFilename().time();
         $year = Carbon::now()->year;
 //        $document_file = $file->storeAs( env('FTP_PREFIX_DIRECTION') . '/' . env('FTP_PREFIX_FOLDER') . "/images/{$year}/{$fileName}/", $fileName ,  'ftp');
@@ -59,6 +64,40 @@ class UploadController extends AdminController
         $url['images'] = $this->resize($file->getRealPath(), $sizes, $imagePath, $fileName, 20, 'jpg');
         $url['thumb'] = $url['images']['original'];
         return $url;
+    }
+    public function saveFile(UploadedFile $file, $driver)
+    {
+        $file_extension = $file->getClientOriginalExtension();
+        $fileName = $this->createFilename($file, $driver);
+        $parentFilePath = $this->createParentFilePath($file_extension, $driver);
+        $filePath = $parentFilePath . $fileName;
+//        dd($file_extension,$fileName,$parentFilePath,$filePath);
+
+        $isFileExists = Storage::disk($driver)->exists($filePath);
+        if (!$isFileExists) {
+            /*if ($driver === "local") {
+                $fileUrl = $file->storeAs($parentFilePath, $fileName, $driver);
+
+            } else {
+                $disk = Storage::disk($driver);
+                $fileUrl = $disk->putFileAs($parentFilePath, $file, $fileName);
+//                unlink($file->getPathname());
+            }*/
+            $file->move(public_path($parentFilePath), $fileName);
+            $fileUrl = $parentFilePath . $fileName;
+            return response([
+                'data' => [
+                    'fileUrl' => $driver === "local" ? $filePath : env('STORAGE_URL') . "/" . $fileUrl,
+                    'filePath' => $filePath,
+                    'fileExtension' => $file_extension,
+                    'driver' => $driver
+                ],
+                'message' => 'فایل با موفقیت آپلود شد.',
+            ], 200);
+
+        } else {
+            return false;
+        }
     }
 
     public function uploadImageWithDimensions($file, $dimensions)
@@ -85,39 +124,7 @@ class UploadController extends AdminController
         return $url;
     }
 
-    public function saveFile(UploadedFile $file, $driver)
-    {
-        $file_extension = $file->getClientOriginalExtension();
-        $fileName = $this->createFilename($file, $driver);
-        $parentFilePath = $this->createParentFilePath($file_extension, $driver);
-        $filePath = $parentFilePath . $fileName;
-//        dd($file_extension,$fileName,$parentFilePath,$filePath);
 
-        $isFileExists = Storage::disk($driver)->exists($filePath);
-        if (!$isFileExists) {
-            if ($driver === "local") {
-                $fileUrl = $file->storeAs($parentFilePath, $fileName, $driver);
-
-            } else {
-                $disk = Storage::disk($driver);
-                $fileUrl = $disk->putFileAs($parentFilePath, $file, $fileName);
-//                unlink($file->getPathname());
-            }
-
-            return response([
-            'data' => [
-                'fileUrl' => $driver === "local" ? $filePath : env('STORAGE_URL') . "/" . $fileUrl,
-                'filePath' => $filePath,
-                'fileExtension' => $file_extension,
-                'driver' => $driver
-            ],
-            'message' => 'فایل با موفقیت آپلود شد.',
-        ], 200);
-
-        } else {
-            return false;
-        }
-    }
 
 //    public function uploadVideo($file, $driver)
 //    {

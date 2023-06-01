@@ -53,7 +53,7 @@
                                             محصول
                                         </h5>
                                         <p>
-                                            {{$order_item->itemable()->get()->first()->title}}
+                                            {{$order_item->itemable()->withTrashed()->get()->first()->title}}
                                         </p>
                                     </div>
                                     <div
@@ -71,7 +71,7 @@
                                             قیمت واحد
                                         </h5>
                                         <p>
-                                            {{number_format($order_item->itemable()->get()->first()->price)}} تومان
+                                            {{number_format($order_item->itemable()->withTrashed()->get()->first()->price)}} تومان
                                         </p>
                                     </div>
                                     <div
@@ -80,7 +80,7 @@
                                             قیمت کل
                                         </h5>
                                         <p>
-                                            {{number_format($order_item->itemable()->get()->first()->price * $order_item->quantity)}}
+                                            {{number_format($order_item->itemable()->withTrashed()->get()->first()->price * $order_item->quantity)}}
                                             تومان
                                         </p>
                                     </div>

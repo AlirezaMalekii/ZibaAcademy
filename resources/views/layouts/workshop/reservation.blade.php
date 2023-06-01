@@ -91,16 +91,26 @@
                                 <p>
                                     قیمت واحد:
                                 </p>
-                                <h5>
-                                    {{$basePrice}} تومان
+                                <h5 style="direction: rtl">
+                                     <span x-text=" new Intl.NumberFormat('fa').format({{$basePrice}})">
+
+                                    </span>
+                                    <span>
+                                        تومان
+                                    </span>
                                 </h5>
                             </div>
                             <div class="reservation-pay-up-item d-flex flex-row-reverse mt-2">
                                 <p>
                                     قیمت کل:
                                 </p>
-                                <h5>
-                                    {{$price}} تومان
+                                <h5 style="direction: rtl">
+                                    <span x-text=" new Intl.NumberFormat('fa').format({{$price}})">
+
+                                    </span>
+                                    <span>
+                                        تومان
+                                    </span>
                                 </h5>
                             </div>
                         </div>
@@ -115,10 +125,35 @@
                         <p class="rule-desc mt-3">
                             با خرید بلیط از این سایت ,<a href="{{route('rules')}}"> قوانین و مقررات سایت </a> را می پذیرم.
                         </p>
-                        <button type="button" x-on:click="$refs.form.submit()" class="ex-bold-button mt-3"
-                                style="width: 100%; border: none">
+{{--                        <button type="button" x-on:click="$refs.form.submit()" class="ex-bold-button mt-3"--}}
+{{--                                style="width: 100%; border: none">--}}
+{{--                            تایید و پرداخت--}}
+{{--                        </button>--}}
+                        <button type="button" class="ex-bold-button mt-3 d-block border-0" data-toggle="modal" data-target="#exampleModal" style="width: 100%;">
                             تایید و پرداخت
                         </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            قوانین و مقررات را خوانده و میپذیرم
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">بستن</button>
+                                        <button type="button" x-on:click="$refs.form.submit()" class="btn btn-primary">تایید و ادامه</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="reservation-form col-12 col-lg-8 text-right p-4">

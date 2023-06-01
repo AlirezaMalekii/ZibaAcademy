@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
+        if (env('REFRESH_MIGRATION')) {
         Schema::table('orders', function (Blueprint $table) {
             $table->enum('status', ['pending', 'cancel', 'paid'])->default('pending');
-        });
+        });}
     }
 
     /**
@@ -25,8 +26,9 @@ return new class extends Migration
      */
     public function down()
     {
+        if (env('REFRESH_MIGRATION')) {
         Schema::table('orders', function (Blueprint $table) {
             $table->dropColumn('status');
-        });
+        });}
     }
 };

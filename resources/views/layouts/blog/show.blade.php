@@ -20,7 +20,7 @@
         <section class="inside-blog-1 container p-4 p-lg-5">
             <div class="row inside-blog-title d-flex flex-row-reverse align-items-center justify-content-between">
                 <h3 class="text-right">
-                    چگونه لورم ایپسوم شویم و لورم ایپسوم بمانیم؟
+                    {{$data_blog['title']}}
                 </h3>
                 <p>
                     {{jdate($data_blog['created_at'])->format('%B %d، %Y')}}
@@ -61,7 +61,7 @@
                     </p>
                 </div>
             </div>
-            <div class="row inside-blog-second-desc mt-3">
+            <div class="row inside-blog-second-desc mt-3" style=" direction: rtl">
                 {{--                <p class="text-right">--}}
                 {{--                    {{$data_blog['body']}}--}}
                 {{--                </p>--}}

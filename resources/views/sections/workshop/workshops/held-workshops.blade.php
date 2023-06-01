@@ -3,7 +3,7 @@
         <div class="workshops-header row d-flex justify-content-end mb-4">
             <h3 class="text-right">ورکشاپ های برگزار شده</h3>
         </div>
-        <div class="row d-flex justify-content-between align-items-center" style="flex-direction: row-reverse;">
+        <div class="row d-flex justify-content-between align-items-center" style="flex-direction: row-reverse; justify-content: flex-start !important">
 
             <!--workshop item-->
             @foreach($held_workshops as $held_workshop)

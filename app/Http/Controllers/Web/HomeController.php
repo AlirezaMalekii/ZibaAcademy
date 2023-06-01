@@ -8,8 +8,11 @@ use App\Models\Blog;
 use App\Models\Discount;
 use App\Models\DiscountUser;
 use App\Models\Order;
+use App\Models\Setting;
 use App\Models\Ticket;
 use App\Models\Workshop;
+use Artesaos\SEOTools\Facades\SEOMeta;
+use Artesaos\SEOTools\Facades\SEOTools;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Shetabit\Payment\Facade\Payment;
@@ -21,31 +24,32 @@ class HomeController extends AdminController
     public function index()
     {
         $number_of_workshops = Workshop::all()->count();
-        if ($number_of_workshops !=0) {
-            $held_workshops = Workshop::where('event_time', '<', now())->with('city')->get();
-            $last_video_of_workshop = Workshop::latest('id')->first()->files()->whereIn('type', ['video', 'aparat'])->first();
-//        $last_video_of_workshop = Workshop::find(19)->files()->whereIn('type', ['video', 'aparat'])->first();
-            $stream_video = $last_video_of_workshop->type == 'aparat';
+        $held_workshops = Workshop::where('event_time', '<', now())->with('city')->get()->take(3);
+        $going_workshops= Workshop::where('event_time', '>', now())->with('city')->get();
+        $setting=Setting::find(1);
+        $video=$setting->files()->first();
+        $setting=$setting->only('title_home','body_home');
+         //$last_video_of_workshop = Workshop::latest('id')->first()->files()->whereIn('type', ['video', 'aparat'])->first();
+         $stream_video = $video->type == 'aparat';
 
-            if ($stream_video) {
-                $video_url = $last_video_of_workshop->file['htmlCode'];
-            } else {
-                $video_url = "storage" . $last_video_of_workshop->file['path'];
-            }
-        }else{
-            $held_workshops=[];
-            $stream_video='video';
-            $video_url='/images/workshop-video.mp4';
-        }
+         if ($stream_video) {
+             $video_url = $video->file['htmlCode'];
+         } else {
+             $video_url =  $video->file['path'];
+         }
         //dd($number_of_workshops);
 //        $blogs = Blog::latest()->take(4)->withCount('comments')->get();
+        SEOMeta::setTitle('آکادمی زیبا');
+        SEOMeta::setDescription('آکادمی زیبا');
+        SEOMeta::setCanonical('https://zibaeslami.ir');
+        SEOTools::jsonLd()->addImage('https://zibaeslami.ir/images/header-logo.png');
         $blogs = Blog::latest()->take(4)->select('id', 'description', 'title', 'viewCount', 'slug')->withCount(['comments' => function ($query) {
             $query->where('approved', 1)->latest();
         }])->with('categories:title')->with(['files' => function ($query) {
             $query->where('type', 'cover');
         }])->get();
 //        dd($blogs);
-        return view('layouts.index', compact('number_of_workshops', 'held_workshops', 'blogs', 'video_url', 'stream_video'));
+        return view('layouts.index', compact('number_of_workshops', 'held_workshops', 'blogs','going_workshops','stream_video','video_url','setting'));
     }
 
     public function check_order(Request $request)
@@ -119,20 +123,15 @@ class HomeController extends AdminController
 
     public function show_ticket($token)
     {
-        $loginUser = auth()->login();
         $ticket = Ticket::where('token', $token)->first();
         if (!$ticket) {
             return redirect()->route('home')->withErrors(['error' => 'توکن یافت نشد']);
         }
-        if (($ticket->user_id == $loginUser->id) || ($ticket->creator_id == $loginUser->id) || ($loginUser->level == 'admin')) {
-            $paid = $ticket->order_item->order->is_paid;
-            if ($paid) {
-                return view('layouts.show-ticket');
-            } else {
-                return redirect()->route('home')->withErrors(['error' => 'پس از پرداخت بلیط شما فعال می شود']);
-            }
+        $paid = $ticket->order_item->order->is_paid;
+        if ($paid) {
+            return view('layouts.show-ticket' , compact('ticket'));
         } else {
-            return redirect()->route('home')->withErrors(['error' => 'شما اجازه دسترسی ندارید']);
+            return redirect()->route('home')->withErrors(['error' => 'پس از پرداخت بلیط شما فعال می شود']);
         }
     }
 }

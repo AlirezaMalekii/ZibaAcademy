@@ -29,7 +29,7 @@ class KavenegarMessage
     public function messageText() : string
     {
         $kavenegar_template = KavenegarTemplate::where('name' , $this->template)->first();
-        $message =  str_replace(array('%token' , '$token1' , '%token2'), array($this->token , $this->token2 , $this->token3), $kavenegar_template->message);
+        $message =  str_replace(array('%token' , '%token2' , '%token3'), array($this->token , $this->token2 , $this->token3), $kavenegar_template->message);
         return  $message;
     }
 

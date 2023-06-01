@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Models\Blog;
+use Artesaos\SEOTools\Facades\JsonLd;
+use Artesaos\SEOTools\Facades\SEOMeta;
 use Illuminate\Http\Request;
 
 class BlogController extends Controller
@@ -50,6 +52,15 @@ class BlogController extends Controller
         })->get()->take(4);
         $closeBlogs = $closeBlogs->except([$blog->id]);
         $image = $blog->files()->where('type', 'image')->first()->file['thumb'];
+        SEOMeta::setTitle($data_blog['title']);
+        SEOMeta::setDescription($data_blog['description']);
+        SEOMeta::addMeta('article:published_time', $data_blog['created_at']->toW3CString(), 'property');
+        SEOMeta::addKeyword($categories);
+
+        JsonLd::setTitle($data_blog['title']);
+        JsonLd::setDescription($data_blog['description']);
+        JsonLd::setType('Article');
+        JsonLd::addImage(url($image));
         return view('layouts.blog.show', compact('data_blog', 'categories', 'comments', 'closeBlogs', 'image'));
 //       dd($image);
     }

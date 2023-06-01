@@ -89,15 +89,17 @@ class NotifyUserOfAnnouncement extends Notification implements ShouldQueue
 
     public function toKavenegar(object $notifiable): KavenegarMessage
     {
+        //Log::info($this->announcement->kavenegar_data);
         $kavenegar_data = json_decode($this->announcement->kavenegar_data, false, 512, JSON_THROW_ON_ERROR);
         $template = KavenegarTemplate::where('id', $kavenegar_data->template_id)->firstOrFail();
+      //  Log::info($template->id);
         return (new KavenegarMessage(
             $notifiable->phone,
             $template->name,
-            $kavenegar_data->token1,
+            $kavenegar_data->token,
             $kavenegar_data->token2,
             $kavenegar_data->token3,
-            $kavenegar_data->kavenegar_send_method
+//            $kavenegar_data->kavenegar_send_method
         ));
     }
 

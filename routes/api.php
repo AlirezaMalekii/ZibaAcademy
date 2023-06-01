@@ -18,7 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\Api\v1'], function () {
     Route::post('check-admin', [\App\Http\Controllers\Api\v1\AdminController::class, 'check_admin']);
 
-    Route::group(['middleware' => ['auth:sanctum']], function () {
+//    Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::group(['middleware' => []], function () {
         //        Route::group(['prefix' => 'super-admin', 'as'=>'super.admin.' ,'middleware' => ['ability:level-super_admin'], 'namespace' => '\App\Http\Controllers\Api\v1\Backend\SuperAdmin'], function () {
         Route::group(['prefix' => 'super-admin', 'as' => 'super.admin.', 'namespace' => '\App\Http\Controllers\Api\v1\SuperAdmin'], function () {
             Route::apiResource('categories', 'CategoryController');
@@ -53,6 +54,9 @@ Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\Api\v1'], 
             Route::get('/provinces', 'ProvinceAndCityController@province');
             Route::get('/cities/{id}', 'ProvinceAndCityController@cities');
             Route::get('/dashboard', 'DashboardController@index');
+            Route::get('/setting-info', [\App\Http\Controllers\Api\v1\SuperAdmin\SettingController::class, 'setting_info']);
+            Route::put('/update-home', [\App\Http\Controllers\Api\v1\SuperAdmin\SettingController::class, 'update_home']);
+
 //            Route::get('user-info/{id}', [UserController::class, 'user_info'])->name('get.user');
 //            Route::get('courses/index' , [CourseController::class , 'index'])->name('get.courses');
 //            Route::apiResource('organizations', 'OrganizationController');

@@ -9,7 +9,7 @@ use Kavenegar\KavenegarApi;
 class KavenegarChannel
 {
 
-    protected $kavenegar_api_key = "4E6B4E466855477469583479354A6F356335315451706E734130575A627164766C63544F52476F567775673D";
+    protected $kavenegar_api_key = "346361575058496935676D69763963725877737650395769483339784954644653395A7056474B3936484D3D";
     /**
      * Send the given notification.
      */

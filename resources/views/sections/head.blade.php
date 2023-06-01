@@ -15,3 +15,5 @@
 {{--<script src="/js/bootstrap.bundle.min.js"></script>--}}
 <!--main.js-->
 <script src="/js/main.js"></script>
+{!! SEO::generate() !!}
+{!! JsonLd::generate() !!}

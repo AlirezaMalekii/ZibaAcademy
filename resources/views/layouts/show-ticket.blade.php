@@ -1,4 +1,11 @@
 @extends('master')
+@section('head')
+    @parent
+    <link rel="stylesheet" href="/css/user-panel-ticket.css">
+
+    <script src="https://kit.fontawesome.com/dcc0def279.js" crossorigin="anonymous"></script>
+
+@endsection
 @section('content')
     <div class="user-ticket-wrapper d-flex flex-column flex-lg-row-reverse row">
         <div class="user-ticket-card d-flex flex-column col-12 col-lg-9 p-3">
@@ -112,7 +119,7 @@
                 </div>
             </div>
             <div class="user-ticket-qr">
-                <img style="width: 150px" src="/storage/{{$ticket->files()->first()->file['path']}}" alt="qr-code">
+                <img style="width: 150px" src="/store/{{$ticket->files()->first()->file['path']}}" alt="qr-code">
             </div>
         </div>
     </div>

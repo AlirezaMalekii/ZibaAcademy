@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\UploadController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class FileController extends UploadController
 {
@@ -29,6 +30,14 @@ class FileController extends UploadController
         $request->validate([
             'images' => 'required|mimes:jpeg,png,jpg|max:10240|dimensions:max_height=2000'
         ]);
+        $file = $request->file('images');
+        $filename = $file->getClientOriginalName();
+        if (Str::contains($filename, [' ', '/', '\\'])) {
+            return response([
+                'message'=>'برای عدم خطا لطفا از فاصله یا / یا \\ پرهیز کنید',
+                'status' => 'failed'
+            ], 400);
+        }
         $fileurl=$this->uploadImage($request->file('images'));
         return response([
             'images'=>$fileurl,

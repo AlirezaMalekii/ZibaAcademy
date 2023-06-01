@@ -6,8 +6,10 @@ use App\Events\SendAnnouncementNotifications;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Announcement\AnnouncementResource;
 use App\Models\Announcement;
+use App\Models\KavenegarTemplate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class AnnouncementController extends Controller
@@ -26,7 +28,7 @@ class AnnouncementController extends Controller
     public function send_unAnnouncedAnnouncements()
     {
         $unAnnouncedAnnouncements = $this->unAnnouncedAnnouncements();
-        foreach ($unAnnouncedAnnouncements as $unAnnouncedAnnouncement){
+        foreach ($unAnnouncedAnnouncements as $unAnnouncedAnnouncement) {
             SendAnnouncementNotifications::dispatch($unAnnouncedAnnouncement->id);
         }
         return "done";
@@ -34,7 +36,7 @@ class AnnouncementController extends Controller
 
     public static function unAnnouncedAnnouncements()
     {
-        return Announcement::where('status' , 'pending')->where('send_at' , '<=' , now())->oldest()->get();
+        return Announcement::where('status', 'pending')->where('send_at', '<=', now())->oldest()->get();
     }
 
     /**
@@ -62,7 +64,7 @@ class AnnouncementController extends Controller
             "users.*" => [Rule::excludeIf(!isset($request->users)), 'numeric', 'exists:App\Models\User,id'],
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'kavenegar_data' => [Rule::excludeIf(!isset($request->kavenegar_data)), 'array', 'max:3'],
+            'kavenegar_data' => [Rule::excludeIf(!isset($request->kavenegar_data)), 'array', 'max:4'],
             'drivers' => [Rule::excludeIf(!isset($request->drivers)), 'array'],
             'send_at' => [Rule::excludeIf(!isset($request->send_at)), 'date', 'after:now'],
             // 'send_at' => [Rule::excludeIf(!isset($request->send_at))],
@@ -70,14 +72,31 @@ class AnnouncementController extends Controller
 
         if (isset($data['users']))
             $data = array_merge($data, ['users' => json_encode($data['users'])]);
-        if (isset($data['kavenegar_data']))
-            $data = array_merge($data, ['kavenegar_data' => json_encode($data['kavenegar_data'])]);
+        if (isset($data['kavenegar_data'])) {
+            $count_kave=count($data['kavenegar_data']);
+            $massage='';
+            if ($count_kave==2){
+                $massage=str_replace('%token',$data['kavenegar_data']['token'],$data['message']);
+            }
+            if ($count_kave==3){
+                $massage=str_replace('%token2',$data['kavenegar_data']['token2'],$data['message']);
+                $massage=str_replace('%token',$data['kavenegar_data']['token'],$massage);
+            }
+            if ($count_kave==4){
+                $massage=str_replace('%token3',$data['kavenegar_data']['token3'],$data['message']);
+                $massage=str_replace('%token2',$data['kavenegar_data']['token2'],$massage);
+                $massage=str_replace('%token',$data['kavenegar_data']['token'],$massage);
+            }
+            $data = array_merge($data, ['kavenegar_data' => json_encode($data['kavenegar_data']),'message'=>$massage]);
+
+            //if ($data['message'])
+        }
         if (isset($data['drivers']))
             $data = array_merge($data, ['drivers' => json_encode($data['drivers'])]);
         $announcement = Announcement::create($data);
         return response([
             'data' => new AnnouncementResource($announcement),
-            'message' => "بلاگ به صورت کامل ثبت شد",
+            'message' => "اعلامیه به صورت کامل ثبت شد",
             'status' => 'success'
         ], 200);
     }
@@ -133,15 +152,32 @@ class AnnouncementController extends Controller
             "users.*" => [Rule::excludeIf(!isset($request->users)), 'numeric', 'exists:App\Models\User,id'],
             'title' => 'required|string|max:255',
             'message' => 'required|string',
-            'kavenegar_data' => [Rule::excludeIf(!isset($request->kavenegar_data)), 'array', 'max:3'],
+            'kavenegar_data' => [Rule::excludeIf(!isset($request->kavenegar_data)), 'array', 'max:4'],
             'drivers' => [Rule::excludeIf(!isset($request->drivers)), 'array'],
             'send_at' => [Rule::excludeIf(!isset($request->send_at)), 'date', 'after:now'],
         ]);
         try {
             if (isset($data['users']))
                 $data = array_merge($data, ['users' => json_encode($data['users'])]);
-            if (isset($data['kavenegar_data']))
-                $data = array_merge($data, ['kavenegar_data' => json_encode($data['kavenegar_data'])]);
+            if (isset($data['kavenegar_data'])) {
+                $count_kave=count($data['kavenegar_data']);
+                $massage='';
+                if ($count_kave==2){
+                    $massage=str_replace('%token',$data['kavenegar_data']['token'],$data['message']);
+                }
+                if ($count_kave==3){
+                    $massage=str_replace('%token2',$data['kavenegar_data']['token2'],$data['message']);
+                    $massage=str_replace('%token',$data['kavenegar_data']['token'],$massage);
+                }
+                if ($count_kave==4){
+                    $massage=str_replace('%token3',$data['kavenegar_data']['token3'],$data['message']);
+                    $massage=str_replace('%token2',$data['kavenegar_data']['token2'],$massage);
+                    $massage=str_replace('%token',$data['kavenegar_data']['token'],$massage);
+                }
+                $data = array_merge($data, ['kavenegar_data' => json_encode($data['kavenegar_data']),'message'=>$massage]);
+
+                //if ($data['message'])
+            }
             if (isset($data['drivers']))
                 $data = array_merge($data, ['drivers' => json_encode($data['drivers'])]);
             $announcement->update($data);

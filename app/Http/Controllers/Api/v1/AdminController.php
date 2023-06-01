@@ -26,7 +26,7 @@ class AdminController extends Controller
             ], 400);
         }
         $token = $user->createToken('AuthAdminLoginToken')->plainTextToken;
-        Log::info($token);
+        //Log::info($token);
         /*  $response = [
               'message' => "ثبت نام شما با موفقیت انجام شد.لطفا وارد حساب کابری خود شوید.",
               'user_id' => $user->id,

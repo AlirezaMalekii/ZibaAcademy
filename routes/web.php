@@ -5,7 +5,6 @@ use App\Http\Controllers\Web\BlogController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\WorkshopController;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +18,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->name('show.ticket');
 
 Route::group(['namespace' => '\App\Http\Controllers\Web'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -63,9 +64,13 @@ Route::middleware('auth:sanctum')->prefix('/user-panel')->namespace('App\Http\Co
     Route::post('/update','UserController@update')->name('user_panel_update');
 });
 Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->name('show.ticket');
-//Route::get('add',function (){
-////    $sendAt =   Carbon::now()->addMinutes([5])->timestamp;
-////    //Carbon::createFromTimestamp(now()->addMinutes([10]))->format('Y-m-d H:i:s');
-////    return $sendAt;
-//    $exitCode = Artisan::call('storage:link', [] );
+/*Route::get('test',function (){
+    $announcement=\App\Models\Announcement::find(10);
+    $workshop = \App\Models\Workshop::where('id' , $announcement->workshop_id)->first();
+    $tickets=$workshop->members();
+   dd($tickets,$announcement,$workshop);
+
+});*/
+//Route::get('/ss',function (){
+//    Illuminate\Support\Facades\Artisan::call('queue:restart');
 //});

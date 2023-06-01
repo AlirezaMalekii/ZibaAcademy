@@ -22,7 +22,7 @@ class OrederResource extends JsonResource
             'discount_amount'=>$this->discount_amount,
             'discount_id'=>$this->discount_id,
             'total_price'=>$this->total_price,
-            'is_paid'=>$this->is_paid ? "پرداخت ثبت نشده": "پرداخت شده",
+            'is_paid'=>$this->is_paid ? "پرداخت شده": "پرداخت نشده",
             'type'=>$this->type,
             'payment_gate'=>$this->payment_gate,
             'created_at' => jdate($this->created_at)->format('Y-m-d H:i:s'),

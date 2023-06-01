@@ -4,8 +4,9 @@
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <title>164697</title>
-    <meta name="enamad" content="164697"/>
+{{--    <title>164697</title>--}}
+{{--    <meta name="enamad" content="164697"/>--}}
+
 @endsection
 
 @section('content')
@@ -39,11 +40,10 @@
                 </div>
                 <div class="row d-flex flex-column-reverse flex-lg-row justify-content-between align-items-center">
                     <div class="workshop-desc col-12 col-lg-6 text-right align-items-end d-flex flex-column">
-                        <h2 class="text-right">ورکشاپ ها لورم ایپسوم</h2>
-                        <p class="text-right mt-3">
-                            مدرس صدا و سیما،کارآفرین،دارای مدرک طراحی
-                            از دانشگاه مدآرت فرانسه،شرکت مجستیک ترکیه
-                        </p>
+                        <h2 class="text-right">{{$setting['title_home']}}</h2>
+                        <div class="text-right mt-3" style=font-family:"semi-bold">
+                            {!! $setting['body_home'] !!}
+                        </div>
                         <a href="{{route('workshops')}}"
                            class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
                             مشاهده ورکشاپ ها
@@ -54,28 +54,26 @@
                         </div>
                     </div>
                     <div class="workshop-video mb-4 mb-lg-0 col-12 col-lg-6 p-3">
-                        @if($number_of_workshops!=0)
-                            @if($stream_video)
-                                {!! html_entity_decode($video_url) !!}
-                            @else
-                                <video controls>
-                                    <source src="{{$video_url}}" type=video/mp4>
-                                </video>
-                            @endif
-                        @else
-                            <video controls>
-                                <source src="/images/workshop-video.mp4" type=video/mp4>
-                            </video>
-                        @endif
+                                                    @if($stream_video)
+                                                        {!! html_entity_decode($video_url) !!}
+                                                    @else
+                                                        <video controls>
+                                                            <source src="{{$video_url}}" type=video/mp4>
+                                                        </video>
+                                                    @endif
+
                     </div>
                 </div>
             </div>
         </section>
         <!-- end workshop article-->
-
-
+        @if(isset($going_workshops->first()->id))
+            @include('sections.home.ongoing-workshop',compact('going_workshops'))
+        @endif
         <!-- start last-worksops section -->
-        @include('sections.home.workshops-held',compact('held_workshops'))
+        @if(isset($held_workshops->first()->id))
+            @include('sections.home.workshops-held',compact('held_workshops'))
+        @endif
         <!-- end last-workshops section -->
 
 
@@ -141,12 +139,12 @@
             console.log(duration)
             console.log(value.innerHTML)
             let counter = setInterval(function () {
-                start +=1;
+                start += 1;
                 valued.textContent = start;
-                if (start == end){
+                if (start == end) {
                     clearInterval(counter);
                 }
-            },duration)
+            }, duration)
         })
 
 

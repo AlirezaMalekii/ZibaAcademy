@@ -128,7 +128,7 @@
                                         <span dir="ltr">{{$workshop_data['price']}}</span> تومان
                                     </td>
                                     <td class="register-table-td">
-                                        تمبور دوزی
+                                        {{$workshop_data['title']}}
                                     </td>
                                 </tr>
                             </table>

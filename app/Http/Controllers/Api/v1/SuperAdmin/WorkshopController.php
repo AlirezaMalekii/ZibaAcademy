@@ -66,7 +66,24 @@ class WorkshopController extends Controller
             'period'=>'required|string|max:55',
             'price'=>'required|integer'
         ]);
+        //dd($data['video']['filePath']);
         try {
+            if ($request->video_type == 'video') {
+                if ($data['video']['filePath'] == null) {
+                    return response([
+                        'message' => 'ویدیو انتخاب نشده است.',
+                        'status' => 'failed'
+                    ], 400);
+                }
+            }
+            if ($request->video_type == 'aparat') {
+                if ($data['video'] == null) {
+                    return response([
+                        'message' => 'ویدیو انتخاب نشده است.',
+                        'status' => 'failed'
+                    ], 400);
+                }
+            }
             $workshop = Workshop::create([
                 'creator_id' => auth()->user()->id,
                 'title' => $data['title'],
@@ -223,6 +240,22 @@ class WorkshopController extends Controller
             'price'=>'required|integer'
         ]);
         try {
+            if ($request->video_type == 'video') {
+                if ($data['video']['filePath'] == null) {
+                    return response([
+                        'message' => 'ویدیو انتخاب نشده است.',
+                        'status' => 'failed'
+                    ], 400);
+                }
+            }
+            if ($request->video_type == 'aparat') {
+                if ($data['video'] == null) {
+                    return response([
+                        'message' => 'ویدیو انتخاب نشده است.',
+                        'status' => 'failed'
+                    ], 400);
+                }
+            }
             $workshopEventTime = Carbon::parse($workshop->event_time);
             if ($workshopEventTime->isPast() && Carbon::parse($data['event_time'])->isFuture()) {
                 return response([
@@ -246,8 +279,8 @@ class WorkshopController extends Controller
                 })->first();
 
                 if ($video->type == 'video') {
-                    if (Storage::exists("public".$video->file)) {
-                        Storage::delete("public".$video->file);
+                    if (file_exists(public_path($video->file['path']))) {
+                        $filedeleted = unlink(public_path($video->file['path']));
                     }
                 }
                 $video->delete();
@@ -264,8 +297,8 @@ class WorkshopController extends Controller
             if ($data['video_type'] == 'video') {
                 if ($video = $workshop->files->where('type', 'video')->first()) {
                     if ($video->file['path'] != $data['video']['filePath']['path']) {
-                        if (Storage::exists("public".$video->file['path'])) {
-                            Storage::delete("public".$video->file['path']);
+                        if (file_exists(public_path($video->file['path']))) {
+                            $filedeleted = unlink(public_path($video->file['path']));
                         }
                         $video->delete();
                         $workshop->files()->create([
@@ -281,7 +314,7 @@ class WorkshopController extends Controller
                     $video->delete();
                     $workshop->files()->create([
                         'creator_id' => auth()->user()->id,
-                        'file' => $data['video'],
+                        'file' => $data['video']['filePath'],
                         'type' => $data['video_type'],
                         'extension' => $data['video']['fileExtension'],
                         'accessibility' => 'free'
@@ -300,7 +333,7 @@ class WorkshopController extends Controller
                 $filePicture = implode('/', [$array_file_image[0], $array_file_image[1], $array_file_image[2], $array_file_image[3], $array_file_image[4]]);
                 $file_system = new FileSystem();
                 $file_system->deleteDirectory(public_path($filePicture));
-                $cover_image = $workshop->files()->update([
+                $cover_image = $workshop_cover->update([
                     'file' => $data['cover_image'],
                     'file_name' => $array_cover_image[4],
                     'extension' => $extension_cover[1],
@@ -315,7 +348,7 @@ class WorkshopController extends Controller
                 $filePicture = implode('/', [$array_file_image[0], $array_file_image[1], $array_file_image[2], $array_file_image[3], $array_file_image[4]]);
                 $file_system = new FileSystem();
                 $file_system->deleteDirectory(public_path($filePicture));
-                $banner_image = $workshop->files()->update([
+                $banner_image = $workshop_banner->update([
                     'file' => $data['banner'],
                     'file_name' => $array_banner_image[4],
                     'extension' => $extension_banner[1],
@@ -397,9 +430,9 @@ class WorkshopController extends Controller
             $q->where('type', 'aparat')->orWhere('type', 'video');
         })->first();
         if ($video->type == 'video') {
-            if (Storage::exists("public".$video->file['path'])) {
-                Storage::delete("public".$video->file['path']);
-            }
+                if (file_exists(public_path($video->file['path']))) {
+                    $filedeleted = unlink(public_path($video->file['path']));
+                }
         }
         $video->delete();
 

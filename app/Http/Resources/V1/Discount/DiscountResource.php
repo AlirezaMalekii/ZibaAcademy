@@ -42,7 +42,7 @@ class DiscountResource extends JsonResource
                 'expire_date' => isset($this->expire_date)?jdate($this->expire_date)->format('Y-m-d H:i:s'):null,
                 'created_at'=>jdate($this->created_at)->format('Y-m-d H:i:s'),
                 'discount_item'=>DiscountItemResource::collection($this->discount_items),
-                'discount_user'=>$this->type=='private'? DiscountUserResource::collection(DiscountUser::where('discount_id',$this->id)->get()):'_',
+                'discount_user'=>$this->type=='private'? DiscountUserResource::collection(DiscountUser::where('discount_id',$this->id)->get()):null,
             ];
         } else {
             return [

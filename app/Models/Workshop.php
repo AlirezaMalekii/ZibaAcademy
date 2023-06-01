@@ -98,6 +98,9 @@ class Workshop extends Model
                 $query->where('is_paid', true);
             })
             ->get();
+       $workshop_ticket= $this->tickets()->get();
+      $tickets= $tickets->intersect($workshop_ticket);
        return $tickets;
     }
+
 }

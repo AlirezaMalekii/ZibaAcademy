@@ -35,7 +35,7 @@ class Otp extends Model
     private function code()
     {
         do {
-            $code = random_int(100001 , 999999999);
+            $code = random_int(100001 , 999999);
             $check_code = static::whereCode($code)->get();
         } while(!$check_code->isEmpty());
         return $code;

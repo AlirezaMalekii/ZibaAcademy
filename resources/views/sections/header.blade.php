@@ -35,9 +35,9 @@
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="navbar-search-input">
                 <img class="my-2 my-sm-0" onclick="navbarsearch()" src="images/search-icon.png" width="25px" height="25px" id="navbar-search-image">
             </form> -->
-            <a href="#" class="ml-2">
-                <img src="/images/search-normal.png" alt="icon" width="32px" height="32px">
-            </a>
+{{--            <a href="#" class="ml-2">--}}
+{{--                <img src="/images/search-normal.png" alt="icon" width="32px" height="32px">--}}
+{{--            </a>--}}
             @guest
                 <a href="{{route('login')}}" class="my-2 my-sm-0 py-2 px-4 bg-white text-center"
                    style="font-family:semi-bold;font-size: 14px; border: none;border-radius: 4px;color: #1B4E43; text-decoration:none;">ورود/ثبت

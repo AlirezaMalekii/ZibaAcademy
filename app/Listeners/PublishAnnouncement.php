@@ -11,6 +11,7 @@ use App\Models\Workshop;
 use App\Notifications\NotifyUserOfAnnouncement;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class PublishAnnouncement implements ShouldQueue
 {
@@ -54,7 +55,8 @@ class PublishAnnouncement implements ShouldQueue
             }
             $announcement->update(['status' => 'sent']);
         }elseif (isset($announcement->workshop_id)){
-            $workshop = Workshop::where('id' , $announcement->whorkshop_id)->first();
+            $workshop = Workshop::where('id' , $announcement->workshop_id)->first();
+            //Log::info($workshop->id);
             foreach ($workshop->members() as $ticket){
                 $user = User::where('id' , $ticket->user_id)->first();
                 $user->notify(new NotifyUserOfAnnouncement($announcement));
