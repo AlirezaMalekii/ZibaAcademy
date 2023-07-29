@@ -1,38 +1,38 @@
 @font-face {
     font-family: "black";
-    src: url("../fonts/PeydaWeb-Black.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-Black.woff2") format("woff2");
 }
 @font-face {
     font-family: "bold";
-    src: url("../fonts/PeydaWeb-Bold.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-Bold.woff2") format("woff2");
 }
 @font-face {
     font-family: "ex-bold";
-    src: url("../fonts/PeydaWeb-ExtraBold.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-ExtraBold.woff2") format("woff2");
 }
 @font-face {
     font-family: "ex-light";
-    src: url("../fonts/peydaWeb-extralight.woff2") format("woff");
+    src: url("../fonts/peydaWeb-extralight.woff2") format("woff2");
 }
 @font-face {
     font-family: "light";
-    src: url("../fonts/peydaWeb-light.woff2") format("woff");
+    src: url("../fonts/peydaWeb-light.woff2") format("woff2");
 }
 @font-face {
     font-family: "medium";
-    src: url("../fonts/PeydaWeb-Medium.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-Medium.woff2") format("woff2");
 }
 @font-face {
     font-family: "regular";
-    src: url("../fonts/PeydaWeb-Regular.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-Regular.woff2") format("woff2");
 }
 @font-face {
     font-family: "semi-bold";
-    src: url("../fonts/PeydaWeb-SemiBold.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-SemiBold.woff2") format("woff2");
 }
 @font-face {
     font-family: "thin";
-    src: url("../fonts/PeydaWeb-Thin.woff2") format("woff");
+    src: url("../fonts/PeydaWeb-Thin.woff2") format("woff2");
 }
 
 body{
@@ -135,6 +135,39 @@ html{
 .order-operation.red{
     background: #EC4D2C;
 }
+
+
+.course-item-label{
+    text-align: center;
+}
+.course-item-label.pro p{
+    font-family: "semi-bold";
+    font-size: 14px;
+    padding: 7px 18px;
+    color: white;
+    background: #F1CE46;
+    border-radius: 30px;
+    display: inline;
+}
+.course-item-label.start p{
+    font-family: "semi-bold";
+    font-size: 14px;
+    padding: 7px 18px;
+    color: white;
+    background: #C0BBA5;
+    border-radius: 30px;
+    display: inline;
+}
+
+.discount-button{
+    padding: 10px 15px;
+    font-family: "bold";
+    font-size: 14px;
+    color: white;
+    background: #0A6146;
+    border-radius: 10px;
+    border: none;
+}
 @media only screen and (max-width:768px){
     .sign-in-button{
         padding: 15px 0px;
@@ -142,6 +175,9 @@ html{
     .black-button{
         padding: 7px 12px;
         font-size: 15px;
+    }
+    .discount-button{
+        padding: 10px 20px;
     }
 }
 @media only screen and (max-width:768px){
@@ -323,18 +359,18 @@ SVG Icons - svgicons.sparkk.fr
 .svg-icon {
     width: 24px;
     height: 24px;
-  }
-  
-  .svg-icon path,
-  .svg-icon polygon,
-  .svg-icon rect {
+}
+
+.svg-icon path,
+.svg-icon polygon,
+.svg-icon rect {
     fill: #2D302F;
-  }
-  
-  .svg-icon circle {
+}
+
+.svg-icon circle {
     stroke: #2D302F;
     stroke-width: 20;
-  }
+}
 .user-dashbord-item{
     border-radius: 15px;
     background: rgb(254, 186, 20 ,15%);

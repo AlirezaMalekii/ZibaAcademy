@@ -16,6 +16,7 @@
                                 <h3 class="text-center">
                                     {{$going_workshop->city['name']}}
                                 </h3>
+                                <h6 class="text-center" style="color: white">{{$going_workshop->title}}</h6>
                             </div>
                             <div class="card-body d-flex justify-content-between">
                                 <div

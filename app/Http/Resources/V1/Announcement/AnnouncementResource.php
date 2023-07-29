@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources\V1\Announcement;
 
+use App\Http\Resources\V1\Course\CourseResource;
 use App\Http\Resources\V1\User\UserCollection;
 use App\Http\Resources\V1\User\UserResource;
 use App\Http\Resources\V1\Workshop\WorkshopResource;
+use App\Models\Course;
 use App\Models\User;
 use App\Models\Workshop;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,6 +24,7 @@ class AnnouncementResource extends JsonResource
         return [
             'id'=>$this->id,
             'workshop_id'=>new WorkshopResource(Workshop::find($this->workshop_id), false) ,
+            'course_id'=>new CourseResource(Course::find($this->course_id), false) ,
             'title'=>$this->title,
             'message'=>$this->message,
             'kavenegar_data'=>json_decode($this->kavenegar_data),

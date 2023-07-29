@@ -5,10 +5,13 @@ namespace App\Http\Controllers\Api\v1\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Blog\BlogCollection;
 use App\Http\Resources\V1\Blog\BlogDashboardResource;
+use App\Http\Resources\V1\Course\CourseDashboardCollection;
 use App\Http\Resources\V1\Workshop\WorkshopCollection;
 use App\Http\Resources\V1\Workshop\WorkshopDashboardResource;
+use App\Http\Resources\V1\Course\CourseDashboardResource;
 use App\Models\Blog;
 use App\Models\Comment;
+use App\Models\Course;
 use App\Models\Order;
 use App\Models\Ticket;
 use App\Models\User;
@@ -28,18 +31,19 @@ class DashboardController extends Controller
             ->get();
         $comments = count(Comment::whereNot('name', 'ادمین')->get());
         $totalPaid = Order::where('is_paid', true)->sum('total_price');
-        $blogViewCount=Blog::sum('viewCount');
-        $blogCount=count(Blog::all());
-        $workshopCount=count(Workshop::all());
+        $blogViewCount = Blog::sum('viewCount');
+        $blogCount = count(Blog::all());
+        $workshopCount = count(Workshop::all());
         $blog = Blog::orderBy('viewCount', 'desc')->take(4)->get();
 //        return new BlogCollection($blog);
-        $workshops=Workshop::orderBy('registration_number','desc')->take(4)->get();
-        $totalPrices=
-        DB::table('orders')
-            ->select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_price) as total'))
-            ->where('is_paid', true)
-            ->groupBy('month')
-            ->get();
+        $workshops = Workshop::orderBy('registration_number', 'desc')->take(4)->get();
+        $courses_view = Course::orderBy('viewCount', 'desc')->take(4)->get();
+        $totalPrices =
+            DB::table('orders')
+                ->select(DB::raw('MONTH(created_at) as month'), DB::raw('SUM(total_price) as total'))
+                ->where('is_paid', true)
+                ->groupBy('month')
+                ->get();
 //        dd($totalPrices->toArray());
 //        dd($totalPrices);
 //        $orderTotalByJalaliMonth = DB::table('orders')
@@ -65,17 +69,26 @@ class DashboardController extends Controller
             ->get();
         dd($orderTotalByJalaliMonth);*/
         //dd($blogCount,$workshopCount);
+        $courses_sell = Course::withCount(['order_items' => function ($query) {
+            $query->whereHas('order', function ($query) {
+                $query->where('is_paid', 1);
+            });
+        }])->orderBy('order_items_count', 'desc')->get();
         return response([
             'data' => [
-                'comment'=>$comments,
-                'users'=>$allUsers,
-                'tickets'=>count($tickets),
-                'totalPaid'=>$totalPaid,
-                'recordPrices'=>$totalPrices,
-                'workshops'=> WorkshopDashboardResource::collection($workshops),
-                'blogs'=> BlogDashboardResource::collection($blog),
-                'blogCount'=>$blogCount,
-               'blogViewCount'=> $blogViewCount
+                'comment' => $comments,
+                'users' => $allUsers,
+                'tickets' => count($tickets),
+                'totalPaid' => $totalPaid,
+                'recordPrices' => $totalPrices,
+                'workshops' => WorkshopDashboardResource::collection($workshops),
+//                'courses_view' => CourseDashboardResource::collection($courses_view),
+//                'courses_sell'=> CourseDashboardResource::collection($courses_sell),
+                'courses_view' => new CourseDashboardCollection($courses_view),
+                'courses_sell'=> new CourseDashboardCollection($courses_sell,false),
+                'blogs' => BlogDashboardResource::collection($blog),
+                'blogCount' => $blogCount,
+                'blogViewCount' => $blogViewCount
             ],
             'status' => 'success'
         ]);

@@ -114,3 +114,59 @@ table tr:first-child{
 
     }
 }
+
+
+
+
+.order-course-policy{
+    background: #F6FAF9;
+    border: 1px solid rgba(21,62,53,29%);
+    border-radius: 15px;
+}
+.order-course-policy p{
+    font-family: "semi-bold";
+    font-size: 14px;
+    color: #164239;
+    direction: rtl;
+}
+.order-course-title{
+    font-family: "ex-bold";
+    font-size: 24px;
+    color: #2D302F;
+}
+.order-course-desc{
+    font-family: "bold";
+    font-size: 16px;
+    color: #6B6D6C;
+    direction: rtl;
+}
+.course-download-title p{
+    font-family: "bold";
+    font-size: 20px;
+    color: #2D302F;
+}
+.course-download-items{
+    border: 1px solid #E5E7E9;
+    border-radius: 12px;
+}
+.course-key{
+    border: 1px solid #E5E7E9;
+    border-radius: 12px;
+}
+.course-key-copy-button button{
+    background: #0A6146;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    font-family: "bold";
+    font-size: 20px;
+    color: white;
+}
+.course-download-item{
+    width: 100%;
+    overflow: hidden;
+}
+.course-download-item img{
+    object-fit: cover;
+    width: 100%;
+}

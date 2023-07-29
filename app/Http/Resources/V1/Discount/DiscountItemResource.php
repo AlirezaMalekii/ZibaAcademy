@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\V1\Discount;
 
+use App\Models\Course;
+use App\Models\Workshop;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class DiscountItemResource extends JsonResource
@@ -15,9 +17,10 @@ class DiscountItemResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'type'=>$this->discountable_type,
+            'type'=>$this->discountable_type=='App\Models\Course'?'course':'workshop',
             'type_id'=>$this->discountable_id,
-            'created_at'=>jdate($this->created_at)->format('Y-m-d H:i:s')
+            'created_at'=>jdate($this->created_at)->format('Y-m-d H:i:s'),
+            'title'=>$this->discountable_type=='App\Models\Course'? Course::find($this->discountable_id)->title : Workshop::find($this->discountable_id)->title
         ];
     }
 }

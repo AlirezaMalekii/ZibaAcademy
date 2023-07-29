@@ -101,7 +101,6 @@ class AuthController extends AdminController
             return redirect()->route('otp')->withErrors(['findError' => 'یافت نشد']);
         }
 
-
     }
 
     public function login_with_otp(Request $request)

@@ -14,7 +14,7 @@
         </p>
         @endguest
         <a href="{{route('workshop_register',['workshop'=>$workshop_data['slug']])}}" class="ex-bold-button">
-            ثبت نام
+            خرید
         </a>
     </div>
     <div class="new-workshop-left-desc text-right p-4 mt-4">

@@ -28,7 +28,7 @@ class Kernel extends ConsoleKernel
                 SendAnnouncementNotifications::dispatch($unAnnouncedAnnouncement->id);
             }
         })->everyMinute()->withoutOverlapping();
-        $schedule->command('sitemap:generate')->daily();
+        //$schedule->command('sitemap:generate')->daily();
     }
 
     /**

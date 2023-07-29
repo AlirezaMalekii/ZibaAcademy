@@ -26,30 +26,34 @@
                 <div class="blog-page-left col-12 col-lg-9 mt-3 mt-lg-0" style="direction: rtl">
                     <!--blog item-->
                     @foreach($blogs as $blog)
-                        <div class="index-blog-item">
-                            <div class="index-blog-item-image">
-                                <img src="{{$blog->files()->get()->first()->file['thumb']}}" alt="image">
-                            </div>
-                            <div class="index-blog-title" style="direction: ltr">
-                                <div class="index-blog-title-title">
-                                    <h6>
-                                        @foreach($blog->categories as $category)
-                                            {{$category->title}}
-                                        @endforeach
-                                    </h6>
+                        {{--                        <div class="index-blog-item">--}}
+                        <div class="index-blog-item d-flex flex-column justify-content-between"
+                             style="max-width: 250px">
+                            <div>
+                                <div class="index-blog-item-image">
+                                    <img src="{{$blog->files()->get()->first()->file['thumb']}}" alt="image">
                                 </div>
-                                <div class="index-blog-title-items">
-                                    <div class="index-blog-title-item">
-                                        <p>
-                                            {{$blog->viewCount}}
-                                        </p>
-                                        <img src="/images/Eye.png" alt="icon" width="20px" height="20px">
+                                <div class="index-blog-title" style="direction: ltr">
+                                    <div class="index-blog-title-title">
+                                        <h6>
+                                            @foreach($blog->categories as $category)
+                                                {{$category->title}}
+                                            @endforeach
+                                        </h6>
                                     </div>
-                                    <div class="index-blog-title-item">
-                                        <p>
-                                            {{$blog->comments_count}}
-                                        </p>
-                                        <img src="/images/coment.png" alt="icon" width="20px" height="20px">
+                                    <div class="index-blog-title-items">
+                                        <div class="index-blog-title-item">
+                                            <p>
+                                                {{$blog->viewCount}}
+                                            </p>
+                                            <img src="/images/Eye.png" alt="icon" width="20px" height="20px">
+                                        </div>
+                                        <div class="index-blog-title-item">
+                                            <p>
+                                                {{$blog->comments_count}}
+                                            </p>
+                                            <img src="/images/coment.png" alt="icon" width="20px" height="20px">
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -58,7 +62,7 @@
                                     {{ $blog->title}}
                                 </h3>
                                 <p>
-{{--                                    {{substr_replace($blog->body,"...",10)}}--}}
+                                    {{--                                    {{substr_replace($blog->body,"...",10)}}--}}
                                     {{Illuminate\Support\Str::limit($blog->description, 100)}}
                                 </p>
                                 <a style="direction: ltr" href="{{route('blog.show',['blog'=>$blog->slug])}}">

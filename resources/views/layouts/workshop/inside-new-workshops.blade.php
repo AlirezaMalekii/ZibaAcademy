@@ -94,7 +94,7 @@
                         <h4 class="mt-5">
                             درباره ورکشاپ
                         </h4>
-                        <div class="mt-3" style="font-family: semi-bold">
+                        <div class="mt-3" style="direction:rtl; font-family: semi-bold">
                             {!! $workshop_data['body'] !!}
                         </div >
                     </div>

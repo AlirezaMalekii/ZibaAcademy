@@ -3,6 +3,8 @@
 namespace App\Http\Resources\V1\Order;
 
 use App\Http\Resources\V1\Ticket\TicketResource;
+use App\Http\Resources\V1\User\UserResource;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrederResource extends JsonResource
@@ -17,8 +19,8 @@ class OrederResource extends JsonResource
     {
         return [
             'id'=>$this->id,
-            'user_id'=>$this->user_id,
-            'creator_id'=>$this->creator_id,
+            'user_id'=>new UserResource(User::find($this->user_id)),
+            'creator_id'=>new UserResource(User::find($this->creator_id)),
             'discount_amount'=>$this->discount_amount,
             'discount_id'=>$this->discount_id,
             'total_price'=>$this->total_price,

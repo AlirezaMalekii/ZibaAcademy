@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\v1\Notification\NotificationCollection;
+use App\Models\Course;
 use App\Models\Order;
 use App\Models\Ticket;
 use App\Models\User;
@@ -48,6 +49,10 @@ class UserController extends Controller
             $payment = $order->payments()->where('payment', 1)->first();
             $code = $payment->code;
             $payment_date = $payment->created_at;
+            foreach ($order_items as $order_item){
+                if ($order_item->itemable instanceof Course && empty($order_item->spotplayer()->first()))
+                    return redirect()->route('user-panel-order')->withErrors(['error' => 'شما این دوره را خریداری کرده اید. ولی به دلایلی لایسنس مورد نظر برای شما ساخته نشده است. لطفا با پشتیبانی تماس بگیرید']);
+            }
         } else {
             $code = null;
             $payment_date = null;

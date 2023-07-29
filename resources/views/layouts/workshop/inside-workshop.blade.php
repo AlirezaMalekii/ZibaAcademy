@@ -65,7 +65,7 @@
             </div>
             <div class="row about-workshop d-flex justify-content-end mt-5">
                 <h3>درباره ورکشاپ</h3>
-                <div class="text-right" style="font-family: semi-bold">
+                <div class="text-right" style="direction: rtl; font-family: semi-bold">
                     {!!$workshop_data['body']!!}
                 </div>
             </div>

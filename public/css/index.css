@@ -48,8 +48,8 @@
         width: 80px;
     }
     .hero{
-        padding-top: 330px;
-        margin-top: -300px;
+        padding-top: 360px;
+        margin-top: -350px;
     }
     .hero-wrapper{
         flex-direction: column-reverse;
@@ -79,13 +79,13 @@
 }
 .record-item{
     border-right: 0.01em solid;
-    border-image:       
-    linear-gradient(
-        to bottom, 
-        transparent,
-        rgb(255,255,255,30%), 
-        rgba(0, 0, 0, 0)
-      ) 1 100%;;
+    border-image:
+        linear-gradient(
+            to bottom,
+            transparent,
+            rgb(255,255,255,30%),
+            rgba(0, 0, 0, 0)
+        ) 1 100%;;
 }
 .record-item:last-child{
     border-right: none;
@@ -407,3 +407,91 @@
     }
 }
 
+
+
+/* index-courses styles */
+.index-courses-header .row{
+    direction: rtl;
+}
+.index-courses-header .light-btn{
+    direction: ltr;
+}
+.index-courses-header p{
+    font-family: "semi-bold";
+    font-size: 20px;
+    color: rgb(8, 11, 10 , 60%);
+}
+.index-courses-items{
+    gap: 24px;
+    direction: rtl;
+}
+.course-item{
+    border: 1px solid rgb(8, 11, 10 , 10%);
+    border-radius: 15px;
+    padding: 16px;
+}
+.course-item-image{
+    width: 100%;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.course-item-image img{
+    object-fit: cover;
+    width: 100%;
+}
+.course-item-title p{
+    font-family: "ex-bold";
+    font-size: 20px;
+    color: #080B0A;
+}
+.course-item-desc p{
+    font-family: "medium";
+    font-size: 10px;
+    color: #6C6E6D;
+}
+.course-item-footer-sign button{
+    border: none;
+    font-family: "bold";
+    font-size: 13px;
+    color: white;
+    padding: 5px 11px;
+    background: #0A6146;
+    border-radius: 10px;
+}
+.course-item-footer-price{
+    font-family: "ex-bold";
+    font-size: 13px;
+    color: #080B0A;
+}
+@media only screen and (max-width:1200px){
+    .course-item-footer-price{
+        font-size: 10px;
+    }
+}
+.course-item-desc-item{
+    direction: ltr;
+}
+@media only screen and (max-width:992px){
+    .index-courses-items{
+        overflow-x: auto !important;
+        white-space: nowrap !important;
+        direction: rtl;
+    }
+    .course-item{
+        overflow: initial;
+        width: 250px;
+    }
+    .course-item-desc{
+        direction: ltr;
+    }
+    .course-item-footer{
+        direction: ltr;
+    }
+    .course-item-footer-price{
+        font-size: 13px;
+    }
+    .index-courses-header{
+        width: 95%;
+        margin: 0 auto;
+    }
+}

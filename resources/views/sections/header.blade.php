@@ -22,6 +22,9 @@
                     <a class="nav-link" href="{{route('workshops')}}">ورکشاپ ها</a>
                 </li>
                 <li class="nav-item mr-2">
+                    <a class="nav-link" href="{{route('courses')}}">دوره ها</a>
+                </li>
+                <li class="nav-item mr-2">
                     <a class="nav-link" href="{{route('blogs')}}">وبلاگ</a>
                 </li>
                 <li class="nav-item mr-2">

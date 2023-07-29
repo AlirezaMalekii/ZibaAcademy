@@ -40,7 +40,7 @@
             {{--            <input type="hidden" name="price" :value="price">--}}
             <input type="hidden" name="number" :value="number">
             <input type="hidden" name="discount" value="{{isset($discount) ? $discount->code : ""}}">
-            <button style="width: 100%; border: none" class="ex-bold-button mt-4">
+            <button style="width: 100%; border: none" class="ex-bold-button mt-4" type="submit">
                 ادامه جهت تکمیل اطلاعت
             </button>
         </form>

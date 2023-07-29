@@ -263,7 +263,7 @@ return [
             'zaringateApiPaymentUrl' => 'https://www.zarinpal.com/pg/StartPay/:authority/ZarinGate',
             'zaringateApiVerificationUrl' => 'https://ir.zarinpal.com/pg/services/WebGate/wsdl',
 
-            'mode' => 'normal', // can be normal, sandbox, zaringate
+            'mode' => 'sandbox', // can be normal, sandbox, zaringate
             'merchantId' => '6b42a7ef-5a9d-4d27-8409-cf6c3f332491',
            // 'callbackUrl' => 'https://zibaeslami.ir/payment/check',
             'callbackUrl' => 'http://127.0.0.1:7500/payment/check',

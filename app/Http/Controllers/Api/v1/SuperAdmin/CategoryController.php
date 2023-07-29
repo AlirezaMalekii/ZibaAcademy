@@ -31,6 +31,10 @@ class CategoryController extends Controller
             $categoryPiginate = Category::whereType('workshop')->paginate(20);
             return new CategoryCollection($categoryPiginate);
         }
+        if ($request->type=='courses'){
+            $categoryPiginate = Category::whereType('course')->paginate(20);
+            return new CategoryCollection($categoryPiginate);
+        }
         $categoryPiginate = Category::paginate(20);
 
         return new CategoryCollection($categoryPiginate);

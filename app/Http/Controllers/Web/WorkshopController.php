@@ -82,12 +82,12 @@ class WorkshopController extends AdminController
             } else {
                 $video_url = $video_of_workshop->file['path'];
             }
-            if ($gallery=$workshop->gallery)
-            $galleries = $gallery->files()->select('file')->get()->toArray();
-            else{
-                $galleries=[];
+            if ($gallery = $workshop->gallery)
+                $galleries = $gallery->files()->select('file')->get()->toArray();
+            else {
+                $galleries = [];
             }
-            $comments = $workshop->comments()->where('approved', true)->where('parent_id',0)->select('id','name', 'comment', 'created_at')->with('comments')->get()->toArray();
+            $comments = $workshop->comments()->where('approved', true)->where('parent_id', 0)->select('id', 'name', 'comment', 'created_at')->with('comments')->get()->toArray();
             SEOMeta::setTitle($workshop_data['title']);
             SEOMeta::setDescription($workshop->description);
             SEOMeta::addMeta('workshop:published_time', $workshop->created_at->toW3CString(), 'property');
@@ -137,7 +137,7 @@ class WorkshopController extends AdminController
 
         if ($workshop->capacity - $workshop->registration_number < $request->number) {
 
-            return back()->withErrors([
+            return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors([
                 'numberError' => 'تعداد بلیط های در خواستی از تعداد باقی مانده بلیط ها بیشتر است.'
             ]);
         }
@@ -151,28 +151,35 @@ class WorkshopController extends AdminController
             if ($discount) {
                 $workshop_discount = $workshop->discount_items()->get();
                 if (empty($workshop_discount)) {
-                    return back()->withErrors(['error' => 'برای این ورکشاپ کد تخفیفی در نظر گرفته نشده است']);
+//                    return back()->withErrors(['error' => 'برای این ورکشاپ کد تخفیفی در نظر گرفته نشده است']);
+                    return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors(['error' => 'برای این ورکشاپ کد تخفیفی در نظر گرفته نشده است']);
                 }
                 $workshop_discount_workshop = $workshop->discount_items()->where('discount_id', $discount->id)->first();
                 if (empty($workshop_discount_workshop)) {
-                    return back()->withErrors(['error' => 'برای این ورکشاپ این کد تخفیف در نظر گرفته نشده است']);
+//                    return back()->withErrors(['error' => 'برای این ورکشاپ این کد تخفیف در نظر گرفته نشده است']);
+                    return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors(['error' => 'برای این ورکشاپ این کد تخفیف در نظر گرفته نشده است']);
                 }
                 if (($discount->expire_date != null) && $discount->expire_date < now()) {
-                    return back()->withErrors(['error' => 'تاریخ انقضای این کد تخفیف به سر آماده است! ']);
+//                    return back()->withErrors(['error' => 'تاریخ انقضای این کد تخفیف به سر آماده است! ']);
+                    return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors(['error' => 'تاریخ انقضای این کد تخفیف به سر آماده است! ']);
                 }
                 if (!$discount->active) {
-                    return back()->withErrors(['error' => 'این کد تخفیف فعال نمی باشد']);
+                    return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors(['error' => 'این کد تخفیف فعال نمی باشد']);
                 }
+
                 $du = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->get();
-                if ($discount->use_limit != null) {
-                    if (count($du) + $data['number'] >= $discount->use_limit) {
-                        return back()->withErrors(['error' => 'متاسفیم! تعداد استفاده از این کد تخفیف بیش از درخواست شما است']);
+//                if ($discount->type == 'public') {
+                    if ($discount->use_limit != null) {
+                        if (count($du) + $data['number'] > $discount->use_limit) {
+                            return redirect()->route('workshop_register', ['workshop' => $workshop->slug])->withErrors(['error' => 'متاسفیم! تعداد استفاده از این کد تخفیف بیش از درخواست شما است']);
+                        }
                     }
-                }
+//                }
+
                 if ($discount->percent == null) {
 //                    $total_price = ($workshop->price - $discount->amount) * $data['number'];
 //                    $discount_amount = $workshop->price * $data['number'] - $total_price;
-                    $total_price = ($workshop->price * $data['number']) - $discount->amount ;
+                    $total_price = ($workshop->price * $data['number']) - $discount->amount;
                     $discount_amount = $workshop->price * $data['number'] - $total_price;
                 } else {
                     $total_price = ($workshop->price * ((100 - $discount->percent) / 100)) * $data['number'];
@@ -423,19 +430,18 @@ class WorkshopController extends AdminController
                 'numberError' => 'تعداد بلیط های در خواستی از تعداد باقی مانده بلیط ها بیشتر است.'
             ]);
         }
-        if ($order->discount_id != null)
-        {
-            $discount=$order->discount;
+        if ($order->discount_id != null) {
+            $discount = $order->discount;
             if (($discount->expire_date != null) && $discount->expire_date < now()) {
                 return redirect()->route('workshop_register', $workshop)->withErrors(['error' => 'تاریخ انقضای این کد تخفیف به سر آماده است! ']);
             }
             $du = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->get();
             if ($discount->use_limit != null) {
-                if (count($du) + $order_item->quantity >= $discount->use_limit) {
+                if (count($du) + $order_item->quantity > $discount->use_limit) {
                     return redirect()->route('workshop_register', $workshop)->withErrors(['error' => 'متاسفیم! تعداد استفاده از این کد تخفیف بیش از درخواست شما است']);
                 }
             }
-            $all_tickets_user=$order_item->tickets()->pluck('user_id')->toArray();
+            $all_tickets_user = $order_item->tickets()->pluck('user_id')->toArray();
             $discount_user = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->pluck('user_id')->toArray();
             //dd($all_tickets_user,$discount_user,array_intersect($all_tickets_user, $discount_user));
             if (!empty(array_intersect($all_tickets_user, $discount_user))) {
@@ -444,7 +450,7 @@ class WorkshopController extends AdminController
             if ($discount->type == 'private') {
                 $discount_user = DiscountUser::where('discount_id', $discount->id)->whereNull('used_at');
                 $discount_user_array = $discount_user->pluck('user_id')->toArray();
-               // dd(array_intersect($all_tickets_user, $discount_user_array),$all_tickets_user,$discount_user_array);
+                // dd(array_intersect($all_tickets_user, $discount_user_array),$all_tickets_user,$discount_user_array);
                 if (!(count(array_intersect($all_tickets_user, $discount_user_array)) === count($all_tickets_user))) {
                     return redirect()->route('workshop_register', $workshop)->withErrors(['error' => 'این کد تخفیف برای خود یا همکارانی که قصد خرید بلیط دارید در نظر گرفته نشده است']);
                 }
@@ -555,7 +561,7 @@ class WorkshopController extends AdminController
         if (!$discount->active) {
             return back()->withErrors(['error' => 'این کد تخفیف فعال نمی باشد']);
         }
-        $du = DiscountUser::where('discount_id', $discount->id)->where('used_at', 1)->get();
+        $du = DiscountUser::where('discount_id', $discount->id)->whereNotNull('used_at')->get();
         if ($discount->use_limit != null) {
             if (count($du) >= $discount->use_limit) {
                 return back()->withErrors(['error' => 'متاسفیم! تعداد استفاده از این کد تخفیف بیش از درخواست شما است']);

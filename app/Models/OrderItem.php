@@ -28,4 +28,7 @@ class OrderItem extends Model
     {
         return $this->hasMany(Ticket::class);
     }
+    public function spotplayer(){
+        return $this->hasOne(SpotPlayer::class, 'order_item_id');
+    }
 }

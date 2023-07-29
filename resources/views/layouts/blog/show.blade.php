@@ -65,7 +65,8 @@
                 {{--                <p class="text-right">--}}
                 {{--                    {{$data_blog['body']}}--}}
                 {{--                </p>--}}
-                <div class="text-right" style="font-family: semi-bold">
+                <div class="text-right" style="direction: rtl; font-family: semi-bold">
+{{--                <div class="text-right" style="font-family: semi-bold">--}}
                     {!! $data_blog['body'] !!}
                 </div>
             </div>

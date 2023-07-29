@@ -25,6 +25,7 @@ return new class extends Migration {
                 $table->boolean('is_paid')->default(false);
                 $table->softDeletes();
                 $table->timestamps();
+                $table->enum('status', ['pending', 'cancel', 'paid'])->default('pending');
             });
         }
     }

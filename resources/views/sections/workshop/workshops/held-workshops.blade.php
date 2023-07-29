@@ -27,6 +27,7 @@
                             </div>
                             <div class="workshop-item-button">
                                 <a href="{{route('choose-workshop',['workshop'=>$held_workshop['slug']])}}" class="py-2">مشاهده جزییات بیشتر</a>
+{{--                                <a href="{{route('choose-workshop',['workshop'=>$held_workshop['slug']])}}" class="py-2">مشاهده جزییات بیشتر</a>--}}
                             </div>
                         </div>
                     </div>

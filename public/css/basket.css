@@ -1,0 +1,163 @@
+.bg-navbar{
+    background: linear-gradient(45deg, rgba(31,90,77,1) 0%, rgba(11,35,30,1) 100%);
+}
+
+
+
+
+/* reservation page gradients styes */
+
+.reservation-page{
+    position: relative;
+    overflow: hidden;
+}
+.right-gradient{
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: -1;
+}
+.left-gradient{
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: -1;
+}
+
+
+
+
+.reservation-pay-up{
+    background: white;
+    border-radius: 15px;
+    border: 1px solid #EBEBEB;
+}
+.reservation-pay-up-items{
+    border-bottom: 1px dotted rgb(0, 0, 0, 20%);
+}
+.reservation-pay-up-item p{
+    font-family: "bold";
+    font-size: 20px;
+    color: #6C6E6D;
+}
+.reservation-pay-up-item h5{
+    font-family: "black";
+    font-size: 22px;
+    color: #2D302F;
+    direction: rtl;
+}
+
+
+
+
+.order-detail-cancel-items{
+    direction: rtl;
+}
+.order-detail-title.cancel{
+    border-bottom: 1px solid rgb(107, 109, 108,20%);
+}
+.order-detail-cancel-item-price h5{
+    font-family: "bold";
+    font-size: 20px;
+    color: #2D302F;
+}
+.order-detail-cancel-item-price p{
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: #6B6D6C;
+}
+.order-table-card{
+    border-radius: 20px !important;
+}
+table{
+    direction: rtl;
+}
+table tr th{
+    font-family: "bold";
+    font-size: 20px;
+    color: #2D302F;
+}
+table tr td{
+    font-family: "semi-bold";
+    font-size: 14px;
+    color: #6B6D6C;
+}
+table tr:first-child{
+    border-bottom: 1px solid rgb(107, 109, 108,20%);
+}
+.order-detail-cancel-items{
+    background: white;
+    border-radius: 15px;
+    border: 1px solid rgb(0, 0, 0, 8%);
+}
+@media only screen and (max-width:768px){
+    table tr:first-child{
+        border-bottom: none;
+    }
+    table {
+        display: table;
+        direction: rtl;
+    }
+    table tr {
+        display: table-cell;
+    }
+    table tr td {
+        display: block;
+    }
+    table tr th{
+        display: block;
+    }
+}
+@media only screen and (max-width:992px){
+    .order-cansel-wrapper{
+        padding-right: 14px !important;
+    }
+}
+
+
+
+.order-empty-card{
+    border-radius: 10px !important;
+    border: 1px solid #EBEBEB !important;
+}
+.order-empty-card p{
+    direction: rtl;
+    font-family: "semi-bold";
+    font-size: 16px;
+    color: #153E36;
+    margin-right: 7px;
+}
+.order-empty-button a{
+    font-family: "semi-bold";
+    font-size: 12px;
+    color: #153E36;
+    border: 1px solid #153E36;
+    padding: 4px 8px;
+    border-radius: 5px;
+}
+.order-empty-button a:hover{
+    color: white;
+    background: #153E36;
+    text-decoration: none;
+}
+@media only screen and (max-width:768px){
+    .order-empty-card img{
+        width: 22px;
+        height: 22px;
+    }
+    .order-empty-card p{
+        font-size: 12px;
+        margin-right: 3px;
+    }
+    .order-empty-button a{
+        font-size: 10px;
+    }
+}
+
+.order-detail-cancel-items form input{
+    font-family: "bold";
+    font-size: 16px;
+    border: none;
+    background-color: transparent;
+    color: #A9A9A9;
+}

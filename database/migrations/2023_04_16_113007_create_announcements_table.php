@@ -17,7 +17,7 @@ return new class extends Migration
             Schema::create('announcements', function (Blueprint $table) {
             $table->id();
             $table->foreignId('workshop_id')->nullable()->constrained('workshops')->onDelete('cascade');
-//            $table->foreignId('classroom_id')->nullable()->constrained('classrooms')->onDelete('cascade');
+            $table->foreignId('course_id')->nullable()->constrained('courses')->onDelete('cascade');
             $table->json('users')->nullable();
             $table->string('title');
             $table->text('message');
@@ -27,7 +27,8 @@ return new class extends Migration
             $table->string('status')->default('pending');
             $table->softDeletes();
             $table->timestamps();
-        });}
+        });
+    }
     }
 
     /**
@@ -38,6 +39,7 @@ return new class extends Migration
     public function down()
     {
         if (env('REFRESH_MIGRATION')) {
-            Schema::dropIfExists('announcements');}
+            Schema::dropIfExists('announcements');
+        }
     }
 };

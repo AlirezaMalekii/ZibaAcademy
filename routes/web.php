@@ -2,10 +2,12 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Web\BlogController;
+use App\Http\Controllers\Web\CourseController;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\WorkshopController;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,7 +26,9 @@ Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->
 Route::group(['namespace' => '\App\Http\Controllers\Web'], function () {
     Route::get('/', [HomeController::class, 'index'])->name('home');
     Route::get('workshops', [WorkshopController::class, 'index'])->name('workshops');
+    Route::get('courses', [CourseController::class, 'index'])->name('courses');
     Route::get('workshops/{workshop:slug}', [WorkshopController::class, 'show'])->name('choose-workshop');
+    Route::get('courses/{course:slug}', [CourseController::class, 'show'])->name('choose-course');
     Route::get('blogs', [BlogController::class, 'index'])->name('blogs');
     Route::get('/blogs/search', [BlogController::class, 'search'])->name('blog.search');
     Route::get('/blogs/{blog:slug}', [BlogController::class, 'show'])->name('blog.show');
@@ -42,6 +46,13 @@ Route::group(['namespace' => '\App\Http\Controllers\Web', 'middleware' => ['auth
     Route::get('/workshop/payment-success/{order}',[WorkshopController::class, 'payment_success'])->name('workshop.payment-success');
     Route::post('/workshop/{workshop:slug}/create-new-comment', [WorkshopController::class, 'create_comment'])->name('workshop_create_comment');
     Route::post('/workshop/{workshop:slug}/set-discount', [WorkshopController::class, 'set_discount'])->name('set.discount.workshop');
+});
+Route::group(['namespace' => '\App\Http\Controllers\Web', 'middleware' => ['auth:sanctum']], function () {
+    Route::post('/course/{course:slug}/create-new-comment', [CourseController::class, 'create_comment'])->name('course_create_comment');
+    Route::get('/course/{course:slug}/register/', [CourseController::class, 'course_register'])->name('course_register');
+    Route::post('/course/{course:slug}/set-discount/', [CourseController::class, 'set_discount'])->name('set.discount.course');
+    Route::post('/course/{course:slug}/payment/', [CourseController::class, 'course_payment'])->name('course_payment');
+    Route::get('/course/payment-success/{order}',[CourseController::class, 'payment_success'])->name('course.payment-success');
 });
 Route::middleware('guest')->namespace('App\Http\Controllers')->group(function () {
     Route::get('login/password', 'AuthController@login')->name('login');
@@ -71,6 +82,23 @@ Route::get('/workshop-ticket/{token}', [HomeController::class, 'show_ticket'])->
    dd($tickets,$announcement,$workshop);
 
 });*/
-//Route::get('/ss',function (){
-//    Illuminate\Support\Facades\Artisan::call('queue:restart');
-//});
+Route::get('/ss',function (){
+   // auth()->loginUsingId(1);
+ /* return  $response = Http::withHeaders([
+        'Accept' => 'application/json',
+        '$API' => 'ZIr3mHK9isbVYzqOmY/R61Pp3lY=',
+        '$LEVEL'=>-1
+    ])->post('https://panel.spotplayer.ir/license/edit/',[
+        'course' => ["64a40013442841fd2f49afed"],
+        "name" => 'customer',// name of customer
+      "offline"=> 30,
+        "test"=>true,
+        "watermark"=>["texts"=> [["text"=> "09121112266"]]]
+    ])->throw(
+      function ($response, $e) {
+
+      }
+
+  )->body();*/
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+});

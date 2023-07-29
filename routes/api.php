@@ -18,8 +18,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\Api\v1'], function () {
     Route::post('check-admin', [\App\Http\Controllers\Api\v1\AdminController::class, 'check_admin']);
 
-//    Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::group(['middleware' => []], function () {
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+    //Route::group(['middleware' => []], function () {
         //        Route::group(['prefix' => 'super-admin', 'as'=>'super.admin.' ,'middleware' => ['ability:level-super_admin'], 'namespace' => '\App\Http\Controllers\Api\v1\Backend\SuperAdmin'], function () {
         Route::group(['prefix' => 'super-admin', 'as' => 'super.admin.', 'namespace' => '\App\Http\Controllers\Api\v1\SuperAdmin'], function () {
             Route::apiResource('categories', 'CategoryController');
@@ -31,6 +31,7 @@ Route::group(['prefix' => 'v1', 'namespace' => '\App\Http\Controllers\Api\v1'], 
             Route::apiResource('notifications', 'NotificationController');
             Route::apiResource('galleries', 'GalleryController');
             Route::apiResource('discounts', 'DiscountController');
+            Route::apiResource('courses', 'CourseController');
             Route::post('/galleries/delete-files/{gallery_id}', 'GalleryController@delete_files');
             Route::get('/workshops-without-gallery', 'GalleryController@workshops_without_gallery');
             Route::get('/superadmin-info', 'SettingController@info');

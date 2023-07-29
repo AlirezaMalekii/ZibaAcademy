@@ -14,8 +14,13 @@ return new class extends Migration
     public function up()
     {
         if (env('REFRESH_MIGRATION')) {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->enum('status', ['pending', 'cancel', 'paid'])->default('pending');
+        Schema::create('spot_players', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('order_item_id')->constrained('order_items')->onDelete('cascade');
+            $table->string('license_id');
+            $table->text('license_key');
+            $table->string('url');
+            $table->timestamps();
         });}
     }
 
@@ -27,8 +32,6 @@ return new class extends Migration
     public function down()
     {
         if (env('REFRESH_MIGRATION')) {
-        Schema::table('orders', function (Blueprint $table) {
-            $table->dropColumn('status');
-        });}
+        Schema::dropIfExists('spot_players');}
     }
 };

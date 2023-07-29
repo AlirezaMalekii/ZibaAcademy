@@ -22,6 +22,7 @@ return new class extends Migration {
                 $table->boolean('payment')->default(false);
                 $table->softDeletes();
                 $table->timestamps();
+                $table->string('code')->nullable();
             });
         }
     }

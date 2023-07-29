@@ -22,7 +22,7 @@ return new class extends Migration
                 $table->integer('percent')->nullable();
                 $table->integer('amount')->nullable();
                 $table->integer('use_limit')->nullable();
-                $table->date('expire_date')->nullable();
+                $table->timestamp('expire_date')->nullable();
                 $table->boolean('active')->default(true);
                 $table->softDeletes();
                 $table->timestamps();
@@ -31,10 +31,9 @@ return new class extends Migration
             Schema::create('discount_item', function (Blueprint $table) {
                 $table->morphs('discountable');
                 $table->foreignId('discount_id')->constrained('discounts')->onDelete('cascade');
-                $table->primary(['discount_id', 'discountable_id']);
+                $table->primary(['discount_id', 'discountable_id','discountable_type']);
                 $table->timestamps();
             });
-
             Schema::create('discount_user', function (Blueprint $table) {
                 $table->foreignId('discount_id')->constrained('discounts')->onDelete('cascade');
                 $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

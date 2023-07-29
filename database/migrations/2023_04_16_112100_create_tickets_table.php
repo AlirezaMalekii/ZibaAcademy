@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-//        if (env('REFRESH_MIGRATION')) {
+        if (env('REFRESH_MIGRATION')) {
             Schema::create('tickets', function (Blueprint $table) {
                 $table->id();
                 $table->foreignId('creator_id')->constrained('users')->onDelete('cascade');
@@ -23,7 +23,7 @@ return new class extends Migration {
                 $table->softDeletes();
                 $table->timestamps();
             });
-//        }
+        }
     }
 
     /**
@@ -33,8 +33,8 @@ return new class extends Migration {
      */
     public function down()
     {
-//        if (env('REFRESH_MIGRATION')) {
+        if (env('REFRESH_MIGRATION')) {
             Schema::dropIfExists('tickets');
-//        }
+        }
     }
 };

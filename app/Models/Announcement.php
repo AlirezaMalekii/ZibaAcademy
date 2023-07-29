@@ -12,7 +12,7 @@ class Announcement extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable=[
-        'workshop_id','users','title','message','kavenegar_data','drivers','send_at','status'
+        'workshop_id','users','title','message','kavenegar_data','drivers','send_at','status','course_id'
     ];
     protected $casts = [
         'users' => 'array',

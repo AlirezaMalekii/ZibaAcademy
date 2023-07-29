@@ -4,22 +4,23 @@
     <link rel="stylesheet" href="/css/index.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-{{--    <title>164697</title>--}}
-{{--    <meta name="enamad" content="164697"/>--}}
+    {{--    <title>164697</title>--}}
+    {{--    <meta name="enamad" content="164697"/>--}}
 
 @endsection
 
 @section('content')
+
     <!-- start hero article -->
     @include('sections.home.banner')
     <!-- end hero article -->
 
-
     <!-- start record article-->
     @include('sections.home.table-info',compact('number_of_workshops'))
     <!-- end record article-->
-
-
+    @if(isset($courses->first()->id))
+        @include('sections.home.courses',compact('courses'))
+    @endif
     <article class="workshop-all pb-4 pb-lg-0">
 
         <!--index top-right gradient-->
@@ -54,13 +55,13 @@
                         </div>
                     </div>
                     <div class="workshop-video mb-4 mb-lg-0 col-12 col-lg-6 p-3">
-                                                    @if($stream_video)
-                                                        {!! html_entity_decode($video_url) !!}
-                                                    @else
-                                                        <video controls>
-                                                            <source src="{{$video_url}}" type=video/mp4>
-                                                        </video>
-                                                    @endif
+                        @if($stream_video)
+                            {!! html_entity_decode($video_url) !!}
+                        @else
+                            <video controls>
+                                <source src="{{$video_url}}" type=video/mp4>
+                            </video>
+                        @endif
 
                     </div>
                 </div>
@@ -86,12 +87,12 @@
                         <h3 class="mb-4">
                             درباره زیبا اسلامی
                         </h3>
-                        <p class="mb-4">
-                            لورم ایپسوم متن ساختگی با تولید سادگی نامفهوم از صنعت چاپ، و با استفاده از طراحان گرافیک
-                            است،
-                            چاپگرها و متون بلکه روزنامه و مجله در ستون و سطرآنچنان که لازم است، و برای شرایط فعلی
-                            تکنولوژی
-                            مورد نیاز، و کاربردهای متنوع با هدف بهبود ابزارهای کاربردی می باشد
+                        <p class="mb-4" style="direction: rtl">
+                            {{
+    \Illuminate\Support\Str::limit(
+        '  زیبا اسلامی هستم ، متولد ۱۳۶۵، از دوره راهنمایی به صورت تخصصی کار هنری انجام میدادم ، تحصیلات دانشگاهیم  رو در رشته علوم تربیتی شروع کردم و بعد از اون در رشته حقوق ، اما هیچ کدام از این رشته ها نیاز روحی من رو تامین نمیکرد ، تا این که رو به هنر آوردم و تحصیلاتم در این رشته هارو رها کردم و به فراگیری تخصصی هنر های مختلف پرداختم . شروع یاد گیری هنر از رشته خیاطی شروع شد، بعد از مدتی احساس  کردم روی تمام این لباسها که دوخته میشود باید به تناسب لباس، کار هنری دیگه ای انجام شود ، در نتیجه به فراگیری هنر های مختلف از جمله جواهر دوزی ، و تزیینات تخصصی لباس  و.... پرداختم و برای ارتقا مهارتم ازمحضر  اساتید ژاپنی و روسی استفاده کردم . دارای لایسنس دیزاین لباس از دانشگاه مد آرت و شرکت مجستیک ترکیه، دارای کد استادی از مرکز تربیت مربی و پژوهش های فنی و حرفه ای، برگزار کننده ورکشاپ های سراسری در سطح کشور ،دارای مزون تخصصی تزیینات لباس
+',141)
+}}
                         </p>
                         <a href="{{route('about-us')}}"
                            class="light-btn d-flex mt-3 py-2 px-4 flex-row-reverse align-items-center">
