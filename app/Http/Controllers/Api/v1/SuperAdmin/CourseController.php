@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\SuperAdmin;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\V1\Course\CourseDashboardCollection;
 use App\Http\Resources\V1\Course\CourseResource;
+use App\Http\Resources\V1\Course\CourseCollection;
 use App\Models\Course;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -21,8 +22,8 @@ class CourseController extends Controller
     public function index()
     {
         $coursePiginate = Course::filter()->latest()->paginate(8);
-
-        return new CourseDashboardCollection($coursePiginate);
+//        return new CourseDashboardCollection($coursePiginate);
+        return new CourseCollection($coursePiginate);
     }
 
     /**

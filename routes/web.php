@@ -100,5 +100,5 @@ Route::get('/ss',function (){
       }
 
   )->body();*/
-    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('queue:restart');
 });

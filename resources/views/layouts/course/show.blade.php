@@ -188,7 +188,7 @@
                     <div class="new-workshop-left mobile col-12 col-lg-4 d-flex flex-column-reverse flex-lg-column">
                         <div class="new-workshop-left-sign text-right p-4 mt-3 mt-lg-0">
                             <h4>
-                                قیمت ورکشاپ:
+                                قیمت دوره:
                             </h4>
                             <h5 class="desc-price text-center p-3 mt-3">
                             <span x-text=" new Intl.NumberFormat('fa').format({{$course_data['price']}})">

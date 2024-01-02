@@ -9,14 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Announcement extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory, SoftDeletes;
 
-    protected $fillable=[
-        'workshop_id','users','title','message','kavenegar_data','drivers','send_at','status','course_id'
+    protected $fillable = [
+        'workshop_id', 'users', 'title', 'message', 'kavenegar_data', 'drivers', 'send_at', 'status', 'course_id'
     ];
-    protected $casts = [
-        'users' => 'array',
-        'kavenegar_data'=>'array',
-        'drivers'=>'array'
-    ];
+    protected $casts =
+        [
+            'users' => 'array',
+            'kavenegar_data' => 'array',
+            'drivers' => 'array'
+        ];
 }

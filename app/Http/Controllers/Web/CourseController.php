@@ -294,14 +294,14 @@ class CourseController extends AdminController
                                 [
                                     [
                                         "text" => $user_phone,
-                                        "repeat" => 11,
+                                        "repeat" => 8,
                                         "font" => 1,
                                         "weight" => 1,
                                         "size" => 40,
-                                        "color" => 2164195328,
+                                        "color" => 2147944192,
                                         "stroke" => [
                                             "size" => 2,
-                                            "color" => 2148335871
+                                            "color" => 2164260863
                                         ]
                                     ],
                                     [
@@ -310,12 +310,12 @@ class CourseController extends AdminController
                                         "font" => 1,
                                         "weight" => 0,
                                         "size" => 200,
-                                        "color" => 2164195328,
+                                        "color" => 855638016,
                                         "stroke" => [
                                             "size" => 1,
-                                            "color" => 2148335871
+                                            "color" => 2164260863
                                         ]
-                                    ]
+                                    ],
 
                                 ]
                         ],

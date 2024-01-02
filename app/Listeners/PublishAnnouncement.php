@@ -22,10 +22,12 @@ class PublishAnnouncement implements ShouldQueue
      * @var string|null
      */
     protected $queue = 'announcements-queue';
+
     public function viaQueue(): string
     {
         return $this->queue;
     }
+
     /**
      * Create the event listener.
      *
@@ -39,36 +41,41 @@ class PublishAnnouncement implements ShouldQueue
     /**
      * Handle the event.
      *
-     * @param  \App\Events\SendAnnouncementNotifications  $event
+     * @param \App\Events\SendAnnouncementNotifications $event
      * @return void
      */
     public function handle(SendAnnouncementNotifications $event)
     {
-        $announcement = Announcement::where('id' , $event->announcement_id)->first();
+        $announcement = Announcement::where('id', $event->announcement_id)->first();
         $announcement->update(['status' => 'sending']);
-        if (isset($announcement->users)){
-            foreach (json_decode($announcement->users, false, 512, JSON_THROW_ON_ERROR) as $user_id){
-                $user = User::where('id' , $user_id)->first();
-                if (isset($user->id)){
+        if (isset($announcement->users)) {
+            foreach (json_decode($announcement->users, false, 512, JSON_THROW_ON_ERROR) as $user_id) {
+                $user = User::where('id', $user_id)->first();
+                if (isset($user->id)) {
                     $user->notify(new NotifyUserOfAnnouncement($announcement));
                 }
             }
             $announcement->update(['status' => 'sent']);
-        }elseif (isset($announcement->workshop_id)){
-            $workshop = Workshop::where('id' , $announcement->workshop_id)->first();
+        } elseif (isset($announcement->workshop_id)) {
+            $workshop = Workshop::where('id', $announcement->workshop_id)->first();
             //Log::info($workshop->id);
-            foreach ($workshop->members() as $ticket){
-                $user = User::where('id' , $ticket->user_id)->first();
+            foreach ($workshop->members() as $ticket) {
+                $user = User::where('id', $ticket->user_id)->first();
+                $user->notify(new NotifyUserOfAnnouncement($announcement));
+            }
+            $announcement->update(['status' => 'sent']);
+        } elseif (isset($announcement->course_id)) {
+            $course = Course::where('id', $announcement->course_id)->first();
+            foreach ($course->order_items()->whereHas('order', function ($query) {
+                $query->where('is_paid', 1);
+            })->get() as $orderItem) {
+                $user = User::where('id', $orderItem->order->user_id)->first();
                 $user->notify(new NotifyUserOfAnnouncement($announcement));
             }
             $announcement->update(['status' => 'sent']);
         }
-       /* elseif (isset($announcement->classroom_id)){
-            $classroom = Classroom::where('id' , $announcement->classroom_id)->first();
-            foreach ($classroom->users()->get() as $user){
-                $user->notify(new NotifyUserOfAnnouncement($announcement));
-            }
-            $announcement->update(['status' => 'sent']);
-        }*/
     }
 }
+//  $course->order_items()->whereHas('order', function ($query) {
+//                    $query->where('is_paid', 1);
+//                }

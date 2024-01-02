@@ -185,7 +185,7 @@ class BlogController extends Controller
             return response([
                 'message' => $e->getMessage(),
                 'status' => 'بخشی از عملیات با خطا مواجه شد.'
-            ], 400);;
+            ], 400);
         }
     }
 

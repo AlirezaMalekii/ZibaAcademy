@@ -42,8 +42,8 @@ class HomeController extends AdminController
 //        $blogs = Blog::latest()->take(4)->withCount('comments')->get();
         SEOMeta::setTitle('آکادمی زیبا');
         SEOMeta::setDescription('آکادمی زیبا');
-        SEOMeta::setCanonical('https://zibaeslami.ir');
-        SEOTools::jsonLd()->addImage('https://zibaeslami.ir/images/header-logo.png');
+        SEOMeta::setCanonical('https://zibaeslami.com');
+        SEOTools::jsonLd()->addImage('https://zibaeslami.com/images/header-logo.png');
         $blogs = Blog::latest()->take(4)->select('id', 'description', 'title', 'viewCount', 'slug')->withCount(['comments' => function ($query) {
             $query->where('approved', 1)->latest();
         }])->with('categories:title')->with(['files' => function ($query) {

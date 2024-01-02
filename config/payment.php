@@ -10,7 +10,7 @@ return [
     | You can switch to a different driver at runtime.
     |
     */
-    'default' => 'zarinpal',
+    'default' => 'sepehr',
 
     /*
     |--------------------------------------------------------------------------
@@ -225,8 +225,8 @@ return [
             'apiGetToken' => 'https://mabna.shaparak.ir:8081/V1/PeymentApi/GetToken',
             'apiPaymentUrl' => 'https://mabna.shaparak.ir:8080/pay',
             'apiVerificationUrl' => 'https://mabna.shaparak.ir:8081/V1/PeymentApi/Advice',
-            'terminalId' => '',
-            'callbackUrl' => '',
+            'terminalId' => '98522642',
+            'callbackUrl' => 'http://127.0.0.1:8000/payment/check',
             'description' => 'payment using sepehr(saderat)',
         ],
         'walleta' => [
@@ -265,7 +265,7 @@ return [
 
             'mode' => 'sandbox', // can be normal, sandbox, zaringate
             'merchantId' => '6b42a7ef-5a9d-4d27-8409-cf6c3f332491',
-           // 'callbackUrl' => 'https://zibaeslami.ir/payment/check',
+           // 'callbackUrl' => 'https://zibaeslami.com/payment/check',
             'callbackUrl' => 'http://127.0.0.1:7500/payment/check',
             'description' => 'payment using zarinpal',
         ],

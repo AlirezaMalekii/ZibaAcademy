@@ -70,8 +70,8 @@ class DashboardController extends Controller
         dd($orderTotalByJalaliMonth);*/
         //dd($blogCount,$workshopCount);
         $courses_sell = Course::withCount(['order_items' => function ($query) {
-            $query->whereHas('order', function ($query) {
-                $query->where('is_paid', 1);
+           return $query->whereHas('order', function ($query) {
+               $query->where('is_paid', 1);
             });
         }])->orderBy('order_items_count', 'desc')->get();
         return response([
