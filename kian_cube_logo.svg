@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="400" height="400" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Gradient definitions for modern look -->
+    <linearGradient id="cubeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#4F46E5;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#7C3AED;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+    </linearGradient>
+    
+    <linearGradient id="faceGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#F8FAFC;stop-opacity:0.8" />
+    </linearGradient>
+    
+    <linearGradient id="shadowGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#000000;stop-opacity:0.3" />
+      <stop offset="100%" style="stop-color:#000000;stop-opacity:0.1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background circle -->
+  <circle cx="200" cy="200" r="180" fill="url(#cubeGradient)" opacity="0.1"/>
+  
+  <!-- Cube faces with letters -->
+  <!-- Front face (K) -->
+  <polygon points="150,120 250,120 250,200 150,200" fill="url(#faceGradient)" stroke="#4F46E5" stroke-width="2"/>
+  <text x="200" y="170" text-anchor="middle" font-family="Arial, sans-serif" font-size="48" font-weight="bold" fill="#4F46E5">K</text>
+  
+  <!-- Right face (I) -->
+  <polygon points="250,120 290,140 290,180 250,200" fill="url(#faceGradient)" stroke="#7C3AED" stroke-width="2"/>
+  <text x="270" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#7C3AED" transform="rotate(15 270 165)">I</text>
+  
+  <!-- Top face (A) -->
+  <polygon points="150,120 200,80 250,120" fill="url(#faceGradient)" stroke="#EC4899" stroke-width="2"/>
+  <text x="200" y="110" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#EC4899">A</text>
+  
+  <!-- Left face (N) -->
+  <polygon points="150,120 110,140 110,180 150,200" fill="url(#faceGradient)" stroke="#10B981" stroke-width="2"/>
+  <text x="130" y="165" text-anchor="middle" font-family="Arial, sans-serif" font-size="32" font-weight="bold" fill="#10B981" transform="rotate(-15 130 165)">N</text>
+  
+  <!-- Bottom face (hidden - could be used for additional design) -->
+  <polygon points="150,200 200,240 250,200" fill="url(#faceGradient)" stroke="#F59E0B" stroke-width="2" opacity="0.7"/>
+  
+  <!-- Back face (hidden - could be used for additional design) -->
+  <polygon points="200,80 240,100 240,140 200,120" fill="url(#faceGradient)" stroke="#8B5CF6" stroke-width="2" opacity="0.5"/>
+  
+  <!-- Shadow/ground effect -->
+  <ellipse cx="200" cy="280" rx="120" ry="30" fill="url(#shadowGradient)"/>
+  
+  <!-- Decorative elements -->
+  <!-- Small stars around the cube -->
+  <g fill="#FBBF24" opacity="0.8">
+    <polygon points="80,100 85,110 95,110 87,117 90,127 80,120 70,127 73,117 65,110 75,110" transform="scale(0.5)"/>
+    <polygon points="320,80 325,90 335,90 327,97 330,107 320,100 310,107 313,97 305,90 315,90" transform="scale(0.5)"/>
+    <polygon points="100,300 105,310 115,310 107,317 110,327 100,320 90,327 93,317 85,310 95,310" transform="scale(0.5)"/>
+    <polygon points="300,320 305,330 315,330 307,337 310,347 300,340 290,347 293,337 285,330 295,330" transform="scale(0.5)"/>
+  </g>
+  
+  <!-- Academy Network text -->
+  <text x="200" y="320" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" font-weight="600" fill="#6B7280">Kids Innovation Academy Network</text>
+  
+  <!-- Innovation sparkles -->
+  <g fill="#4F46E5" opacity="0.6">
+    <circle cx="120" cy="90" r="2"/>
+    <circle cx="280" cy="110" r="2"/>
+    <circle cx="90" cy="180" r="2"/>
+    <circle cx="310" cy="200" r="2"/>
+    <circle cx="140" cy="250" r="2"/>
+    <circle cx="260" cy="270" r="2"/>
+  </g>
+</svg>
